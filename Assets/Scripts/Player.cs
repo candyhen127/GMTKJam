@@ -10,9 +10,9 @@ public class Player : MonoBehaviour
 {
     [Header("Stats")]
     public int level;
-    public float health;
-    public float maxHealth = 100;
-    public float baseMaxHealth = 100;
+    public float battery;
+    public float maxbattery = 100;
+    public float baseMaxbattery = 100;
     public float moveSpeed;
     public float baseMoveSpeed = 3;
     public float defense = 1;
@@ -20,6 +20,7 @@ public class Player : MonoBehaviour
     public float knockback = 1;
     public bool knockedBack;
     public float invinceTime = 1.4f;
+    public bool invince;
     
    
     public Gun arm1;
@@ -30,18 +31,25 @@ public class Player : MonoBehaviour
     public int scrap;
     public List<Part> inventory;
     public Part head;
-    public Part body;
+    //public Part body;
     public Part leftArm;
     public Part rightArm;
     public Part leftLeg;
     public Part rightLeg;
 
     public float headBattery;
-    public float bodyBattery;
+    //public float bodyBattery;
     public float leftArmBattery;
     public float rightArmBattery;
     public float leftLegBattery;
     public float rightLegBattery;
+
+    public bool headEquipped = true;
+    public bool leftArmEquipped = true;
+    public bool rightArmEquipped = true;
+    public bool leftLegEquipped = true;
+    public bool rightLegEquipped = true;
+
 
     public Rigidbody2D rb;
     public Collider2D collider2d;
@@ -51,7 +59,9 @@ public class Player : MonoBehaviour
     public Camera cam;
     public GameObject canvas;
     public TextMeshProUGUI damagenum;
-    public UnityEngine.UI.Image healthbar;
+    //public UnityEngine.UI.Image batterybar;
+    
+    public TextMeshProUGUI scrapText;
     
     
     public GameObject LevelUpPopup;
@@ -64,10 +74,15 @@ public class Player : MonoBehaviour
     void Start()
     {
         level = 1;
-        maxHealth = baseMaxHealth;
-        health = maxHealth;
-        moveSpeed = baseMoveSpeed;
-        UpdateHealthBar();
+        maxbattery = baseMaxbattery + head.playerBattery;
+        battery = maxbattery;
+        headBattery = head.battery;
+        leftArmBattery = leftArm.battery;
+        rightArmBattery = rightArm.battery;
+        leftLegBattery = leftLeg.battery;
+        rightArmBattery = rightArm.battery;
+        moveSpeed = baseMoveSpeed + leftLeg.moveSpeed + rightLeg.moveSpeed;
+        //defense = baseDefense + body.defense;
     }
     
 
@@ -105,14 +120,36 @@ public class Player : MonoBehaviour
             return;
         }
 
-        health -= Time.deltaTime;
+        battery -= Time.deltaTime;
         headBattery -= Time.deltaTime;
-        bodyBattery -= Time.deltaTime;
         leftArmBattery -= Time.deltaTime;
         rightArmBattery -= Time.deltaTime;
         leftLegBattery -= Time.deltaTime;
-        rightArmBattery -= Time.deltaTime;
-        
+        rightLegBattery -= Time.deltaTime;
+        if (headBattery <= 0 && headEquipped)
+        {
+            Eject("head");
+        } else
+        {
+            
+        }
+        if (leftArmBattery <= 0 && leftArmEquipped)
+        {
+
+            Eject("leftArm");
+        }
+        if (rightArmBattery <= 0 && rightArmEquipped)
+        {
+            Eject("rightArm");
+        }
+        if (leftLegBattery <= 0 && leftLegEquipped)
+        {
+            Eject("leftLeg");
+        }
+        if (rightLegBattery <= 0 && rightLegEquipped)
+        {
+            Eject("rightLeg");
+        }
     }
 
     
@@ -123,7 +160,7 @@ public class Player : MonoBehaviour
         if(GameManager.Instance.paused == true){return;}
         if (knockedBack){return;}
 
-        if (collision.gameObject.tag == "Enemy"){
+        if (collision.gameObject.tag == "Enemy" && !invince){
             Enemy e = collision.gameObject.GetComponent<Enemy>();
             TakeDamage(e.damage);
 
@@ -152,7 +189,7 @@ public class Player : MonoBehaviour
     private IEnumerator InvinceRoutine(float duration)
     {
         
-        collider2d.isTrigger = true;
+        invince = true;
         SpriteRenderer renderer = GetComponent<SpriteRenderer>();
         renderer.color = new Color(1, 1, 1, 0.5f);
         
@@ -162,18 +199,48 @@ public class Player : MonoBehaviour
         renderer.color = new Color(1, 1, 1, 1f);
         
 
-        collider2d.isTrigger = false;
+        invince = false;
     }
 
     public void TakeDamage(float damage)
     {
         //spawnDamageNum(damage, false);
         //damaged.Play();
-        health -= damage;
-        UpdateHealthBar();
-        if (health <= 0)
+        damage = damage / (1 + 0.1f * defense);
+
+        headBattery -= damage;
+        //bodyBattery -= damage;
+        leftArmBattery -= damage;
+        rightArmBattery -= damage;
+        leftLegBattery -= damage;
+        rightLegBattery -= damage;
+        
+    }
+
+    public void Eject(String p)
+    {
+        if (p == "head")
         {
-            GameManager.Instance.loseGame();
+            battery -= head.battery;
+            headEquipped = false;
+        }
+        if (p == "leftArm")
+        {
+            leftArmEquipped = false;
+        }
+        if (p == "rightArm")
+        {
+            rightArmEquipped = false;
+        }
+        if (p == "leftLeg")
+        {
+            moveSpeed -= leftLeg.moveSpeed;
+            leftLegEquipped = false;
+        }
+        if (p == "rightLeg")
+        {
+            moveSpeed -= rightLeg.moveSpeed;
+            rightLegEquipped = false;
         }
     }
 
@@ -181,12 +248,11 @@ public class Player : MonoBehaviour
     {
         //spawnDamageNum(damage, true);
         
-        health += damage;
-        if (health > maxHealth)
+        battery += damage;
+        if (battery > maxbattery)
         {
-            health = maxHealth;
+            battery = maxbattery;
         }
-        UpdateHealthBar();
     }
 
     /*
@@ -199,20 +265,21 @@ public class Player : MonoBehaviour
     }
     */
 
-    public void UpdateHealthBar()
+
+    public void UpdateScrapCount()
     {
-        //healthbar.fillAmount = Mathf.Clamp(health / maxHealth, 0, 1f);
+        scrapText.text = scrap.ToString();
     }
 
-    /*
-    public void GetXP(float points)
+    
+    public void GetScrap(int points)
     {
         if(GameManager.Instance.paused == true ||  GameManager.Instance.truepaused == true){return;}
-        getxp.Play();
-        xp += points;
-        UpdateLevelBar();
+        //getxp.Play();
+        scrap += points;
+        UpdateScrapCount();
     }
-    */
+    
     
 
     

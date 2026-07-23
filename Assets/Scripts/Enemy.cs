@@ -21,7 +21,8 @@ public class Enemy : MonoBehaviour
     public bool dead;
     public GameObject explosionprefab;
 
-    public GameObject xpDrop;
+    public GameObject scrapDrop;
+    public int drops;
 
 
     public float burndamage = 0;
@@ -36,7 +37,7 @@ public class Enemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        player = GameObject.Find("Player").GetComponent<Player>();
+        player = GameObject.Find("Robot").GetComponent<Player>();
         canvas = GameObject.Find("Canvas");
 
         //GetComponent<AIDestinationSetter>().target = player.GetComponent<Transform>();
@@ -56,14 +57,14 @@ public class Enemy : MonoBehaviour
         //don't allow input when paused
         if(GameManager.Instance.paused == true || frozen){
             //gameObject.GetComponent<AIPath>().maxSpeed = 0;
-            GetComponent<Animator>().speed = 0;
+            //GetComponent<Animator>().speed = 0;
             rb.mass = 2;
             return;
         }
         else
         {
             //gameObject.GetComponent<AIPath>().maxSpeed = moveSpeed;
-            GetComponent<Animator>().speed = 1;
+            //GetComponent<Animator>().speed = 1;
             rb.mass = 1;
         }
         if(willexplode2)
@@ -117,15 +118,20 @@ public class Enemy : MonoBehaviour
         dead = true;
         
         //gameObject.GetComponent<AIPath>().maxSpeed = 0;
-        Instantiate(xpDrop, transform.position, Quaternion.identity);
+        for (int i = 0; i < drops; i++)
+        {
+            Instantiate(scrapDrop, transform.position, Quaternion.identity);
+        }
+        
         if (!GameManager.Instance.truepaused)
         {
                 
-        hit.Play();
+        //hit.Play();
         }
-        GetComponent<Animator>().SetTrigger("Die");
+        //GetComponent<Animator>().SetTrigger("Die");
         GetComponent<Collider2D>().enabled = false;
-        Destroy(transform.GetChild(0).gameObject);
+        rb.gravityScale = 0;
+        //Destroy(transform.GetChild(0).gameObject);
         Destroy(this.gameObject, 0.4f);
     }
     void explosion()
@@ -156,10 +162,10 @@ public class Enemy : MonoBehaviour
         bool crit = false;
         
         //Debug.Log("hit");
-if (!GameManager.Instance.truepaused)
+        if (!GameManager.Instance.truepaused)
         {
-        TextMeshProUGUI x = Instantiate(damagenum, canvas.transform, false);
-        x.transform.position = Camera.main.WorldToScreenPoint(gameObject.transform.position);
+        //TextMeshProUGUI x = Instantiate(damagenum, canvas.transform, false);
+        //x.transform.position = Camera.main.WorldToScreenPoint(gameObject.transform.position);
         //x.gameObject.GetComponent<damageNum>().dnum = damage;
         //x.gameObject.GetComponent<damageNum>().crit = crit;
         }
@@ -177,8 +183,8 @@ if (!GameManager.Instance.truepaused)
             health = maxHealth;
         }
 
-        TextMeshProUGUI x = Instantiate(damagenum, canvas.transform, false);
-        x.transform.position = Camera.main.WorldToScreenPoint(gameObject.transform.position);
+        //TextMeshProUGUI x = Instantiate(damagenum, canvas.transform, false);
+        //x.transform.position = Camera.main.WorldToScreenPoint(gameObject.transform.position);
         //x.gameObject.GetComponent<damageNum>().dnum = h;
         //x.gameObject.GetComponent<damageNum>().heal = true;
     }

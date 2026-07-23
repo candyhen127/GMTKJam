@@ -63,7 +63,7 @@ public class GameManager : MonoBehaviour
     {
         //don't allow input when paused
         if(GameManager.Instance.paused == true){return;}
-        timeleft = player.health;
+        timeleft = player.battery;
         //spawntimer += Time.deltaTime;
         
         if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown("p"))
@@ -77,11 +77,11 @@ public class GameManager : MonoBehaviour
     {
         if (timeleft <= 0 && !won)
         {
-            WinGame();
-            won = true;
+            //WinGame();
+            //won = true;
             
             
-            return;
+            //return;
         }
         if (won)
         {
@@ -108,17 +108,9 @@ public class GameManager : MonoBehaviour
             timer.color = Color.white;
             //MenuManager.Instance.aud.pitch = 1f;
         }
-
-        
-
         
     }
 
-
-    public void UpdatePlayerStatus()
-    {
-        player.UpdateHealthBar();
-    }
 
     public void SpawnEnemy(int number)
     {

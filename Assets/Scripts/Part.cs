@@ -9,18 +9,23 @@ public class Part : ScriptableObject
     public String name;
     public String bodypart; //head, body, leftArm, rightArm, leftLeg, rightLeg
 
+    public Sprite icon;
+
     public float battery;
 
-    //leg
+    [Header("Leg")]
     public float moveSpeed;
     
-    //head
+    [Header("Head")]
     public float playerBattery;
     
-    //arm
+    [Header("Arm")]
     public float damage;
     public GameObject bulletPrefab;
+    public int projectiles;
+    public float bulletSpeed;
+    public float attackSpeed;
 
-    //body
+    [Header("Body")]
     public float defense;     
 }

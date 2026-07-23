@@ -88,7 +88,7 @@ public class AOEdamage : MonoBehaviour
                     Player p = c.GetComponent<Player>();
                     if(p != null)
                     {
-                        p.PlayerHeal(damage/100*p.maxHealth);
+                        p.PlayerHeal(damage/100*p.maxbattery);
                     }
                 }
             }

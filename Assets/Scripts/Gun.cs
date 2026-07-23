@@ -10,6 +10,9 @@ public class Gun : MonoBehaviour
     Vector2 mousePos;
 
     [SerializeField]
+    private Player player;
+
+    [SerializeField]
     private Transform rightHand;
     [SerializeField]
     private Transform leftHand;
@@ -17,6 +20,8 @@ public class Gun : MonoBehaviour
     private Transform shootPoint;
     [SerializeField]
     private GameObject bulletPrefab;
+    [SerializeField]
+    private GameObject bulletPrefab2;
     [SerializeField]
     private Transform center;
     [SerializeField]
@@ -36,6 +41,7 @@ public class Gun : MonoBehaviour
     public float baseBulletSpeed = 10;
     public float attackSpeed = 0.1f;
     public float defatkspd = 0.1f;
+    public float baseAttackSpeed = 0.5f;
 
 
     public float damage;
@@ -44,8 +50,25 @@ public class Gun : MonoBehaviour
     public int baseProjectiles = 1;
     public float spread;
     public float destroy;
-    int shooting = 0;
+    public int shooting = 0;
     Coroutine shootroutine;
+
+
+    
+    public float bulletSpeed2 = 2f;
+    public float baseBulletSpeed2 = 10;
+    public float defatkspd2 = 0.1f;
+    public float baseAttackSpeed2 = 0.5f;
+
+
+    public float damage2;
+    public float baseDamage2 = 10;
+    public int projectiles2;
+    public int baseProjectiles2 = 1;
+    public float spread2;
+    public float destroy2;
+    public int shooting2 = 0;
+    Coroutine shootroutine2;
 
 
     [SerializeField]
@@ -56,9 +79,19 @@ public class Gun : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        damage = baseDamage;
-        projectiles = baseProjectiles;
-        bulletSpeed = baseBulletSpeed;
+        damage = baseDamage + player.rightArm.damage;
+        projectiles = baseProjectiles + player.rightArm.projectiles;
+        bulletSpeed = baseBulletSpeed + player.rightArm.bulletSpeed;
+        defatkspd = baseAttackSpeed + player.rightArm.attackSpeed;
+        bulletPrefab = player.rightArm.bulletPrefab;
+
+        damage2 = baseDamage2 + player.leftArm.damage;
+        projectiles2 = baseProjectiles2 + player.leftArm.projectiles;
+        bulletSpeed2 = baseBulletSpeed2 + player.leftArm.bulletSpeed;
+        defatkspd2 = baseAttackSpeed2 + player.leftArm.attackSpeed;
+        bulletPrefab2 = player.leftArm.bulletPrefab;
+        
+
         attackSpeed = 1;
     }
 
@@ -77,11 +110,18 @@ public class Gun : MonoBehaviour
         }
         
 
-        if(Input.GetButton("Fire1"))
+        if(Input.GetMouseButton(0))
         {
             //if(ammo - 1 >= 0)
             //{
                 getshoot(damage);
+            //}
+        }
+        if(Input.GetMouseButton(1))
+        {
+            //if(ammo - 1 >= 0)
+            //{
+                getshoot2(damage2);
             //}
         }
         if(Input.GetKeyDown("r")) {
@@ -139,13 +179,47 @@ public class Gun : MonoBehaviour
     void getshoot(float d)
     {
         
-            if(shooting == 1) {return;}
+            if(shooting == 1 || !player.rightArmEquipped) {return;}
+            
             //gunanimator.Play("GunFire");
             //aud.Play();
-            Debug.Log("shot");
+            //Debug.Log("shot");
             shootProjectile(bulletPrefab, d);
                 
             shootroutine = this.StartCoroutine(FireRateRoutine());
+        
+    }
+
+    public void shootProjectile2(GameObject bulletPrefab, float d)
+    {
+        //player.basic.Play();
+        for(float x = 0-(((float)projectiles2/2)-0.5f); x <= (((float)projectiles2)/2-0.5f)+0.1f; x+= 1)
+            {
+                Quaternion q = Quaternion.Euler(transform.rotation.x, transform.rotation.y, transform.rotation.z+(x*(spread2)));
+                GameObject bullet = Instantiate(bulletPrefab, shootPoint.position, shootPoint.rotation * q);
+                
+                bullet.GetComponent<Bullet>().bulletSpeed += bulletSpeed2;
+
+                float temp = d / (1 + 0.3f * (projectiles2 - 1));
+
+                
+                bullet.GetComponent<Bullet>().damage += temp;
+                bullet.GetComponent<Bullet>().StartCoroutine(bullet.GetComponent<Bullet>().bulletDestroy(destroy2));
+                
+            }
+    }
+
+    void getshoot2(float d)
+    {
+        
+            if(shooting2 == 1 || !player.leftArmEquipped) {return;}
+            
+            //gunanimator.Play("GunFire");
+            //aud.Play();
+            //Debug.Log("shot2");
+            shootProjectile(bulletPrefab2, d);
+                
+            shootroutine2 = this.StartCoroutine(FireRateRoutine2());
         
     }
 
@@ -156,8 +230,16 @@ public class Gun : MonoBehaviour
             shooting = 1;
             yield return new WaitForSeconds(defatkspd/attackSpeed);
             shooting = 0;
-        }
-        
-        
+        } 
+    }
+
+    IEnumerator FireRateRoutine2()
+    {
+        if(shooting2 == 0)
+        {
+            shooting2 = 1;
+            yield return new WaitForSeconds(defatkspd2/attackSpeed);
+            shooting2 = 0;
+        } 
     }
 }
