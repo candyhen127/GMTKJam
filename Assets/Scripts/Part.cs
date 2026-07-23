@@ -15,6 +15,7 @@ public class Part : ScriptableObject
 
     [Header("Leg")]
     public float moveSpeed;
+    public float jumpHeight;
     
     [Header("Head")]
     public float playerBattery;

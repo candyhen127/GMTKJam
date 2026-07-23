@@ -15,6 +15,8 @@ public class Player : MonoBehaviour
     public float baseMaxbattery = 100;
     public float moveSpeed;
     public float baseMoveSpeed = 3;
+    public float jumpHeight;
+    public float baseJumpHeight = 3;
     public float defense = 1;
     public float baseDefense = 1;
     public float knockback = 1;
@@ -82,6 +84,9 @@ public class Player : MonoBehaviour
         leftLegBattery = leftLeg.battery;
         rightArmBattery = rightArm.battery;
         moveSpeed = baseMoveSpeed + leftLeg.moveSpeed + rightLeg.moveSpeed;
+        jumpHeight = baseJumpHeight + leftLeg.jumpHeight + rightLeg.jumpHeight;
+        movement.moveSpeed = moveSpeed;
+        movement.jumpHeight = jumpHeight;
         //defense = baseDefense + body.defense;
     }
     
@@ -235,11 +240,17 @@ public class Player : MonoBehaviour
         if (p == "leftLeg")
         {
             moveSpeed -= leftLeg.moveSpeed;
+            jumpHeight -= leftLeg.jumpHeight;
+            movement.moveSpeed = moveSpeed;
+            movement.jumpHeight = jumpHeight;
             leftLegEquipped = false;
         }
         if (p == "rightLeg")
         {
             moveSpeed -= rightLeg.moveSpeed;
+            jumpHeight -= rightLeg.jumpHeight;
+            movement.moveSpeed = moveSpeed;
+            movement.jumpHeight = jumpHeight;
             rightLegEquipped = false;
         }
     }
