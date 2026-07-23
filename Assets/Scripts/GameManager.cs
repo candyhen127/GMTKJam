@@ -63,8 +63,8 @@ public class GameManager : MonoBehaviour
     {
         //don't allow input when paused
         if(GameManager.Instance.paused == true){return;}
-        timeleft -= Time.deltaTime;
-        spawntimer += Time.deltaTime;
+        timeleft = player.health;
+        //spawntimer += Time.deltaTime;
         
         if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown("p"))
         {

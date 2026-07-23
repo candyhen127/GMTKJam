@@ -201,7 +201,7 @@ if (!GameManager.Instance.truepaused)
     public void Freeze()
     {
         if (frozen) {return;}
-        float duration = 2f + 0.5f * GameManager.Instance.player.nonAdjFreezes;
+        float duration = 2f;
         StartCoroutine(FreezeRoutine(duration));
     }
 

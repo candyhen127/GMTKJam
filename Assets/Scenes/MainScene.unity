@@ -158,11 +158,16 @@ MonoBehaviour:
   sprite: {fileID: 924552574}
   pangle: 0
   angle: 0
-  ammo: 0
-  maxAmmo: 5
-  ammoCounter: {fileID: 0}
-  blobTypes: []
-  shotBlobs: []
+  bulletSpeed: 2
+  baseBulletSpeed: 2
+  attackSpeed: 1
+  defatkspd: 0.5
+  damage: 0
+  baseDamage: 10
+  projectiles: 0
+  baseProjectiles: 1
+  spread: 0
+  destroy: 5
   playerSprite: {fileID: 924552574}
   playerAnimator: {fileID: 0}
 --- !u!4 &16673167
@@ -215,7 +220,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -423.9, y: -221.47}
+  m_AnchoredPosition: {x: -423.9, y: -268.91}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &19828044
@@ -247,8 +252,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4278255427
+  m_fontColor: {r: 0.26462603, g: 1, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -404,13 +409,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 144792936}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
+  m_LocalPosition: {x: 0.5, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 924552575}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
 --- !u!1 &404898287
 GameObject:
   m_ObjectHideFlags: 0
@@ -736,7 +741,7 @@ Transform:
   m_GameObject: {fileID: 851830019}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.75, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -752,6 +757,7 @@ GameObject:
   m_Component:
   - component: {fileID: 882521830}
   - component: {fileID: 882521829}
+  - component: {fileID: 882521831}
   m_Layer: 6
   m_Name: Square
   m_TagString: Untagged
@@ -804,7 +810,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -829,6 +835,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &882521831
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 882521828}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!1 &924552573
 GameObject:
   m_ObjectHideFlags: 0
@@ -934,7 +986,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1006212497
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1276,7 +1328,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!114 &1955836723
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1295,13 +1347,27 @@ MonoBehaviour:
   baseMaxHealth: 100
   moveSpeed: 0
   baseMoveSpeed: 3
+  defense: 1
+  baseDefense: 1
   knockback: 1
   knockedBack: 0
   invinceTime: 0.4
-  lightningsInARow: 1
-  nonAdjFreezes: 0
   arm1: {fileID: 16673166}
   movement: {fileID: 1955836724}
+  scrap: 0
+  inventory: []
+  head: {fileID: 0}
+  body: {fileID: 0}
+  leftArm: {fileID: 0}
+  rightArm: {fileID: 0}
+  leftLeg: {fileID: 0}
+  rightLeg: {fileID: 0}
+  headBattery: 0
+  bodyBattery: 0
+  leftArmBattery: 0
+  rightArmBattery: 0
+  leftLegBattery: 0
+  rightLegBattery: 0
   rb: {fileID: 1955836722}
   collider2d: {fileID: 1955836721}
   animator: {fileID: 0}

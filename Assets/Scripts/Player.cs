@@ -15,17 +15,33 @@ public class Player : MonoBehaviour
     public float baseMaxHealth = 100;
     public float moveSpeed;
     public float baseMoveSpeed = 3;
+    public float defense = 1;
+    public float baseDefense = 1;
     public float knockback = 1;
     public bool knockedBack;
-    public float invinceTime = 0.4f;
-
-    public int lightningsInARow = 1;
-    public int nonAdjFreezes = 0;
+    public float invinceTime = 1.4f;
     
    
     public Gun arm1;
 
     public SimplePlayerMovement movement;
+
+    [Header("Parts")]
+    public int scrap;
+    public List<Part> inventory;
+    public Part head;
+    public Part body;
+    public Part leftArm;
+    public Part rightArm;
+    public Part leftLeg;
+    public Part rightLeg;
+
+    public float headBattery;
+    public float bodyBattery;
+    public float leftArmBattery;
+    public float rightArmBattery;
+    public float leftLegBattery;
+    public float rightLegBattery;
 
     public Rigidbody2D rb;
     public Collider2D collider2d;
@@ -89,7 +105,13 @@ public class Player : MonoBehaviour
             return;
         }
 
-        
+        health -= Time.deltaTime;
+        headBattery -= Time.deltaTime;
+        bodyBattery -= Time.deltaTime;
+        leftArmBattery -= Time.deltaTime;
+        rightArmBattery -= Time.deltaTime;
+        leftLegBattery -= Time.deltaTime;
+        rightArmBattery -= Time.deltaTime;
         
     }
 

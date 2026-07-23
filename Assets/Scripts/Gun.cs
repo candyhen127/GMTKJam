@@ -31,18 +31,22 @@ public class Gun : MonoBehaviour
     [SerializeField] 
     private float angle;
 
-    [SerializeField] 
-    private int ammo;
-    [SerializeField]
-    private int maxAmmo;
-    [SerializeField]
-    TextMeshProUGUI ammoCounter;
 
-    [SerializeField]
-    private List<GameObject> blobTypes;
+    public float bulletSpeed = 2f;
+    public float baseBulletSpeed = 10;
+    public float attackSpeed = 0.1f;
+    public float defatkspd = 0.1f;
 
-    [SerializeField]
-    private List<GameObject> shotBlobs;
+
+    public float damage;
+    public float baseDamage = 10;
+    public int projectiles;
+    public int baseProjectiles = 1;
+    public float spread;
+    public float destroy;
+    int shooting = 0;
+    Coroutine shootroutine;
+
 
     [SerializeField]
     private SpriteRenderer playerSprite;
@@ -52,7 +56,10 @@ public class Gun : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        ammo = maxAmmo;
+        damage = baseDamage;
+        projectiles = baseProjectiles;
+        bulletSpeed = baseBulletSpeed;
+        attackSpeed = 1;
     }
 
     // Update is called once per frame
@@ -69,26 +76,17 @@ public class Gun : MonoBehaviour
             sprite.flipY = false;
         }
         
-        if (Input.GetKeyDown(KeyCode.Alpha1)) {
-            bulletPrefab = blobTypes[0];
-        }
-        
-        if (Input.GetKeyDown(KeyCode.Alpha2)) {
-            bulletPrefab = blobTypes[1];
-        }
 
-        if(Input.GetButtonDown("Fire1"))
+        if(Input.GetButton("Fire1"))
         {
-            if(ammo - 1 >= 0)
-            {
-                shoot();
-            }
+            //if(ammo - 1 >= 0)
+            //{
+                getshoot(damage);
+            //}
         }
         if(Input.GetKeyDown("r")) {
-            foreach(GameObject b in shotBlobs) {
-                Destroy(b);
-            }
-            ammo = maxAmmo;
+            
+            //ammo = maxAmmo;
         }
         //ammoCounter.text = ammo.ToString() + "/" + maxAmmo.ToString();
         //playerAnimator.SetFloat("AmmoCount", ammo/(float)maxAmmo);
@@ -119,10 +117,47 @@ public class Gun : MonoBehaviour
         }
     }
 
-    void shoot() {
-        GameObject blob = Instantiate(bulletPrefab, shootPoint.position, shootPoint.rotation);
-        blob.GetComponent<Rigidbody2D>().linearVelocity = shootPoint.up * 10;
-        shotBlobs.Add(blob);
-        ammo -= 1;
+    public void shootProjectile(GameObject bulletPrefab, float d)
+    {
+        //player.basic.Play();
+        for(float x = 0-(((float)projectiles/2)-0.5f); x <= (((float)projectiles)/2-0.5f)+0.1f; x+= 1)
+            {
+                Quaternion q = Quaternion.Euler(transform.rotation.x, transform.rotation.y, transform.rotation.z+(x*(spread)));
+                GameObject bullet = Instantiate(bulletPrefab, shootPoint.position, shootPoint.rotation * q);
+                
+                bullet.GetComponent<Bullet>().bulletSpeed += bulletSpeed;
+
+                float temp = d / (1 + 0.3f * (projectiles - 1));
+
+                
+                bullet.GetComponent<Bullet>().damage += temp;
+                bullet.GetComponent<Bullet>().StartCoroutine(bullet.GetComponent<Bullet>().bulletDestroy(destroy));
+                
+            }
+    }
+
+    void getshoot(float d)
+    {
+        
+            if(shooting == 1) {return;}
+            //gunanimator.Play("GunFire");
+            //aud.Play();
+            Debug.Log("shot");
+            shootProjectile(bulletPrefab, d);
+                
+            shootroutine = this.StartCoroutine(FireRateRoutine());
+        
+    }
+
+    IEnumerator FireRateRoutine()
+    {
+        if(shooting == 0)
+        {
+            shooting = 1;
+            yield return new WaitForSeconds(defatkspd/attackSpeed);
+            shooting = 0;
+        }
+        
+        
     }
 }

@@ -47,13 +47,13 @@ public class SimplePlayerMovement : MonoBehaviour {
         isGrounded = (Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer) 
                         || Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, blobLayer));
 
-        print("Is grounded = " + isGrounded);
+        //print("Is grounded = " + isGrounded);
 
         // (point, vector, distance, layer)
         touchingWall = (Physics2D.Raycast(wallCheck.position, Vector2.right, wallCheckDistance, groundLayer)
                         || Physics2D.Raycast(wallCheck.position, Vector2.left, wallCheckDistance, groundLayer));
 
-        print("Touching wall = " + touchingWall);
+        //print("Touching wall = " + touchingWall);
 
         jumpPressed = Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W);
 

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1850208784418745779}
   - component: {fileID: 8225090500598017850}
   - component: {fileID: 616350738755531756}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -103,7 +103,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 10
-  bulletSpeed: 5
+  bulletSpeed: 8
   pierce: 0
   bounce: 0
   explosionprefab: {fileID: 0}
