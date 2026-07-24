@@ -16,6 +16,19 @@ public class Enemy : MonoBehaviour
     public Animator animator;
     new public SpriteRenderer renderer;
 
+    public GameObject bulletPrefab;
+    public int projectiles = 1;
+    public int destroy = 3;
+    public Transform leftshootPoint;
+    public Transform rightshootPoint;
+    public Coroutine shootroutine;
+
+    
+    public float defatkspd = 1f;
+    public int shots = 3;
+    public int shotcount = 0;
+    public int shooting = 0;
+
     public bool willexplode = false;
     public bool willexplode2;
     public bool dead;
@@ -27,9 +40,6 @@ public class Enemy : MonoBehaviour
     public List<Part> parts;
 
 
-    public float burndamage = 0;
-    public Coroutine burnroutine;
-    public bool frozen;
     public Coroutine deathroutine;
 
     public TextMeshProUGUI damagenum;
@@ -56,8 +66,10 @@ public class Enemy : MonoBehaviour
         {
             Die();
         }
+
+        getshoot(damage);
         //don't allow input when paused
-        if(MenuScript.Instance.paused == true || frozen){
+        if(MenuScript.Instance.paused == true){
             //gameObject.GetComponent<AIPath>().maxSpeed = 0;
             //GetComponent<Animator>().speed = 0;
             rb.mass = 2;
@@ -100,6 +112,66 @@ public class Enemy : MonoBehaviour
         {
             renderer.flipX = true;
         }
+    }
+
+    public void shootProjectile()
+    {
+        Transform shootPoint;
+        if (transform.position.x > player.transform.position.x)
+        {
+            shootPoint = rightshootPoint;
+        } else
+        {
+            shootPoint = leftshootPoint;
+        }
+        for(float x = 0-(((float)projectiles/2)-0.5f); x <= (((float)projectiles)/2-0.5f)+0.1f; x+= 1)
+            {
+                Quaternion q = Quaternion.Euler(transform.rotation.x, transform.rotation.y, transform.rotation.z+(x*(15)));
+                GameObject bullet = Instantiate(bulletPrefab, shootPoint.position, shootPoint.rotation * q);
+                
+                //bullet.GetComponent<Bullet>().bulletSpeed += bulletSpeed;
+
+                ///float temp = d / (1 + 0.3f * (projectiles - 1));
+
+                
+                //bullet.GetComponent<Bullet>().damage += temp;
+                bullet.GetComponent<Bullet>().StartCoroutine(bullet.GetComponent<Bullet>().bulletDestroy(destroy));
+                
+            }
+    }
+
+    void getshoot(float d)
+    {
+        
+            if(shooting == 1) {return;}
+            
+            //gunanimator.Play("GunFire");
+            //aud.Play();
+            //Debug.Log("shot");
+            shootProjectile();
+                shotcount ++;
+                if (shotcount == shots)
+                {
+                    shotcount = 0;
+            
+                    shootroutine = this.StartCoroutine(FireRateRoutine(defatkspd));
+                } else
+                {
+            
+                    shootroutine = this.StartCoroutine(FireRateRoutine(0.1f));
+                }
+        
+    }
+
+
+    IEnumerator FireRateRoutine(float sec)
+    {
+        if(shooting == 0)
+        {
+            shooting = 1;
+            yield return new WaitForSeconds(sec);
+            shooting = 0;
+        } 
     }
 
     public virtual void Die()
@@ -209,61 +281,5 @@ public class Enemy : MonoBehaviour
 
     }
 
-    public void Freeze()
-    {
-        if (frozen) {return;}
-        float duration = 2f;
-        StartCoroutine(FreezeRoutine(duration));
-    }
-
-    private IEnumerator FreezeRoutine(float duration)
-    {
-        
-        SpriteRenderer renderer = GetComponent<SpriteRenderer>();
-        
-        renderer.color = new Color(0.625f, 1, 1, renderer.color.a);
-        frozen = true;
-        
-        // Wait out the stun duration
-        yield return new WaitForSeconds(duration);
-
-
-        renderer.color = new Color(1, 1, 1, renderer.color.a);
-        frozen = false;
-        
-
-    }
-
-    public void burnMethod(float burndamage1) {
-        burndamage += burndamage1;
-        if(burnroutine == null)
-        {
-            burnroutine = StartCoroutine(burn(burndamage, 5));
-        }
-    }
     
-
-    public IEnumerator burn(float damage, int stacks)
-    {
-        burndamage = damage;
-        int i = 0;
-        
-        while(i <= stacks-1)
-        {
-            renderer.color = new Color32(255, 76, 76, 255);
-            yield return new WaitForSeconds(1f);
-            
-            TakeDamage(burndamage);
-
-            renderer.color = new Color32(255, 0, 0, 255);
-            yield return new WaitForSeconds(0.1f);
-            renderer.color = new Color32(255, 76, 76, 255);
-            i++;
-        }
-        renderer.color = new Color32(255, 255, 255, 255);
-        burndamage = 0;
-        StopCoroutine(burnroutine);
-        burnroutine = null;
-        yield break;
-    }
 }
