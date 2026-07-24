@@ -12,11 +12,24 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
     public Player player;
+    public bool paused;
+    public bool truepaused;
     //public TextMeshProUGUI timer;
 
-    public float globalScrap;
-    public List<Part> allParts;
+    public float timeleft = 600;
+    public float startTimeLeft = 600;
+    public float halftime = 300;
+    float spawntimer;
+    public float spawnInterval;
+    public float baseSpawnInterval = 2.2f;
+    public float spawnDistance;
+    public int maxEnemiesAtSpawn = 1;
+    public int baseMaxEnemies = 1;
 
+    public int difficultyUpMinute = 9;
+    public int difficulty = 1;
+
+    public List<GameObject> enemyPrefabs; 
 
     public GameObject gameOverScreen;
     public GameObject pauseScreen;
@@ -28,23 +41,8 @@ public class GameManager : MonoBehaviour
 
     public bool won = false;
 
-    public Part head;
-    public Part leftArm;
-    public Part rightArm;
-    public Part leftLeg;
-    public Part rightLeg;
-
-    public float baseMaxbattery;
-    public float baseMoveSpeed = 3;
-    public float baseJumpHeight = 3;
-    public float baseDefense = 1;
-
-    public float leftbaseAttackSpeed = 0.5f;
-    public float leftbaseDamage = 10;
-    public float rightbaseAttackSpeed = 0.5f;
-    public float rightbaseDamage = 10;
-    //public int baseProjectiles = 1;
-
+    public float spawnIntervalScale = 1.075f;
+    public float maxEnemiesScale = 0.25f;
 
     public TextMeshProUGUI batteryText;
     public TextMeshProUGUI weaponText;
@@ -59,13 +57,8 @@ public class GameManager : MonoBehaviour
 
 
     // Start is called before the first frame update
-    void Awake()
+    void Start()
     {   
-        if(Instance != null )
-        {
-            Destroy(gameObject);
-            return;
-        }
         //update start depth meters
         if (player != null)
         {
@@ -73,16 +66,13 @@ public class GameManager : MonoBehaviour
             startDepthMeters = (int)startYPosition;
         }
         //startTimeLeft = MenuManager.Instance.startTimeLeft;
-        
-        
-        foreach(Part p in allParts)
-        {
-            p.numCollected = 0;
-        }
+        Time.timeScale = 1;
+        timeleft = startTimeLeft;
         Instance = this;
-        DontDestroyOnLoad(gameObject);
+        spawntimer = 0f;
+        spawnInterval = baseSpawnInterval;
+        maxEnemiesAtSpawn = baseMaxEnemies;
     }
-
 
     // Update is called once per frame
     void Update()
@@ -103,6 +93,29 @@ public class GameManager : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (timeleft <= 0 && !won)
+        {
+            //WinGame();
+            //won = true;
+            
+            
+            //return;
+        }
+        if (won)
+        {
+            //MenuManager.Instance.aud.pitch = 1f;
+            return;
+        }
+        int minutes = (int)(timeleft/60);
+        int seconds = (int)(timeleft%60);
+        String secondstring = seconds.ToString();
+        if(seconds < 10)
+        {
+            secondstring = "0" + secondstring;
+        }
+
+        //battery % based on timeleft / startTimeLeft
+        float batteryPercent = Mathf.Clamp((timeleft / startTimeLeft) * 100f, 0, 100);
         
         if (batteryText != null) 
             batteryText.text = "battery: " + (int)batteryPercent + "%";
@@ -137,8 +150,30 @@ public class GameManager : MonoBehaviour
     }
 
 
-  
+    public void SpawnEnemy(int number)
+    {
+        for(int i = 0; i < 4; i++) {
+            float angle = UnityEngine.Random.Range(0f, Mathf.PI / 2) + i * (Mathf.PI / 2);
+            
+            // Calculate the spawn position
+            Vector3 spawnOffset = new Vector3(Mathf.Cos(angle), Mathf.Sin(angle), 0) * spawnDistance;
+            Vector3 spawnPos = player.transform.position + spawnOffset;
 
+            // Instantiate (or pull from object pool)
+            for(int j = 0; j < number; j++) {
+                GameObject enemy;
+                if (timeleft < halftime)
+                {
+                    enemy = enemyPrefabs[(int)UnityEngine.Random.Range(0, 1.5f)];
+                } else
+                {
+                    enemy = enemyPrefabs[0];
+                }
+                Instantiate(enemy, spawnPos + new Vector3(i * 0.25f, 0, 0), Quaternion.identity);
+            }
+        }
+        //quadrants = quadrants.OrderBy(x => UnityEngine.Random.value).ToArray();
+    }
 
     public void pauseGame()
     {
@@ -175,8 +210,74 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void loseGame()
+    {
+        
+            truepaused = true;
+            //MenuManager.Instance.StartCoroutine(MenuManager.Instance.flash(Color.red));
+        StartCoroutine(GameOverRoutine());
+        
+    }
 
-
-
+    public IEnumerator GameOverRoutine()
+    {
+        //StartCoroutine(MenuManager.Instance.AudioFade(true));
+        //canvas.GameOver();
+        gameOverScreen.SetActive(true);
+        for(float i = 1f; i>=0; i-=Time.unscaledDeltaTime)
+        {
+            Time.timeScale = i;
+            yield return null;
+        }
+        Time.timeScale = 0;
+        
+        
     
+    }
+
+    public void RestartGame()
+    {
+        StartCoroutine(RestartRoutine("SampleScene"));
+    }
+
+    public IEnumerator RestartRoutine(String scene)
+    {
+        
+       // StartCoroutine(MenuManager.Instance.AudioFade(true));
+        yield return new WaitForSecondsRealtime(0.1f);
+        //MenuManager.Instance.StartCoroutine(MenuManager.Instance.FadeImage(false));
+        yield return new WaitForSecondsRealtime(1f);
+        SceneManager.LoadScene(scene);
+    }
+
+    public void MainMenu()
+    {
+        StartCoroutine(RestartRoutine("Title"));
+    }
+
+    public void WinGame()
+    {
+        
+            truepaused = true;
+            //MenuManager.Instance.StartCoroutine(MenuManager.Instance.flash(Color.white));
+        Instantiate(nuke, player.transform.position, Quaternion.identity);
+        StartCoroutine(WinRoutine());
+        
+    }
+
+    public IEnumerator WinRoutine()
+    {
+        //StartCoroutine(MenuManager.Instance.AudioFade(true));
+        //canvas.GameOver();
+        winScreen.SetActive(true);
+        for(float i = 1f; i>=0; i-=Time.unscaledDeltaTime)
+        {
+            Time.timeScale = i;
+            yield return null;
+        }
+        Time.timeScale = 0;
+        
+        
+    
+    }
 }

@@ -19,7 +19,6 @@ public class Bullet : MonoBehaviour
     public bool freeze;
     public float spread;
     public float destroy;
-    public float spinForce;
 
     public bool straight = true;
 
@@ -36,10 +35,6 @@ public class Bullet : MonoBehaviour
             Transform transform = gameObject.GetComponent<Transform>();
             Quaternion q = Quaternion.Euler(transform.rotation.x, transform.rotation.y, transform.rotation.z + UnityEngine.Random.Range(-3, 3) * spread);
             transform.rotation = transform.rotation * q;
-        }
-        if (!straight)
-        {
-            rb.AddTorque(spinForce); 
         }
     }
 

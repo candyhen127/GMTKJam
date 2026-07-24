@@ -24,7 +24,6 @@ public class Enemy : MonoBehaviour
     public GameObject scrapDrop;
     public int drops;
     public GameObject partDrop;
-    public List<Part> parts;
 
 
     public float burndamage = 0;
@@ -57,7 +56,7 @@ public class Enemy : MonoBehaviour
             Die();
         }
         //don't allow input when paused
-        if(MenuScript.Instance.paused == true || frozen){
+        if(GameManager.Instance.paused == true || frozen){
             //gameObject.GetComponent<AIPath>().maxSpeed = 0;
             //GetComponent<Animator>().speed = 0;
             rb.mass = 2;
@@ -125,10 +124,9 @@ public class Enemy : MonoBehaviour
             Instantiate(scrapDrop, transform.position, Quaternion.identity);
         }
 
-            GameObject partdrop = Instantiate(partDrop, transform.position, Quaternion.identity);
-            partdrop.GetComponent<ScrapDrop>().part = parts[UnityEngine.Random.Range(0, parts.Count)];
+            Instantiate(partDrop, transform.position, Quaternion.identity);
 
-        if (!MenuScript.Instance.truepaused)
+        if (!GameManager.Instance.truepaused)
         {
                 
         //hit.Play();
@@ -167,7 +165,7 @@ public class Enemy : MonoBehaviour
         bool crit = false;
         
         //Debug.Log("hit");
-        if (!MenuScript.Instance.truepaused)
+        if (!GameManager.Instance.truepaused)
         {
         //TextMeshProUGUI x = Instantiate(damagenum, canvas.transform, false);
         //x.transform.position = Camera.main.WorldToScreenPoint(gameObject.transform.position);

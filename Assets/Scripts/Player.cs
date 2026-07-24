@@ -96,19 +96,9 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        level = 1;
         //maxbattery = baseMaxbattery + head.playerBattery;
         headSprite.GetComponent<SpriteRenderer>().sprite = head.icon;
-
-        baseMaxbattery = GameManager.Instance.baseMaxbattery;
-        baseJumpHeight = GameManager.Instance.baseJumpHeight;
-        baseMoveSpeed = GameManager.Instance.baseMoveSpeed;
-        baseDefense = GameManager.Instance.baseDefense;
-
-        head = GameManager.Instance.head;
-        leftArm = GameManager.Instance.leftArm;
-        rightArm = GameManager.Instance.rightArm;
-        leftLeg = GameManager.Instance.leftLeg;
-        rightLeg = GameManager.Instance.rightLeg;
 
         //battery = maxbattery;
         headBattery = baseMaxbattery + head.battery;
@@ -125,8 +115,6 @@ public class Player : MonoBehaviour
         movement.moveSpeed = moveSpeed;
         movement.jumpHeight = jumpHeight;
         //defense = baseDefense + body.defense;
-        leftGun.Start2();
-        rightGun.Start2();
     }
     
 
@@ -134,7 +122,7 @@ public class Player : MonoBehaviour
     void Update()
     {
         //don't allow input when paused
-        if(MenuScript.Instance.paused == true || MenuScript.Instance.truepaused){return;}
+        if(GameManager.Instance.paused == true || GameManager.Instance.truepaused){return;}
 
         //player movement input
         //movement.x = Input.GetAxisRaw("Horizontal");
@@ -154,7 +142,7 @@ public class Player : MonoBehaviour
         cam.transform.position = new Vector3(transform.position.x, transform.position.y - 0.2f, cam.transform.position.z);
 
         //don't allow input when paused
-        if(MenuScript.Instance.paused == true || MenuScript.Instance.truepaused)
+        if(GameManager.Instance.paused == true || GameManager.Instance.truepaused)
         {
             //rb.velocity = Vector2.zero;
             return;
@@ -252,19 +240,14 @@ public class Player : MonoBehaviour
         rightArmTimer.text = TimeSpan.FromSeconds(rightArmBattery).ToString(@"mm\:ss\:ff");
         leftLegTimer.text = TimeSpan.FromSeconds(leftLegBattery).ToString(@"mm\:ss\:ff");
         rightLegTimer.text = TimeSpan.FromSeconds(rightLegBattery).ToString(@"mm\:ss\:ff");
-
-        if (!headEquipped && !leftArmEquipped && !rightArmEquipped && !leftLegEquipped && !rightLegEquipped)
-        {
-            MenuScript.Instance.EndRun();
-        }
     }
 
     
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if(MenuScript.Instance.truepaused == true){return;}
-        if(MenuScript.Instance.paused == true){return;}
+        if(GameManager.Instance.truepaused == true){return;}
+        if(GameManager.Instance.paused == true){return;}
         if (knockedBack){return;}
 
         if (collision.gameObject.tag == "Enemy" && !invince){
@@ -380,7 +363,7 @@ public class Player : MonoBehaviour
         GameObject bullet = Instantiate(dumpedPart, transform.position, leftGun.shootPoint.rotation);
         bullet.GetComponent<SpriteRenderer>().sprite = icon;
         bullet.GetComponent<Bullet>().damage = d;
-        bullet.GetComponent<Rigidbody2D>().linearVelocity = leftGun.shootPoint.up * dumpForce * UnityEngine.Random.Range(0.8f, 1.2f);
+        bullet.GetComponent<Rigidbody2D>().linearVelocity = leftGun.shootPoint.up * dumpForce;
     }
 /*
     public void PlayerHeal(float damage)
@@ -413,7 +396,7 @@ public class Player : MonoBehaviour
     
     public void GetScrap(int points)
     {
-        if(MenuScript.Instance.paused == true ||  MenuScript.Instance.truepaused == true){return;}
+        if(GameManager.Instance.paused == true ||  GameManager.Instance.truepaused == true){return;}
         //getxp.Play();
         scrap += points;
         UpdateScrapCount();
