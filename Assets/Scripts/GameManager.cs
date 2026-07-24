@@ -87,12 +87,52 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        // Allow ESC or P to toggle pause state
+        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.P))
+        {
+            if (truepaused)
+            {
+                ResumeGame();
+            }
+            else
+            {
+                pauseGame();
+            }
+        }
     }
 
     void FixedUpdate()
     {
         
+        if (batteryText != null) 
+            batteryText.text = "battery: " + (int)batteryPercent + "%";
+
+        if (player != null && depthTextUI != null)
+        {
+            // Calculate distance descended (how far below startYPosition the player is)
+            float distanceDescended = startYPosition - player.transform.position.y;
+            
+            // count positive downward movement (so jumping up doesn't decrease depth)
+            distanceDescended = Mathf.Max(0, distanceDescended);
+
+            // Curr Depth = Starting Depth + Distance Travelled Down
+            int currentDepth = startDepthMeters + Mathf.FloorToInt(distanceDescended);
+
+            depthTextUI.text = -currentDepth + " m";
+        }
+            
+        //timer.text = minutes +":" + secondstring;
+        
+        if (timeleft < 60)
+        {
+            //timer.color = Color.red;
+            
+            //MenuManager.Instance.aud.pitch = Mathf.Lerp(1.01f, 1.3f, 60 - timeleft);;
+        } else
+        {
+            //timer.color = Color.white;
+            //MenuManager.Instance.aud.pitch = 1f;
+        }
         
     }
 
@@ -100,7 +140,40 @@ public class GameManager : MonoBehaviour
   
 
 
+    public void pauseGame()
+    {
+        pauseScreen.SetActive(true);
+        Time.timeScale = 0f;
+        truepaused = true;
+        paused = true;
+    }
 
+    public void ResumeGame()
+    {
+        // 1. Hide UI screens
+        if (pauseScreen != null) pauseScreen.SetActive(false);
+        if (settingsPanel != null) settingsPanel.SetActive(false);
+
+        // 2. Reset time and state flags
+        Time.timeScale = 1f;
+        truepaused = false;
+        paused = false;
+    }
+    public void OpenSettings()
+    {
+        if (settingsPanel != null)
+        {
+            settingsPanel.SetActive(true);
+        }
+    }
+
+    public void CloseSettings()
+    {
+        if (settingsPanel != null)
+        {
+            settingsPanel.SetActive(false);
+        }
+    }
 
 
 
