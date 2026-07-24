@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6137292617216610152}
   - component: {fileID: 2500543874390547547}
   m_Layer: 10
-  m_Name: Enemy
+  m_Name: LegEnemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -117,6 +117,9 @@ MonoBehaviour:
   scrapDrop: {fileID: 5810995078600289247, guid: 7cade332a7582ea40bad3f489506a24d, type: 3}
   drops: 3
   partDrop: {fileID: 5810995078600289247, guid: c652b153103a575489074bd4a1dacde3, type: 3}
+  parts:
+  - {fileID: 11400000, guid: d4e5aa2043734274f96db9ce9fa69315, type: 2}
+  - {fileID: 11400000, guid: 0a341d10e66d3594389e302ab7d36ec9, type: 2}
   burndamage: 0
   frozen: 0
   damagenum: {fileID: 0}
