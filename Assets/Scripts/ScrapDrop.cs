@@ -4,7 +4,11 @@ using UnityEngine;
 
 public class XPDrop : MonoBehaviour
 {
+    public bool floating;
+    
     public int points = 1;
+    public bool isPart;
+    public Part part;
     public float duration = 0.25f;
     public AnimationCurve interp;
     public Player player;
@@ -13,9 +17,13 @@ public class XPDrop : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        if (floating) {return;}
         Vector2 knockbackForce = Random.insideUnitCircle.normalized * force;
         rb.AddForce(knockbackForce, ForceMode2D.Impulse);
+        if (isPart)
+        {
+            GetComponent<SpriteRenderer>().sprite = part.icon;
+        }
     }
 
     // Update is called once per frame
@@ -52,7 +60,12 @@ public class XPDrop : MonoBehaviour
             transform.position = currentpos;
             yield return null;
         }
-        player.GetScrap(points);
+        if (isPart)
+        {
+            player.inventory.Add(part);
+        } else {
+            player.GetScrap(points);
+        }
         Destroy(gameObject);
     }
 }

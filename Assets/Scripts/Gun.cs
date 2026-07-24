@@ -30,7 +30,7 @@ public class Gun : MonoBehaviour
     [SerializeField]
     private Transform transform;
     [SerializeField]
-    private SpriteRenderer sprite;
+    public SpriteRenderer sprite;
     
     [SerializeField]
     private float pangle;
@@ -122,7 +122,7 @@ public class Gun : MonoBehaviour
         {
             //if(ammo - 1 >= 0)
             //{
-            Debug.Log("rightshoot");
+            //Debug.Log("rightshoot");
                 getshoot(damage);
             //}
         }
@@ -183,6 +183,9 @@ public class Gun : MonoBehaviour
     {
         
             if(shooting == 1) {return;}
+            if (leftHand && !player.leftArmEquipped) {return;}
+            
+            if (!leftHand && !player.rightArmEquipped) {return;}
             
             //gunanimator.Play("GunFire");
             //aud.Play();

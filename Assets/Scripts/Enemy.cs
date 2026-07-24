@@ -23,6 +23,7 @@ public class Enemy : MonoBehaviour
 
     public GameObject scrapDrop;
     public int drops;
+    public GameObject partDrop;
 
 
     public float burndamage = 0;
@@ -122,7 +123,9 @@ public class Enemy : MonoBehaviour
         {
             Instantiate(scrapDrop, transform.position, Quaternion.identity);
         }
-        
+
+            Instantiate(partDrop, transform.position, Quaternion.identity);
+
         if (!GameManager.Instance.truepaused)
         {
                 

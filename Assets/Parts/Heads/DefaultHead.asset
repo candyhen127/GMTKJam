@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 216e217ed02181e42a42abb96e914b56, type: 3}
-  m_Name: DefaultLeg
+  m_Name: DefaultHead
   m_EditorClassIdentifier: 
-  name: Basic Leg
-  bodypart: arm
+  name: Basic Head
+  bodypart: head
   icon: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
-  battery: 4
-  moveSpeed: 3
-  jumpHeight: 1
-  playerBattery: 0
+  battery: 20
+  moveSpeed: 0
+  jumpHeight: 0
+  playerBattery: 60
   damage: 0
   bulletPrefab: {fileID: 0}
   projectiles: 0

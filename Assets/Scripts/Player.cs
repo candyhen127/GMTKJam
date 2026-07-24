@@ -63,6 +63,8 @@ public class Player : MonoBehaviour
 
     public GameObject dumpedPart;
     public float dumpForce = 8;
+    public Color redtint = new Color32(255, 163, 163, 255);
+    public float redtime = 3;
 
 
     public Rigidbody2D rb;
@@ -76,6 +78,13 @@ public class Player : MonoBehaviour
     //public UnityEngine.UI.Image batterybar;
     
     public TextMeshProUGUI scrapText;
+
+
+    public TextMeshProUGUI headTimer;
+    public TextMeshProUGUI leftArmTimer;
+    public TextMeshProUGUI rightArmTimer;
+    public TextMeshProUGUI leftLegTimer;
+    public TextMeshProUGUI rightLegTimer;
     
     
     public GameObject LevelUpPopup;
@@ -149,30 +158,88 @@ public class Player : MonoBehaviour
         rightArmBattery -= Time.deltaTime;
         leftLegBattery -= Time.deltaTime;
         rightLegBattery -= Time.deltaTime;
-        if (headBattery <= 0 && headEquipped)
+
+
+        if (headBattery <= redtime)
         {
-            Eject("head");
-        } else
+            headSprite.GetComponent<SpriteRenderer>().color = redtint;
+            headTimer.color = Color.red;
+        } 
+        if (leftArmBattery <= redtime)
         {
-            
+            leftArmSprite.GetComponent<Gun>().sprite.color = redtint;
+            leftArmTimer.color = Color.red;
         }
-        if (leftArmBattery <= 0 && leftArmEquipped)
+        if (rightArmBattery <= redtime)
+        {
+            rightArmSprite.GetComponent<Gun>().sprite.color = redtint;
+            rightArmTimer.color = Color.red;
+        }
+        if (leftLegBattery <= redtime)
+        {
+            leftLegSprite.GetComponent<SpriteRenderer>().color = redtint;
+            leftLegTimer.color = Color.red;
+        }
+        if (rightLegBattery <= redtime)
+        {
+            rightLegSprite.GetComponent<SpriteRenderer>().color = redtint;
+            rightLegTimer.color = Color.red;
+        }
+
+        
+
+        if (headBattery <= 0)
+        {
+            headBattery = 0;
+            if (headEquipped)
+            {
+                
+            Eject("head");
+            }
+        } 
+        if (leftArmBattery <= 0)
         {
 
+            leftArmBattery = 0;
+            if (leftArmEquipped)
+            {
+                    
             Eject("leftArm");
+            }
         }
-        if (rightArmBattery <= 0 && rightArmEquipped)
+        if (rightArmBattery <= 0)
         {
+            rightArmBattery = 0;
+            if (rightArmEquipped)
+            {
+                
             Eject("rightArm");
+            }
         }
-        if (leftLegBattery <= 0 && leftLegEquipped)
+        if (leftLegBattery <= 0)
         {
-            Eject("leftLeg");
+            
+            leftLegBattery = 0;
+            if (leftLegEquipped)
+            {
+                Eject("leftLeg");
+            }
         }
-        if (rightLegBattery <= 0 && rightLegEquipped)
+        if (rightLegBattery <= 0)
         {
+            rightLegBattery = 0;
+            if (rightLegEquipped)
+            {
+                
             Eject("rightLeg");
+            }
         }
+
+        headTimer.text = headBattery.ToString("F2");
+        leftArmTimer.text = leftArmBattery.ToString("F2");
+        rightArmTimer.text = rightArmBattery.ToString("F2");
+        leftLegTimer.text = leftLegBattery.ToString("F2");
+        rightLegTimer.text = rightLegBattery.ToString("F2");
     }
 
     
@@ -257,14 +324,14 @@ public class Player : MonoBehaviour
             leftArmEquipped = false;
             icon = leftArm.icon;
             d = leftArm.battery;
-            leftArmSprite.SetActive(false);
+            leftArmSprite.GetComponent<Gun>().sprite.enabled = false;
         }
         if (p == "rightArm")
         {
             rightArmEquipped = false;
             icon = rightArm.icon;
             d = rightArm.battery;
-            rightArmSprite.SetActive(false);
+            rightArmSprite.GetComponent<Gun>().sprite.enabled = false;
         }
         if (p == "leftLeg")
         {
