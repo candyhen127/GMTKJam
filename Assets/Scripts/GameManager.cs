@@ -35,6 +35,8 @@ public class GameManager : MonoBehaviour
     public GameObject pauseScreen;
 
     public GameObject winScreen;
+
+    public GameObject settingsPanel;
     public GameObject nuke;
 
     public bool won = false;
@@ -42,13 +44,27 @@ public class GameManager : MonoBehaviour
     public float spawnIntervalScale = 1.075f;
     public float maxEnemiesScale = 0.25f;
 
+    public TextMeshProUGUI batteryText;
+    public TextMeshProUGUI weaponText;
+    public TextMeshProUGUI speedText;
+    public TextMeshProUGUI depthTextUI;
+
+    public float startYPosition = 0f;
+    public int startDepthMeters = 0;
+
 
     //public int[] quadrants = {0, 1, 2, 3};
 
 
     // Start is called before the first frame update
     void Start()
-    {
+    {   
+        //update start depth meters
+        if (player != null)
+        {
+            startYPosition = player.transform.position.y;
+            startDepthMeters = (int)startYPosition;
+        }
         //startTimeLeft = MenuManager.Instance.startTimeLeft;
         Time.timeScale = 1;
         timeleft = startTimeLeft;
@@ -96,6 +112,26 @@ public class GameManager : MonoBehaviour
             secondstring = "0" + secondstring;
         }
 
+        //battery % based on timeleft / startTimeLeft
+        float batteryPercent = Mathf.Clamp((timeleft / startTimeLeft) * 100f, 0, 100);
+        
+        if (batteryText != null) 
+            batteryText.text = "battery " + (int)batteryPercent + "%";
+
+        if (player != null && depthTextUI != null)
+        {
+            // Calculate distance descended (how far below startYPosition the player is)
+            float distanceDescended = startYPosition - player.transform.position.y;
+            
+            // count positive downward movement (so jumping up doesn't decrease depth)
+            distanceDescended = Mathf.Max(0, distanceDescended);
+
+            // Curr Depth = Starting Depth + Distance Travelled Down
+            int currentDepth = startDepthMeters + Mathf.FloorToInt(distanceDescended);
+
+            depthTextUI.text = -currentDepth + " m";
+        }
+            
         //timer.text = minutes +":" + secondstring;
         
         if (timeleft < 60)
@@ -150,6 +186,17 @@ public class GameManager : MonoBehaviour
             Time.timeScale = 0;
             truepaused = true;
         }
+    }
+    public void OpenSettings()
+    {
+        if (settingsPanel != null)
+            settingsPanel.SetActive(true);
+    }
+
+    public void CloseSettings()
+    {
+        if (settingsPanel != null)
+            settingsPanel.SetActive(false);
     }
 
     public void loseGame()
