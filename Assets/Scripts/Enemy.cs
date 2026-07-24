@@ -16,6 +16,14 @@ public class Enemy : MonoBehaviour
     public Animator animator;
     new public SpriteRenderer renderer;
 
+    public float jumpForce;
+    public Transform groundCheck;
+    public float groundCheckRadius = 0.25f;
+    public LayerMask groundLayer;
+    public bool isGrounded;
+    public bool shouldJump;
+    public float facingDirection;
+
     public GameObject bulletPrefab;
     public int projectiles = 1;
     public int destroy = 3;
@@ -96,6 +104,38 @@ public class Enemy : MonoBehaviour
                 
             }
         }
+
+
+        //isGrounded = Physics2D.Raycast(transform.position, Vector2.down, 1f, groundLayer);
+        isGrounded = (Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer));
+
+        float direction = Mathf.Sign(player.transform.position.x - transform.position.x);
+facingDirection = direction;
+        //Debug.Log(direction);
+        bool isPlayerAbove = Physics2D.Raycast(transform.position, Vector2.up, 3f, 1 << player.gameObject.layer);
+        if (isGrounded)
+        {
+            rb.linearVelocity = new Vector2(direction * moveSpeed, rb.linearVelocityY);
+Vector3 rayOrigin = groundCheck.position + Vector3.up * 0.1f; // slightly above feet, avoids self-clipping
+
+Debug.DrawRay(rayOrigin, new Vector2(direction, 0), Color.red);
+Debug.DrawRay(rayOrigin + new Vector3(direction * 1.5f, 0, 0),  Vector2.down, Color.blue);
+Debug.DrawRay(rayOrigin, Vector2.up, Color.green);
+
+RaycastHit2D groundInFront = Physics2D.Raycast(rayOrigin, new Vector2(direction, 0), 4f, groundLayer);
+RaycastHit2D gapAhead = Physics2D.Raycast(rayOrigin + new Vector3(direction * 1.5f, 0, 0), Vector2.down, 2f, groundLayer);
+RaycastHit2D platformAbove = Physics2D.Raycast(rayOrigin, Vector2.up, 3f, groundLayer);
+
+            if (groundInFront.collider || !gapAhead.collider)
+            {
+                //Debug.Log("shouldjump");
+                shouldJump = true;
+            }
+            else if (isPlayerAbove && platformAbove.collider)
+            {
+                shouldJump = true;
+            }
+        }
         
         
     }
@@ -111,6 +151,13 @@ public class Enemy : MonoBehaviour
         } else
         {
             renderer.flipX = true;
+        }
+
+        if (isGrounded && shouldJump)
+        {
+            shouldJump = false;
+            Vector2 jumpDirection = new Vector2(facingDirection, jumpForce);
+            rb.AddForce(jumpDirection, ForceMode2D.Impulse);
         }
     }
 
@@ -158,7 +205,7 @@ public class Enemy : MonoBehaviour
                 } else
                 {
             
-                    shootroutine = this.StartCoroutine(FireRateRoutine(0.1f));
+                    shootroutine = this.StartCoroutine(FireRateRoutine(0.2f));
                 }
         
     }

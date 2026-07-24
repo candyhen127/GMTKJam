@@ -115,6 +115,9 @@ MonoBehaviour:
   freeze: 0
   spread: 0
   destroy: 0
+  spinForce: 0
+  straight: 1
+  isEnemy: 0
 --- !u!50 &8225090500598017850
 Rigidbody2D:
   serializedVersion: 5
@@ -130,7 +133,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
