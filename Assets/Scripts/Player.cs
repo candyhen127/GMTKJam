@@ -25,7 +25,8 @@ public class Player : MonoBehaviour
     public bool invince;
     
    
-    public Gun arm1;
+    public Gun leftGun;
+    public Gun rightGun;
 
     public SimplePlayerMovement movement;
 
@@ -52,6 +53,17 @@ public class Player : MonoBehaviour
     public bool leftLegEquipped = true;
     public bool rightLegEquipped = true;
 
+    public GameObject headSprite;
+    public GameObject leftArmSprite;
+    public GameObject rightArmSprite;
+    public GameObject leftLegSprite;
+    public GameObject rightLegSprite;
+
+    public Transform groundCheck2;  //groundcheck for when legs are gone
+
+    public GameObject dumpedPart;
+    public float dumpForce = 8;
+
 
     public Rigidbody2D rb;
     public Collider2D collider2d;
@@ -77,14 +89,20 @@ public class Player : MonoBehaviour
     {
         level = 1;
         maxbattery = baseMaxbattery + head.playerBattery;
+        headSprite.GetComponent<SpriteRenderer>().sprite = head.icon;
+
         battery = maxbattery;
         headBattery = head.battery;
         leftArmBattery = leftArm.battery;
         rightArmBattery = rightArm.battery;
         leftLegBattery = leftLeg.battery;
-        rightArmBattery = rightArm.battery;
+        rightLegBattery = rightLeg.battery;
+
         moveSpeed = baseMoveSpeed + leftLeg.moveSpeed + rightLeg.moveSpeed;
         jumpHeight = baseJumpHeight + leftLeg.jumpHeight + rightLeg.jumpHeight;
+        leftLegSprite.GetComponent<SpriteRenderer>().sprite = leftLeg.icon;
+        rightLegSprite.GetComponent<SpriteRenderer>().sprite = rightLeg.icon;
+
         movement.moveSpeed = moveSpeed;
         movement.jumpHeight = jumpHeight;
         //defense = baseDefense + body.defense;
@@ -224,18 +242,29 @@ public class Player : MonoBehaviour
 
     public void Eject(String p)
     {
+        Sprite icon = head.icon;
+        float d = 0;
         if (p == "head")
         {
             battery -= head.battery;
             headEquipped = false;
+            icon = head.icon;
+            d = head.battery;
+            headSprite.SetActive(false);
         }
         if (p == "leftArm")
         {
             leftArmEquipped = false;
+            icon = leftArm.icon;
+            d = leftArm.battery;
+            leftArmSprite.SetActive(false);
         }
         if (p == "rightArm")
         {
             rightArmEquipped = false;
+            icon = rightArm.icon;
+            d = rightArm.battery;
+            rightArmSprite.SetActive(false);
         }
         if (p == "leftLeg")
         {
@@ -244,6 +273,9 @@ public class Player : MonoBehaviour
             movement.moveSpeed = moveSpeed;
             movement.jumpHeight = jumpHeight;
             leftLegEquipped = false;
+            icon = leftLeg.icon;
+            d = leftLeg.battery;
+            leftLegSprite.SetActive(false);
         }
         if (p == "rightLeg")
         {
@@ -252,7 +284,19 @@ public class Player : MonoBehaviour
             movement.moveSpeed = moveSpeed;
             movement.jumpHeight = jumpHeight;
             rightLegEquipped = false;
+            icon = rightLeg.icon;
+            d = rightLeg.battery;
+            rightLegSprite.SetActive(false);
         }
+        if (!leftLegEquipped && !rightLegEquipped)
+        {
+            movement.groundCheck = groundCheck2;
+        }
+
+        GameObject bullet = Instantiate(dumpedPart, transform.position, leftGun.shootPoint.rotation);
+        bullet.GetComponent<SpriteRenderer>().sprite = icon;
+        bullet.GetComponent<Bullet>().damage = d;
+        bullet.GetComponent<Rigidbody2D>().linearVelocity = leftGun.shootPoint.up * dumpForce;
     }
 
     public void PlayerHeal(float damage)

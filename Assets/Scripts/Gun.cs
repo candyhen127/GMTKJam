@@ -13,15 +13,16 @@ public class Gun : MonoBehaviour
     private Player player;
 
     [SerializeField]
-    private Transform rightHand;
+    private Transform hand;
     [SerializeField]
-    private Transform leftHand;
+    private bool leftHand;
+    
+    //[SerializeField]
+    //private Transform leftHand;
     [SerializeField]
-    private Transform shootPoint;
+    public Transform shootPoint;
     [SerializeField]
     private GameObject bulletPrefab;
-    [SerializeField]
-    private GameObject bulletPrefab2;
     [SerializeField]
     private Transform center;
     [SerializeField]
@@ -55,20 +56,6 @@ public class Gun : MonoBehaviour
 
 
     
-    public float bulletSpeed2 = 2f;
-    public float baseBulletSpeed2 = 10;
-    public float defatkspd2 = 0.1f;
-    public float baseAttackSpeed2 = 0.5f;
-
-
-    public float damage2;
-    public float baseDamage2 = 10;
-    public int projectiles2;
-    public int baseProjectiles2 = 1;
-    public float spread2;
-    public float destroy2;
-    public int shooting2 = 0;
-    Coroutine shootroutine2;
 
 
     [SerializeField]
@@ -79,17 +66,31 @@ public class Gun : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        damage = baseDamage + player.rightArm.damage;
-        projectiles = baseProjectiles + player.rightArm.projectiles;
-        bulletSpeed = baseBulletSpeed + player.rightArm.bulletSpeed;
-        defatkspd = baseAttackSpeed + player.rightArm.attackSpeed;
-        bulletPrefab = player.rightArm.bulletPrefab;
+        if (leftHand)
+        {
+            damage = baseDamage + player.leftArm.damage;
+            projectiles = baseProjectiles + player.leftArm.projectiles;
+            bulletSpeed = baseBulletSpeed + player.leftArm.bulletSpeed;
+            defatkspd = baseAttackSpeed + player.leftArm.attackSpeed;
+            bulletPrefab = player.leftArm.bulletPrefab;
+            destroy = player.leftArm.destroy;
 
-        damage2 = baseDamage2 + player.leftArm.damage;
-        projectiles2 = baseProjectiles2 + player.leftArm.projectiles;
-        bulletSpeed2 = baseBulletSpeed2 + player.leftArm.bulletSpeed;
-        defatkspd2 = baseAttackSpeed2 + player.leftArm.attackSpeed;
-        bulletPrefab2 = player.leftArm.bulletPrefab;
+            sprite.sprite = player.leftArm.icon;
+
+        } else
+        {
+            damage = baseDamage + player.rightArm.damage;
+            projectiles = baseProjectiles + player.rightArm.projectiles;
+            bulletSpeed = baseBulletSpeed + player.rightArm.bulletSpeed;
+            defatkspd = baseAttackSpeed + player.rightArm.attackSpeed;
+            bulletPrefab = player.rightArm.bulletPrefab;
+            destroy = player.rightArm.destroy;
+
+            sprite.sprite = player.rightArm.icon;
+        }
+        
+
+        
         
 
         attackSpeed = 1;
@@ -110,18 +111,19 @@ public class Gun : MonoBehaviour
         }
         
 
-        if(Input.GetMouseButton(0))
+        if(Input.GetMouseButton(0) && leftHand)
         {
             //if(ammo - 1 >= 0)
             //{
                 getshoot(damage);
             //}
         }
-        if(Input.GetMouseButton(1))
+        if(Input.GetMouseButton(1) && !leftHand)
         {
             //if(ammo - 1 >= 0)
             //{
-                getshoot2(damage2);
+            Debug.Log("rightshoot");
+                getshoot(damage);
             //}
         }
         if(Input.GetKeyDown("r")) {
@@ -143,16 +145,17 @@ public class Gun : MonoBehaviour
         pdirection.y = mousePos.x - center.position.y;
         pangle = Mathf.Atan2(pdirection.y, pdirection.x)*Mathf.Rad2Deg;
 
+        transform.position = hand.position;
         
         transform.rotation = Quaternion.Euler(0f, 0f, angle);;
         if(pangle > 90 || pangle < -90)
         {
-            transform.position = leftHand.position;
+            //transform.position = leftHand.position;
             playerSprite.flipX = true;
         }
         else if (pangle <=90 || pangle >= -90)
         {
-            transform.position = rightHand.position;
+            //transform.position = rightHand.position;
             playerSprite.flipX = false;
         }
     }
@@ -179,7 +182,7 @@ public class Gun : MonoBehaviour
     void getshoot(float d)
     {
         
-            if(shooting == 1 || !player.rightArmEquipped) {return;}
+            if(shooting == 1) {return;}
             
             //gunanimator.Play("GunFire");
             //aud.Play();
@@ -190,38 +193,9 @@ public class Gun : MonoBehaviour
         
     }
 
-    public void shootProjectile2(GameObject bulletPrefab, float d)
-    {
-        //player.basic.Play();
-        for(float x = 0-(((float)projectiles2/2)-0.5f); x <= (((float)projectiles2)/2-0.5f)+0.1f; x+= 1)
-            {
-                Quaternion q = Quaternion.Euler(transform.rotation.x, transform.rotation.y, transform.rotation.z+(x*(spread2)));
-                GameObject bullet = Instantiate(bulletPrefab, shootPoint.position, shootPoint.rotation * q);
-                
-                bullet.GetComponent<Bullet>().bulletSpeed += bulletSpeed2;
 
-                float temp = d / (1 + 0.3f * (projectiles2 - 1));
 
-                
-                bullet.GetComponent<Bullet>().damage += temp;
-                bullet.GetComponent<Bullet>().StartCoroutine(bullet.GetComponent<Bullet>().bulletDestroy(destroy2));
-                
-            }
-    }
 
-    void getshoot2(float d)
-    {
-        
-            if(shooting2 == 1 || !player.leftArmEquipped) {return;}
-            
-            //gunanimator.Play("GunFire");
-            //aud.Play();
-            //Debug.Log("shot2");
-            shootProjectile(bulletPrefab2, d);
-                
-            shootroutine2 = this.StartCoroutine(FireRateRoutine2());
-        
-    }
 
     IEnumerator FireRateRoutine()
     {
@@ -233,13 +207,5 @@ public class Gun : MonoBehaviour
         } 
     }
 
-    IEnumerator FireRateRoutine2()
-    {
-        if(shooting2 == 0)
-        {
-            shooting2 = 1;
-            yield return new WaitForSeconds(defatkspd2/attackSpeed);
-            shooting2 = 0;
-        } 
-    }
+
 }

@@ -20,6 +20,8 @@ public class Bullet : MonoBehaviour
     public float spread;
     public float destroy;
 
+    public bool straight = true;
+
     void Start()
     {
         
@@ -38,7 +40,11 @@ public class Bullet : MonoBehaviour
 
     void Update()
     {
-        rb.linearVelocity = transform.up * bulletSpeed;
+        if (straight)
+        {
+            
+            rb.linearVelocity = transform.up * bulletSpeed;
+        }
     }
 
     void OnCollisionEnter2D(Collision2D collision)

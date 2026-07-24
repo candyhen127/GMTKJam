@@ -26,6 +26,7 @@ public class Part : ScriptableObject
     public int projectiles;
     public float bulletSpeed;
     public float attackSpeed;
+    public float destroy;
 
     [Header("Body")]
     public float defense;     

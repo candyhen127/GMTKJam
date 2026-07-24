@@ -10,18 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 216e217ed02181e42a42abb96e914b56, type: 3}
-  m_Name: TestPart
+  m_Name: DefaultArm
   m_EditorClassIdentifier: 
-  name: HeadTest
-  bodypart: head
-  icon: {fileID: 0}
-  battery: 50
-  moveSpeed: 2
-  jumpHeight: 1
-  playerBattery: 60
-  damage: 10
+  name: Basic Arm
+  bodypart: arm
+  icon: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
+  battery: 8
+  moveSpeed: 0
+  jumpHeight: 0
+  playerBattery: 0
+  damage: 5
   bulletPrefab: {fileID: 5810995078600289247, guid: a535fa1e42808254281935657a28dcd8, type: 3}
-  projectiles: 0
-  bulletSpeed: 2
-  attackSpeed: 0.5
+  projectiles: 1
+  bulletSpeed: 0
+  attackSpeed: 0
+  destroy: 3
   defense: 0
