@@ -34,7 +34,12 @@ public class GameManager : MonoBehaviour
     public Part leftLeg;
     public Part rightLeg;
 
-    public float baseMaxbattery;
+    public float baseHeadbattery;
+    public float baseLeftArmbattery;
+    public float baseRightArmbattery;
+    public float baseLeftLegbattery;
+    public float baseRightLegbattery;
+    
     public float baseMoveSpeed = 3;
     public float baseJumpHeight = 3;
     public float baseDefense = 1;

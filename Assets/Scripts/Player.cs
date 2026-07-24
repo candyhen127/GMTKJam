@@ -12,7 +12,11 @@ public class Player : MonoBehaviour
     public int level;
     //public float battery;
     //public float maxbattery = 100;
-    public float baseMaxbattery = 100;
+    public float baseHeadbattery;
+    public float baseLeftArmbattery;
+    public float baseRightArmbattery;
+    public float baseLeftLegbattery;
+    public float baseRightLegbattery;
     public float moveSpeed;
     public float baseMoveSpeed = 3;
     public float jumpHeight;
@@ -97,12 +101,7 @@ public class Player : MonoBehaviour
     void Start()
     {
         //maxbattery = baseMaxbattery + head.playerBattery;
-        headSprite.GetComponent<SpriteRenderer>().sprite = head.icon;
-
-        baseMaxbattery = GameManager.Instance.baseMaxbattery;
-        baseJumpHeight = GameManager.Instance.baseJumpHeight;
-        baseMoveSpeed = GameManager.Instance.baseMoveSpeed;
-        baseDefense = GameManager.Instance.baseDefense;
+        
 
         head = GameManager.Instance.head;
         leftArm = GameManager.Instance.leftArm;
@@ -110,12 +109,21 @@ public class Player : MonoBehaviour
         leftLeg = GameManager.Instance.leftLeg;
         rightLeg = GameManager.Instance.rightLeg;
 
+        headSprite.GetComponent<SpriteRenderer>().sprite = head.icon;
+
+        //baseMaxbattery = GameManager.Instance.baseMaxbattery;
+        defense = GameManager.Instance.baseDefense + head.defense;
+
+        baseJumpHeight = GameManager.Instance.baseJumpHeight;
+        baseMoveSpeed = GameManager.Instance.baseMoveSpeed;
+        baseDefense = GameManager.Instance.baseDefense;
+
         //battery = maxbattery;
-        headBattery = baseMaxbattery + head.battery;
-        leftArmBattery = baseMaxbattery + leftArm.battery;
-        rightArmBattery = baseMaxbattery + rightArm.battery;
-        leftLegBattery = baseMaxbattery + leftLeg.battery;
-        rightLegBattery = baseMaxbattery + rightLeg.battery;
+        headBattery = baseHeadbattery + head.battery + head.playerBattery;
+        leftArmBattery = baseLeftArmbattery + leftArm.battery + head.playerBattery;
+        rightArmBattery = baseRightArmbattery + rightArm.battery + head.playerBattery;
+        leftLegBattery = baseLeftLegbattery + leftLeg.battery + head.playerBattery;
+        rightLegBattery = baseRightLegbattery + rightLeg.battery + head.playerBattery;
 
         moveSpeed = baseMoveSpeed + leftLeg.moveSpeed + rightLeg.moveSpeed;
         jumpHeight = baseJumpHeight + leftLeg.jumpHeight + rightLeg.jumpHeight;
@@ -356,6 +364,7 @@ public class Player : MonoBehaviour
             jumpHeight -= leftLeg.jumpHeight;
             movement.moveSpeed = moveSpeed;
             movement.jumpHeight = jumpHeight;
+            
             leftLegEquipped = false;
             icon = leftLeg.icon;
             d = leftLeg.battery;
@@ -367,6 +376,7 @@ public class Player : MonoBehaviour
             jumpHeight -= rightLeg.jumpHeight;
             movement.moveSpeed = moveSpeed;
             movement.jumpHeight = jumpHeight;
+            
             rightLegEquipped = false;
             icon = rightLeg.icon;
             d = rightLeg.battery;
@@ -376,6 +386,8 @@ public class Player : MonoBehaviour
         {
             movement.groundCheck = groundCheck2;
         }
+
+        movement.calcJumpForce();
 
         GameObject bullet = Instantiate(dumpedPart, transform.position, leftGun.shootPoint.rotation);
         bullet.GetComponent<SpriteRenderer>().sprite = icon;

@@ -23,6 +23,8 @@ public class Bullet : MonoBehaviour
 
     public bool straight = true;
 
+    public bool isEnemy;
+
     void Start()
     {
         
@@ -59,7 +61,7 @@ public class Bullet : MonoBehaviour
             if(explosionprefab != null)
             {
                 
-                if(collision.gameObject.tag == "Enemy" || collision.gameObject.tag == "Destructible" || collision.gameObject.tag == "Bullet")
+                if(collision.gameObject.tag == "Enemy" || collision.gameObject.tag == "Destructible" || collision.gameObject.tag == "Player")
                 {
                     if(pierce == 0)
                     {
@@ -71,18 +73,18 @@ public class Bullet : MonoBehaviour
                         pierced.Add(collision.gameObject);
                         pierce--;
                         Enemy e = collision.gameObject.GetComponent<Enemy>();
+                        Player p = collision.gameObject.GetComponent<Player>();
                         //Boss b = collision.gameObject.GetComponent<Boss>();
                         
                         if(e != null)
                         {
                             e.TakeDamage(damage/3);
-                            if (fireDamage != 0) {
-                                e.burnMethod(fireDamage);
-                            }
-                            if (freeze)
-                            {
-                                e.Freeze();
-                            }
+                            
+                        }
+                        if(p != null)
+                        {
+                            p.TakeDamage(damage/3);
+                            
                         }/*
                         else if(b != null)
                         {
@@ -103,8 +105,19 @@ public class Bullet : MonoBehaviour
                 }
                 
             }
+
+            else if(collision.gameObject.tag == "Player" && isEnemy)
+        {
             
-            else if(collision.gameObject.tag == "Enemy")
+                        Player p = collision.gameObject.GetComponent<Player>();
+            if(p != null)
+                        {
+                            p.TakeDamage(damage/3);
+                            
+                        }
+        }
+            
+            else if(collision.gameObject.tag == "Enemy" && !isEnemy)
             {
                 Enemy e = collision.gameObject.GetComponent<Enemy>();
                 //Boss b = collision.gameObject.GetComponent<Boss>();
@@ -112,13 +125,7 @@ public class Bullet : MonoBehaviour
                 if(e != null)
                 {
                     e.TakeDamage(damage);
-                    if (fireDamage != 0) {
-                        e.burnMethod(fireDamage);
-                    }
-                    if (freeze)
-                    {
-                        e.Freeze();
-                    }
+                    
                 }/*
                 else if(b != null)
                 {

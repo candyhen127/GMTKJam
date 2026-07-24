@@ -3645,8 +3645,8 @@ MonoBehaviour:
   won: 0
   head: {fileID: 11400000, guid: 16569a1c4f95cc24db68f9971e94433c, type: 2}
   leftArm: {fileID: 11400000, guid: beed5473d5d300042aa48e649926d1ab, type: 2}
-  rightArm: {fileID: 11400000, guid: beed5473d5d300042aa48e649926d1ab, type: 2}
-  leftLeg: {fileID: 11400000, guid: 0a341d10e66d3594389e302ab7d36ec9, type: 2}
+  rightArm: {fileID: 11400000, guid: ff2ce4889a08afe48b85665b3ba8a5d0, type: 2}
+  leftLeg: {fileID: 11400000, guid: d4e5aa2043734274f96db9ce9fa69315, type: 2}
   rightLeg: {fileID: 11400000, guid: 0a341d10e66d3594389e302ab7d36ec9, type: 2}
   baseMaxbattery: 0
   baseMoveSpeed: 3

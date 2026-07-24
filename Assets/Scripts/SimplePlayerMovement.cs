@@ -32,17 +32,25 @@ public class SimplePlayerMovement : MonoBehaviour {
     public float wallCheckDistance = 0.5f;
     private bool touchingWall;
 
-
+        float gravity;
     // Awake is called first regardless of if the script is enabled, before Start
     void Start() {
         rb = GetComponent<Rigidbody2D>();
+        gravity = Mathf.Abs(Physics2D.gravity.y * rb.gravityScale);
 
-        float gravity = Mathf.Abs(Physics2D.gravity.y * rb.gravityScale);
+        
+        calcJumpForce();
+    }
+
+    public void calcJumpForce()
+    {
+        
         jumpForce = Mathf.Sqrt(2 * gravity * jumpHeight); // v = sqrt(2gh)
     }
 
     void Update() {
         move = Input.GetAxisRaw("Horizontal");
+        calcJumpForce();
         // (point, radius, layer)
         isGrounded = (Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer) 
                         || Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, blobLayer));

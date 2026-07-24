@@ -161,7 +161,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   player: {fileID: 0}
   rb: {fileID: 8225090500598017850}
-  force: 10
+  force: 15
 --- !u!58 &3100336119919388501
 CircleCollider2D:
   m_ObjectHideFlags: 0

@@ -16,6 +16,27 @@ public class Enemy : MonoBehaviour
     public Animator animator;
     new public SpriteRenderer renderer;
 
+    public float jumpForce;
+    public Transform groundCheck;
+    public float groundCheckRadius = 0.25f;
+    public LayerMask groundLayer;
+    public bool isGrounded;
+    public bool shouldJump;
+    public float facingDirection;
+
+    public GameObject bulletPrefab;
+    public int projectiles = 1;
+    public int destroy = 3;
+    public Transform leftshootPoint;
+    public Transform rightshootPoint;
+    public Coroutine shootroutine;
+
+    
+    public float defatkspd = 1f;
+    public int shots = 3;
+    public int shotcount = 0;
+    public int shooting = 0;
+
     public bool willexplode = false;
     public bool willexplode2;
     public bool dead;
@@ -27,9 +48,6 @@ public class Enemy : MonoBehaviour
     public List<Part> parts;
 
 
-    public float burndamage = 0;
-    public Coroutine burnroutine;
-    public bool frozen;
     public Coroutine deathroutine;
 
     public TextMeshProUGUI damagenum;
@@ -56,8 +74,10 @@ public class Enemy : MonoBehaviour
         {
             Die();
         }
+
+        getshoot(damage);
         //don't allow input when paused
-        if(MenuScript.Instance.paused == true || frozen){
+        if(MenuScript.Instance.paused == true){
             //gameObject.GetComponent<AIPath>().maxSpeed = 0;
             //GetComponent<Animator>().speed = 0;
             rb.mass = 2;
@@ -84,6 +104,38 @@ public class Enemy : MonoBehaviour
                 
             }
         }
+
+
+        //isGrounded = Physics2D.Raycast(transform.position, Vector2.down, 1f, groundLayer);
+        isGrounded = (Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer));
+
+        float direction = Mathf.Sign(player.transform.position.x - transform.position.x);
+facingDirection = direction;
+        //Debug.Log(direction);
+        bool isPlayerAbove = Physics2D.Raycast(transform.position, Vector2.up, 3f, 1 << player.gameObject.layer);
+        if (isGrounded)
+        {
+            rb.linearVelocity = new Vector2(direction * moveSpeed, rb.linearVelocityY);
+Vector3 rayOrigin = groundCheck.position + Vector3.up * 0.1f; // slightly above feet, avoids self-clipping
+
+Debug.DrawRay(rayOrigin, new Vector2(direction, 0), Color.red);
+Debug.DrawRay(rayOrigin + new Vector3(direction * 1.5f, 0, 0),  Vector2.down, Color.blue);
+Debug.DrawRay(rayOrigin, Vector2.up, Color.green);
+
+RaycastHit2D groundInFront = Physics2D.Raycast(rayOrigin, new Vector2(direction, 0), 4f, groundLayer);
+RaycastHit2D gapAhead = Physics2D.Raycast(rayOrigin + new Vector3(direction * 1.5f, 0, 0), Vector2.down, 2f, groundLayer);
+RaycastHit2D platformAbove = Physics2D.Raycast(rayOrigin, Vector2.up, 3f, groundLayer);
+
+            if (groundInFront.collider || !gapAhead.collider)
+            {
+                //Debug.Log("shouldjump");
+                shouldJump = true;
+            }
+            else if (isPlayerAbove && platformAbove.collider)
+            {
+                shouldJump = true;
+            }
+        }
         
         
     }
@@ -100,6 +152,73 @@ public class Enemy : MonoBehaviour
         {
             renderer.flipX = true;
         }
+
+        if (isGrounded && shouldJump)
+        {
+            shouldJump = false;
+            Vector2 jumpDirection = new Vector2(facingDirection, jumpForce);
+            rb.AddForce(jumpDirection, ForceMode2D.Impulse);
+        }
+    }
+
+    public void shootProjectile()
+    {
+        Transform shootPoint;
+        if (transform.position.x > player.transform.position.x)
+        {
+            shootPoint = rightshootPoint;
+        } else
+        {
+            shootPoint = leftshootPoint;
+        }
+        for(float x = 0-(((float)projectiles/2)-0.5f); x <= (((float)projectiles)/2-0.5f)+0.1f; x+= 1)
+            {
+                Quaternion q = Quaternion.Euler(transform.rotation.x, transform.rotation.y, transform.rotation.z+(x*(15)));
+                GameObject bullet = Instantiate(bulletPrefab, shootPoint.position, shootPoint.rotation * q);
+                
+                //bullet.GetComponent<Bullet>().bulletSpeed += bulletSpeed;
+
+                ///float temp = d / (1 + 0.3f * (projectiles - 1));
+
+                
+                //bullet.GetComponent<Bullet>().damage += temp;
+                bullet.GetComponent<Bullet>().StartCoroutine(bullet.GetComponent<Bullet>().bulletDestroy(destroy));
+                
+            }
+    }
+
+    void getshoot(float d)
+    {
+        
+            if(shooting == 1) {return;}
+            
+            //gunanimator.Play("GunFire");
+            //aud.Play();
+            //Debug.Log("shot");
+            shootProjectile();
+                shotcount ++;
+                if (shotcount == shots)
+                {
+                    shotcount = 0;
+            
+                    shootroutine = this.StartCoroutine(FireRateRoutine(defatkspd));
+                } else
+                {
+            
+                    shootroutine = this.StartCoroutine(FireRateRoutine(0.2f));
+                }
+        
+    }
+
+
+    IEnumerator FireRateRoutine(float sec)
+    {
+        if(shooting == 0)
+        {
+            shooting = 1;
+            yield return new WaitForSeconds(sec);
+            shooting = 0;
+        } 
     }
 
     public virtual void Die()
@@ -209,61 +328,5 @@ public class Enemy : MonoBehaviour
 
     }
 
-    public void Freeze()
-    {
-        if (frozen) {return;}
-        float duration = 2f;
-        StartCoroutine(FreezeRoutine(duration));
-    }
-
-    private IEnumerator FreezeRoutine(float duration)
-    {
-        
-        SpriteRenderer renderer = GetComponent<SpriteRenderer>();
-        
-        renderer.color = new Color(0.625f, 1, 1, renderer.color.a);
-        frozen = true;
-        
-        // Wait out the stun duration
-        yield return new WaitForSeconds(duration);
-
-
-        renderer.color = new Color(1, 1, 1, renderer.color.a);
-        frozen = false;
-        
-
-    }
-
-    public void burnMethod(float burndamage1) {
-        burndamage += burndamage1;
-        if(burnroutine == null)
-        {
-            burnroutine = StartCoroutine(burn(burndamage, 5));
-        }
-    }
     
-
-    public IEnumerator burn(float damage, int stacks)
-    {
-        burndamage = damage;
-        int i = 0;
-        
-        while(i <= stacks-1)
-        {
-            renderer.color = new Color32(255, 76, 76, 255);
-            yield return new WaitForSeconds(1f);
-            
-            TakeDamage(burndamage);
-
-            renderer.color = new Color32(255, 0, 0, 255);
-            yield return new WaitForSeconds(0.1f);
-            renderer.color = new Color32(255, 76, 76, 255);
-            i++;
-        }
-        renderer.color = new Color32(255, 255, 255, 255);
-        burndamage = 0;
-        StopCoroutine(burnroutine);
-        burnroutine = null;
-        yield break;
-    }
 }

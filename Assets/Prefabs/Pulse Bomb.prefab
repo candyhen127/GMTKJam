@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8225090500598017850}
   - component: {fileID: 616350738755531756}
   m_Layer: 8
-  m_Name: Bullet
+  m_Name: Pulse Bomb
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 3.4826918, y: -2.5987337, z: 0}
-  m_LocalScale: {x: 0.4, y: 0.4, z: 1}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -103,11 +103,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 10
-  bulletSpeed: 8
+  bulletSpeed: 2
   pierce: 0
   bounce: 0
-  explosionprefab: {fileID: 0}
-  pulse: 0
+  explosionprefab: {fileID: 414880199326062256, guid: 8abdd389343eede479e4dfd9ca2d0f6c, type: 3}
+  pulse: 0.1
   pierced: []
   dontDestroy: 0
   bonusOnBounce: 0
@@ -117,7 +117,6 @@ MonoBehaviour:
   destroy: 0
   spinForce: 0
   straight: 1
-  isEnemy: 0
 --- !u!50 &8225090500598017850
 Rigidbody2D:
   serializedVersion: 5
@@ -133,7 +132,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 0
+  m_GravityScale: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -161,7 +160,7 @@ CircleCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1024
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2

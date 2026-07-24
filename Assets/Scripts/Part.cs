@@ -21,6 +21,7 @@ public class Part : ScriptableObject
     
     [Header("Head")]
     public float playerBattery;
+    public float defense;     
     
     [Header("Arm")]
     public float damage;
@@ -30,6 +31,4 @@ public class Part : ScriptableObject
     public float attackSpeed;
     public float destroy;
 
-    [Header("Body")]
-    public float defense;     
 }
