@@ -10,6 +10,7 @@ public class MenuScript : MonoBehaviour
     public bool paused;
     public bool truepaused;
     
+    
     public GameObject gameOverScreen;
     public GameObject pauseScreen;
 

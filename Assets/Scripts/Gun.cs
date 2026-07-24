@@ -80,7 +80,7 @@ public class Gun : MonoBehaviour
             damage = baseDamage + player.leftArm.damage;
             projectiles = baseProjectiles + player.leftArm.projectiles;
             bulletSpeed = baseBulletSpeed + player.leftArm.bulletSpeed;
-            defatkspd = baseAttackSpeed + player.leftArm.attackSpeed;
+            attackSpeed = baseAttackSpeed + player.leftArm.attackSpeed;
             bulletPrefab = player.leftArm.bulletPrefab;
             destroy = player.leftArm.destroy;
 
@@ -95,7 +95,7 @@ public class Gun : MonoBehaviour
             damage = baseDamage + player.rightArm.damage;
             projectiles = baseProjectiles + player.rightArm.projectiles;
             bulletSpeed = baseBulletSpeed + player.rightArm.bulletSpeed;
-            defatkspd = baseAttackSpeed + player.rightArm.attackSpeed;
+            attackSpeed = baseAttackSpeed + player.rightArm.attackSpeed;
             bulletPrefab = player.rightArm.bulletPrefab;
             destroy = player.rightArm.destroy;
 

@@ -14,14 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: HeadTest
   bodypart: head
-  icon: {fileID: 0}
-  battery: 50
+  icon: {fileID: -2413806693520163455, guid: ebe73ca9363db456bacf42c025bb4847, type: 3}
+  numCollected: 0
+  battery: 100
   moveSpeed: 2
   jumpHeight: 1
-  playerBattery: 60
+  playerBattery: 100
+  defense: 0
   damage: 10
   bulletPrefab: {fileID: 5810995078600289247, guid: a535fa1e42808254281935657a28dcd8, type: 3}
   projectiles: 0
   bulletSpeed: 2
   attackSpeed: 0.5
-  defense: 0
+  destroy: 0

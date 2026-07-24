@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
     public Player player;
     //public TextMeshProUGUI timer;
 
-    public float globalScrap;
+    public int globalScrap;
     public List<Part> allParts;
 
 

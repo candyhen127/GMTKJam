@@ -24,6 +24,8 @@ public class Enemy : MonoBehaviour
     public bool shouldJump;
     public float facingDirection;
 
+    public bool isFlying;
+
     public GameObject bulletPrefab;
     public int projectiles = 1;
     public int destroy = 3;
@@ -111,11 +113,21 @@ public class Enemy : MonoBehaviour
 
         float direction = Mathf.Sign(player.transform.position.x - transform.position.x);
 facingDirection = direction;
+
+            rb.linearVelocity = new Vector2(direction * moveSpeed, rb.linearVelocityY);
         //Debug.Log(direction);
         bool isPlayerAbove = Physics2D.Raycast(transform.position, Vector2.up, 3f, 1 << player.gameObject.layer);
+
+        if (isFlying)
+        {
+            
+            float Ydirection = Mathf.Sign(player.transform.position.y - groundCheck.position.y);
+            rb.linearVelocity = new Vector2(direction * moveSpeed, Ydirection * moveSpeed);
+            return;
+        }
         if (isGrounded)
         {
-            rb.linearVelocity = new Vector2(direction * moveSpeed, rb.linearVelocityY);
+            
 Vector3 rayOrigin = groundCheck.position + Vector3.up * 0.1f; // slightly above feet, avoids self-clipping
 
 Debug.DrawRay(rayOrigin, new Vector2(direction, 0), Color.red);
@@ -176,12 +188,12 @@ RaycastHit2D platformAbove = Physics2D.Raycast(rayOrigin, Vector2.up, 3f, ground
                 Quaternion q = Quaternion.Euler(transform.rotation.x, transform.rotation.y, transform.rotation.z+(x*(15)));
                 GameObject bullet = Instantiate(bulletPrefab, shootPoint.position, shootPoint.rotation * q);
                 
-                //bullet.GetComponent<Bullet>().bulletSpeed += bulletSpeed;
+                //bullet.GetComponent<Bullet>().bulletSpeed = bulletSpeed;
 
                 ///float temp = d / (1 + 0.3f * (projectiles - 1));
 
                 
-                //bullet.GetComponent<Bullet>().damage += temp;
+                bullet.GetComponent<Bullet>().damage = damage;
                 bullet.GetComponent<Bullet>().StartCoroutine(bullet.GetComponent<Bullet>().bulletDestroy(destroy));
                 
             }
@@ -288,10 +300,7 @@ RaycastHit2D platformAbove = Physics2D.Raycast(rayOrigin, Vector2.up, 3f, ground
         //Debug.Log("hit");
         if (!MenuScript.Instance.truepaused)
         {
-        //TextMeshProUGUI x = Instantiate(damagenum, canvas.transform, false);
-        //x.transform.position = Camera.main.WorldToScreenPoint(gameObject.transform.position);
-        //x.gameObject.GetComponent<damageNum>().dnum = damage;
-        //x.gameObject.GetComponent<damageNum>().crit = crit;
+        spawnDamageNum(damage, false);
         }
         health -= damage;  
         StartCoroutine(FlashRoutine(0.25f));
@@ -307,10 +316,17 @@ RaycastHit2D platformAbove = Physics2D.Raycast(rayOrigin, Vector2.up, 3f, ground
             health = maxHealth;
         }
 
-        //TextMeshProUGUI x = Instantiate(damagenum, canvas.transform, false);
-        //x.transform.position = Camera.main.WorldToScreenPoint(gameObject.transform.position);
-        //x.gameObject.GetComponent<damageNum>().dnum = h;
-        //x.gameObject.GetComponent<damageNum>().heal = true;
+        spawnDamageNum(damage, true);
+    }
+
+    public void spawnDamageNum(float damage, bool heal)
+    {
+        TextMeshProUGUI x = Instantiate(damagenum, canvas.transform, false);
+        Vector3 pos = new Vector3(gameObject.transform.position.x + UnityEngine.Random.Range(-1f, 1f) ,gameObject.transform.position.y + 0.5f, gameObject.transform.position.z);
+        x.transform.position = Camera.main.WorldToScreenPoint(pos);
+        x.gameObject.GetComponent<damagenum>().dnum = damage;
+        x.gameObject.GetComponent<damagenum>().heal = heal;
+        
     }
 
     private IEnumerator FlashRoutine(float duration)

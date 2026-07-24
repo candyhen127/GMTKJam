@@ -112,9 +112,13 @@ public class Bullet : MonoBehaviour
                         Player p = collision.gameObject.GetComponent<Player>();
             if(p != null)
                         {
-                            p.TakeDamage(damage/3);
+                            p.TakeDamage(damage);
                             
                         }
+                        if(pierce == 0)
+                {
+                    Destroy(this.gameObject);
+                }
         }
             
             else if(collision.gameObject.tag == "Enemy" && !isEnemy)

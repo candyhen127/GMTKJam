@@ -277,7 +277,7 @@ public class Player : MonoBehaviour
 
         if (collision.gameObject.tag == "Enemy" && !invince){
             Enemy e = collision.gameObject.GetComponent<Enemy>();
-            TakeDamage(e.damage);
+            //TakeDamage(e.damage);
 
             Vector2 direction = rb.position - e.rb.position;
 
@@ -319,9 +319,13 @@ public class Player : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        //spawnDamageNum(damage, false);
+        
+        //Debug.Log(damage);
         //damaged.Play();
         damage = damage / (1 + 0.1f * defense);
+        //damage /= 10;
+        //Debug.Log(damage);
+        spawnDamageNum(damage + 1, false);
 
         headBattery -= damage;
         //bodyBattery -= damage;
@@ -329,6 +333,9 @@ public class Player : MonoBehaviour
         rightArmBattery -= damage;
         leftLegBattery -= damage;
         rightLegBattery -= damage;
+
+        //StartCoroutine(KnockbackRoutine(direction, 0.2f));
+            StartCoroutine(InvinceRoutine(invinceTime));
         
     }
 
@@ -397,7 +404,7 @@ public class Player : MonoBehaviour
 /*
     public void PlayerHeal(float damage)
     {
-        //spawnDamageNum(damage, true);
+        spawnDamageNum(damage, true);
         
         battery += damage;
         if (battery > maxbattery)
@@ -406,15 +413,17 @@ public class Player : MonoBehaviour
         }
     }
 
-    
+    */
     public void spawnDamageNum(float damage, bool heal)
     {
         TextMeshProUGUI x = Instantiate(damagenum, canvas.transform, false);
-        x.transform.position = Camera.main.WorldToScreenPoint(gameObject.transform.position);
-        x.gameObject.GetComponent<damageNum>().dnum = damage;
-        x.gameObject.GetComponent<damageNum>().heal = heal;
+        Vector3 pos = new Vector3(gameObject.transform.position.x + UnityEngine.Random.Range(-1f, 1f) ,gameObject.transform.position.y + 0.5f, gameObject.transform.position.z);
+        x.transform.position = Camera.main.WorldToScreenPoint(pos);
+        x.gameObject.GetComponent<damagenum>().dnum = damage;
+        x.gameObject.GetComponent<damagenum>().heal = heal;
+        
     }
-    */
+    
 
 
     public void UpdateScrapCount()
