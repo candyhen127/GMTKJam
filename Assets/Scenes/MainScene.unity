@@ -263,7 +263,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &19828043
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2778,7 +2778,6 @@ MonoBehaviour:
   player: {fileID: 1955836723}
   paused: 0
   truepaused: 0
-  timer: {fileID: 19828044}
   timeleft: 600
   startTimeLeft: 600
   halftime: 300
@@ -3182,9 +3181,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   level: 0
-  battery: 0
-  maxbattery: 100
-  baseMaxbattery: 100
+  baseMaxbattery: 15
   moveSpeed: 0
   baseMoveSpeed: 3
   jumpHeight: 0
@@ -3223,6 +3220,8 @@ MonoBehaviour:
   groundCheck2: {fileID: 1395988129}
   dumpedPart: {fileID: 5810995078600289247, guid: aac7585d8e71f014fb03e7ba3bdee7db, type: 3}
   dumpForce: 8
+  redtint: {r: 1, g: 0.6392157, b: 0.6392157, a: 1}
+  redtime: 3
   rb: {fileID: 1955836722}
   collider2d: {fileID: 1955836721}
   animator: {fileID: 0}

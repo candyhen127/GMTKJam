@@ -10,8 +10,8 @@ public class Player : MonoBehaviour
 {
     [Header("Stats")]
     public int level;
-    public float battery;
-    public float maxbattery = 100;
+    //public float battery;
+    //public float maxbattery = 100;
     public float baseMaxbattery = 100;
     public float moveSpeed;
     public float baseMoveSpeed = 3;
@@ -97,15 +97,15 @@ public class Player : MonoBehaviour
     void Start()
     {
         level = 1;
-        maxbattery = baseMaxbattery + head.playerBattery;
+        //maxbattery = baseMaxbattery + head.playerBattery;
         headSprite.GetComponent<SpriteRenderer>().sprite = head.icon;
 
-        battery = maxbattery;
-        headBattery = head.battery;
-        leftArmBattery = leftArm.battery;
-        rightArmBattery = rightArm.battery;
-        leftLegBattery = leftLeg.battery;
-        rightLegBattery = rightLeg.battery;
+        //battery = maxbattery;
+        headBattery = baseMaxbattery + head.battery;
+        leftArmBattery = baseMaxbattery + leftArm.battery;
+        rightArmBattery = baseMaxbattery + rightArm.battery;
+        leftLegBattery = baseMaxbattery + leftLeg.battery;
+        rightLegBattery = baseMaxbattery + rightLeg.battery;
 
         moveSpeed = baseMoveSpeed + leftLeg.moveSpeed + rightLeg.moveSpeed;
         jumpHeight = baseJumpHeight + leftLeg.jumpHeight + rightLeg.jumpHeight;
@@ -152,7 +152,7 @@ public class Player : MonoBehaviour
             return;
         }
 
-        battery -= Time.deltaTime;
+        //battery -= Time.deltaTime;
         headBattery -= Time.deltaTime;
         leftArmBattery -= Time.deltaTime;
         rightArmBattery -= Time.deltaTime;
@@ -235,11 +235,11 @@ public class Player : MonoBehaviour
             }
         }
 
-        headTimer.text = headBattery.ToString("F2");
-        leftArmTimer.text = leftArmBattery.ToString("F2");
-        rightArmTimer.text = rightArmBattery.ToString("F2");
-        leftLegTimer.text = leftLegBattery.ToString("F2");
-        rightLegTimer.text = rightLegBattery.ToString("F2");
+        headTimer.text = TimeSpan.FromSeconds(headBattery).ToString(@"mm\:ss\:ff");
+        leftArmTimer.text = TimeSpan.FromSeconds(leftArmBattery).ToString(@"mm\:ss\:ff");
+        rightArmTimer.text = TimeSpan.FromSeconds(rightArmBattery).ToString(@"mm\:ss\:ff");
+        leftLegTimer.text = TimeSpan.FromSeconds(leftLegBattery).ToString(@"mm\:ss\:ff");
+        rightLegTimer.text = TimeSpan.FromSeconds(rightLegBattery).ToString(@"mm\:ss\:ff");
     }
 
     
@@ -313,7 +313,7 @@ public class Player : MonoBehaviour
         float d = 0;
         if (p == "head")
         {
-            battery -= head.battery;
+            //battery -= head.battery;
             headEquipped = false;
             icon = head.icon;
             d = head.battery;
@@ -365,7 +365,7 @@ public class Player : MonoBehaviour
         bullet.GetComponent<Bullet>().damage = d;
         bullet.GetComponent<Rigidbody2D>().linearVelocity = leftGun.shootPoint.up * dumpForce;
     }
-
+/*
     public void PlayerHeal(float damage)
     {
         //spawnDamageNum(damage, true);
@@ -377,7 +377,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    /*
+    
     public void spawnDamageNum(float damage, bool heal)
     {
         TextMeshProUGUI x = Instantiate(damagenum, canvas.transform, false);

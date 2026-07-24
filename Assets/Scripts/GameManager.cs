@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
     public Player player;
     public bool paused;
     public bool truepaused;
-    public TextMeshProUGUI timer;
+    //public TextMeshProUGUI timer;
 
     public float timeleft = 600;
     public float startTimeLeft = 600;
@@ -63,7 +63,7 @@ public class GameManager : MonoBehaviour
     {
         //don't allow input when paused
         if(GameManager.Instance.paused == true){return;}
-        timeleft = player.battery;
+        //timeleft = player.battery;
         //spawntimer += Time.deltaTime;
         
         if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown("p"))
@@ -96,16 +96,16 @@ public class GameManager : MonoBehaviour
             secondstring = "0" + secondstring;
         }
 
-        timer.text = minutes +":" + secondstring;
+        //timer.text = minutes +":" + secondstring;
         
         if (timeleft < 60)
         {
-            timer.color = Color.red;
+            //timer.color = Color.red;
             
             //MenuManager.Instance.aud.pitch = Mathf.Lerp(1.01f, 1.3f, 60 - timeleft);;
         } else
         {
-            timer.color = Color.white;
+            //timer.color = Color.white;
             //MenuManager.Instance.aud.pitch = 1f;
         }
         
