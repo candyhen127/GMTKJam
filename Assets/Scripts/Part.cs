@@ -11,8 +11,6 @@ public class Part : ScriptableObject
 
     public Sprite icon;
 
-    public int numCollected;
-
     public float battery;
 
     [Header("Leg")]

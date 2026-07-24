@@ -115,7 +115,6 @@ MonoBehaviour:
   freeze: 0
   spread: 0
   destroy: 0
-  spinForce: 4
   straight: 0
 --- !u!50 &8225090500598017850
 Rigidbody2D:

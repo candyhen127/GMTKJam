@@ -66,17 +66,8 @@ public class Gun : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        //Start2();
-    }
-
-    public void Start2()
-    {
         if (leftHand)
         {
-            baseDamage = GameManager.Instance.leftbaseDamage;
-            baseAttackSpeed = GameManager.Instance.leftbaseAttackSpeed;
-            
-
             damage = baseDamage + player.leftArm.damage;
             projectiles = baseProjectiles + player.leftArm.projectiles;
             bulletSpeed = baseBulletSpeed + player.leftArm.bulletSpeed;
@@ -88,10 +79,6 @@ public class Gun : MonoBehaviour
 
         } else
         {
-            baseDamage = GameManager.Instance.rightbaseDamage;
-            baseAttackSpeed = GameManager.Instance.rightbaseAttackSpeed;
-
-
             damage = baseDamage + player.rightArm.damage;
             projectiles = baseProjectiles + player.rightArm.projectiles;
             bulletSpeed = baseBulletSpeed + player.rightArm.bulletSpeed;
@@ -102,6 +89,10 @@ public class Gun : MonoBehaviour
             sprite.sprite = player.rightArm.icon;
         }
         
+
+        
+        
+
         attackSpeed = 1;
     }
 
