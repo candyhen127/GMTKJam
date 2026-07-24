@@ -77,16 +77,18 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //don't allow input when paused
-        if(GameManager.Instance.paused == true){return;}
-        //timeleft = player.battery;
-        //spawntimer += Time.deltaTime;
-        
-        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown("p"))
+        // Allow ESC or P to toggle pause state
+        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.P))
         {
-            pauseGame();
+            if (truepaused)
+            {
+                ResumeGame();
+            }
+            else
+            {
+                pauseGame();
+            }
         }
-
     }
 
     void FixedUpdate()
@@ -116,7 +118,7 @@ public class GameManager : MonoBehaviour
         float batteryPercent = Mathf.Clamp((timeleft / startTimeLeft) * 100f, 0, 100);
         
         if (batteryText != null) 
-            batteryText.text = "battery " + (int)batteryPercent + "%";
+            batteryText.text = "battery: " + (int)batteryPercent + "%";
 
         if (player != null && depthTextUI != null)
         {
@@ -175,28 +177,37 @@ public class GameManager : MonoBehaviour
 
     public void pauseGame()
     {
-        if (truepaused)
-        {
-            pauseScreen.SetActive(false);
-            Time.timeScale = 1;
-            truepaused = false;
-        } else
-        {
-            pauseScreen.SetActive(true);
-            Time.timeScale = 0;
-            truepaused = true;
-        }
+        pauseScreen.SetActive(true);
+        Time.timeScale = 0f;
+        truepaused = true;
+        paused = true;
+    }
+
+    public void ResumeGame()
+    {
+        // 1. Hide UI screens
+        if (pauseScreen != null) pauseScreen.SetActive(false);
+        if (settingsPanel != null) settingsPanel.SetActive(false);
+
+        // 2. Reset time and state flags
+        Time.timeScale = 1f;
+        truepaused = false;
+        paused = false;
     }
     public void OpenSettings()
     {
         if (settingsPanel != null)
+        {
             settingsPanel.SetActive(true);
+        }
     }
 
     public void CloseSettings()
     {
         if (settingsPanel != null)
+        {
             settingsPanel.SetActive(false);
+        }
     }
 
     public void loseGame()
