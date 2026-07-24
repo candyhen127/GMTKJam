@@ -56,7 +56,7 @@ public class Enemy : MonoBehaviour
             Die();
         }
         //don't allow input when paused
-        if(GameManager.Instance.paused == true || frozen){
+        if(MenuScript.Instance.paused == true || frozen){
             //gameObject.GetComponent<AIPath>().maxSpeed = 0;
             //GetComponent<Animator>().speed = 0;
             rb.mass = 2;
@@ -126,7 +126,7 @@ public class Enemy : MonoBehaviour
 
             Instantiate(partDrop, transform.position, Quaternion.identity);
 
-        if (!GameManager.Instance.truepaused)
+        if (!MenuScript.Instance.truepaused)
         {
                 
         //hit.Play();
@@ -165,7 +165,7 @@ public class Enemy : MonoBehaviour
         bool crit = false;
         
         //Debug.Log("hit");
-        if (!GameManager.Instance.truepaused)
+        if (!MenuScript.Instance.truepaused)
         {
         //TextMeshProUGUI x = Instantiate(damagenum, canvas.transform, false);
         //x.transform.position = Camera.main.WorldToScreenPoint(gameObject.transform.position);
