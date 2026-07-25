@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class XPDrop : MonoBehaviour
+public class ScrapDrop : MonoBehaviour
 {
     public bool floating;
     

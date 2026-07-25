@@ -15,12 +15,13 @@ MonoBehaviour:
   name: Pulse Arm
   bodypart: arm
   icon: {fileID: -2413806693520163455, guid: ebe73ca9363db456bacf42c025bb4847, type: 3}
-  numCollected: 5
+  numCollected: 0
   battery: 8
   moveSpeed: 0
   jumpHeight: 0
   playerBattery: 0
   defense: 0
+  weaponName: Pulse Bomb
   damage: -5
   bulletPrefab: {fileID: 5810995078600289247, guid: e25ae79e4564b8a45980eaf0fb1dcd8a, type: 3}
   projectiles: 1

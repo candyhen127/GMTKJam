@@ -411,7 +411,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &137780927
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1125,7 +1125,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &259806592
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1730,7 +1730,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &475601200
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2440,7 +2440,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &703973121
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2974,11 +2974,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
-  m_ScreenMatchMode: 0
+  m_ReferenceResolution: {x: 1920, y: 1080}
+  m_ScreenMatchMode: 1
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
@@ -3437,7 +3437,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &831713770
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3909,11 +3909,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c640707643f53cc41bace2658580019b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  head: {fileID: 0}
-  leftArm: {fileID: 0}
-  rightArm: {fileID: 0}
-  leftLeg: {fileID: 0}
-  rightLeg: {fileID: 0}
+  head: {fileID: 11400000, guid: b259af73b6a30864eb992cf153680f16, type: 2}
+  leftArm: {fileID: 11400000, guid: b259af73b6a30864eb992cf153680f16, type: 2}
+  rightArm: {fileID: 11400000, guid: b259af73b6a30864eb992cf153680f16, type: 2}
+  leftLeg: {fileID: 11400000, guid: b259af73b6a30864eb992cf153680f16, type: 2}
+  rightLeg: {fileID: 11400000, guid: b259af73b6a30864eb992cf153680f16, type: 2}
   headLevel: 1
   leftArmLevel: 1
   rightArmLevel: 1
@@ -3930,6 +3930,7 @@ MonoBehaviour:
   rightArmLevelText: {fileID: 33213092}
   leftLegLevelText: {fileID: 992139455}
   rightLegLevelText: {fileID: 1643572653}
+  statsText: {fileID: 1530443232}
   baseHeadbattery: 0
   baseLeftArmbattery: 0
   baseRightArmbattery: 0

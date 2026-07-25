@@ -28,6 +28,7 @@ public TextMeshProUGUI scrapText;
     public TextMeshProUGUI rightArmLevelText;
     public TextMeshProUGUI leftLegLevelText;
     public TextMeshProUGUI rightLegLevelText;
+    public TextMeshProUGUI statsText;
 
     public float baseHeadbattery;
     public float baseLeftArmbattery;
@@ -307,25 +308,27 @@ public TextMeshProUGUI scrapText;
 
     public void setStatsReadout()
     {
-        String s = "Head \nCore Battery: " + head.playerBattery + 
+        String s = "Core Battery: " + head.playerBattery + 
                     "\nDefense: " + (baseDefense + head.defense) + 
                     "\nBattery: " + (baseHeadbattery + head.battery) + 
 
-                    "\n\n LeftArm\nWeapon: " + leftArm.weaponName +
+                    "\n\nWeapon: " + leftArm.weaponName +
                     "\nAttack Speed: " + (leftbaseAttackSpeed + leftArm.attackSpeed) +
                     "\nDamage: " + (leftbaseDamage + leftArm.damage) + 
                     "\nBattery: " + (baseLeftArmbattery + leftArm.battery) + 
                     
-                    "\n\n RightArm\nWeapon: " + rightArm.weaponName +
+                    "\n\nWeapon: " + rightArm.weaponName +
                     "\nAttack Speed: " + (rightbaseAttackSpeed + rightArm.attackSpeed) +
                     "\nDamage: " + (rightbaseDamage + rightArm.damage) + 
                     "\nBattery: " + (baseRightArmbattery + rightArm.battery) +
                     
-                    "\n\n Legs\nMoveSpeed: " + (baseMoveSpeed + leftLeg.moveSpeed + rightLeg.moveSpeed) + 
+                    "\n\nMoveSpeed: " + (baseMoveSpeed + leftLeg.moveSpeed + rightLeg.moveSpeed) + 
                     "\nJumpHeight: " + (baseJumpHeight + leftLeg.jumpHeight + rightLeg.jumpHeight) + 
                     "\nBattery (Left): " + (baseLeftLegbattery + leftLeg.battery) +
                     "\nBattery (Right): " + (baseRightLegbattery + rightLeg.battery);
 
-                    Debug.Log(s);
+                    //Debug.Log(s);
+
+                    statsText.text = s;
     }
 }

@@ -101,7 +101,7 @@ public class Enemy : MonoBehaviour
 
         getshoot(damage);
         //don't allow input when paused
-        if(MenuScript.Instance.paused == true){
+        if(GameManager.Instance.isPaused == true){
             //gameObject.GetComponent<AIPath>().maxSpeed = 0;
             //GetComponent<Animator>().speed = 0;
             rb.mass = 2;
@@ -342,7 +342,7 @@ RaycastHit2D platformAbove = Physics2D.Raycast(rayOrigin, Vector2.up, 3f, ground
 
             
 
-        if (!MenuScript.Instance.truepaused)
+        if (!GameManager.Instance.isPaused)
         {
                 
         //hit.Play();
@@ -381,7 +381,7 @@ RaycastHit2D platformAbove = Physics2D.Raycast(rayOrigin, Vector2.up, 3f, ground
         bool crit = false;
         
         //Debug.Log("hit");
-        if (!MenuScript.Instance.truepaused)
+        if (!GameManager.Instance.isPaused)
         {
         spawnDamageNum(damage, false);
         }

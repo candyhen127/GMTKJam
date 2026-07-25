@@ -15,12 +15,13 @@ MonoBehaviour:
   name: Basic Arm
   bodypart: arm
   icon: {fileID: -6708649069882705267, guid: 47b0c3b624da1d3418ba7ce2f5194bb3, type: 3}
-  numCollected: 5
+  numCollected: 10
   battery: 15
   moveSpeed: 0
   jumpHeight: 0
   playerBattery: 0
   defense: 0
+  weaponName: Blaster
   damage: 5
   bulletPrefab: {fileID: 5810995078600289247, guid: a535fa1e42808254281935657a28dcd8, type: 3}
   projectiles: 1
