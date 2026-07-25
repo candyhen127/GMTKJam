@@ -1,3 +1,4 @@
+using Microsoft.Unity.VisualStudio.Editor;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -11,18 +12,26 @@ public class DrapDropSpawner : MonoBehaviour, IBeginDragHandler, IDragHandler, I
     public Canvas canvas;
 
     public TextMeshProUGUI count;
+    public UnityEngine.UI.Image icon;
     
 
     void Start()
     {
         if (canvas == null)
             canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
+            icon.sprite = part.icon;
     }
 
     // Update is called once per frame
     void Update()
     {
         count.text = part.numCollected.ToString();
+        if (part.numCollected == 0 ){
+            icon.color = new Color(1, 1, 1, 0.2f);
+        } else
+        {
+            icon.color = new Color(1, 1, 1, 1f);
+        }
     }
 
     public void OnPointerDown(PointerEventData eventData)

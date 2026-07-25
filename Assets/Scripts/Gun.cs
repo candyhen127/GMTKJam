@@ -102,7 +102,7 @@ public class Gun : MonoBehaviour
             sprite.sprite = player.rightArm.icon;
         }
         
-        attackSpeed = 1;
+        //attackSpeed = 1;
     }
 
 

@@ -15,12 +15,13 @@ MonoBehaviour:
   name: AntiVirus Head
   bodypart: head
   icon: {fileID: 7482667652216324306, guid: 75f5f34dc1b5347e0b8351032682f224, type: 3}
-  numCollected: 5
+  numCollected: 0
   battery: 20
   moveSpeed: 0
   jumpHeight: 0
   playerBattery: 5
   defense: 20
+  weaponName: 
   damage: 0
   bulletPrefab: {fileID: 0}
   projectiles: 0

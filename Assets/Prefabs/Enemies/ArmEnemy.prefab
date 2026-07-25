@@ -200,8 +200,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   rb: {fileID: 6137292617216610152}
-  health: 100
-  maxHealth: 100
+  health: 80
+  maxHealth: 80
   damage: 5
   moveSpeed: 2
   animator: {fileID: 0}

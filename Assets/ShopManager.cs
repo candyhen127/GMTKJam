@@ -59,6 +59,23 @@ public TextMeshProUGUI scrapText;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        int armsum = 0;
+        int legsum = 0;
+        int headsum = 0;
+        foreach(Part p in GameManager.Instance.allArms) {
+            armsum += p.numCollected;
+        }
+        foreach(Part p in GameManager.Instance.allArms) {
+            legsum += p.numCollected;
+        }
+        foreach(Part p in GameManager.Instance.allArms) {
+            headsum += p.numCollected;
+        }
+        if (armsum < 2 || legsum < 2 || headsum < 1)
+        {
+            Debug.Log("Game Over");
+            MenuScript.Instance.TrueGameOver();
+        }
         //Set batterys
         baseHeadbattery = GameManager.Instance.baseHeadbattery;
         baseLeftArmbattery = GameManager.Instance.baseLeftArmbattery;
@@ -254,11 +271,11 @@ public TextMeshProUGUI scrapText;
             
         }
         
-            headLevelText.text = "Level " + headLevel + " (Cost: " + headCost + ")";
-            leftArmLevelText.text = "Level " + leftArmLevel + " (Cost: " + leftArmCost + ")";
-            rightArmLevelText.text = "Level " + rightArmLevel + " (Cost: " + rightArmCost + ")";
-            leftLegLevelText.text = "Level " + leftLegLevel + " (Cost: " + leftLegCost + ")";
-            rightLegLevelText.text = "Level " + rightLegLevel + " (Cost: " + rightLegCost + ")";
+            headLevelText.text = "Head: Level " + headLevel + "\t\t (Cost: " + headCost + ")";
+            leftArmLevelText.text = "Left Arm: Level " + leftArmLevel + "\t (Cost: " + leftArmCost + ")";
+            rightArmLevelText.text = "Right Arm: Level " + rightArmLevel + "\t (Cost: " + rightArmCost + ")";
+            leftLegLevelText.text = "Left Leg: Level " + leftLegLevel + "\t\t (Cost: " + leftLegCost + ")";
+            rightLegLevelText.text = "Right Leg: Level " + rightLegLevel + "\t(Cost: " + rightLegCost + ")";
             setStatsReadout();
     }
 

@@ -21,7 +21,7 @@ public class MenuScript : MonoBehaviour
     public GameObject gameOverScreen;
     public GameObject pauseScreen;
 
-    public GameObject nuke;
+    public GameObject trueGameOverScreen;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -179,14 +179,16 @@ public class MenuScript : MonoBehaviour
         Time.timeScale = 0;
     }
 
+    public void TrueGameOver()
+    {
+        //do this   
+    }
+
     public void WinGame()
     {
         truepaused = true;
         //MenuManager.Instance.StartCoroutine(MenuManager.Instance.flash(Color.white));
-        if (nuke != null && player != null)
-        {
-            Instantiate(nuke, player.transform.position, Quaternion.identity);
-        }
+        
         StartCoroutine(WinRoutine());
     }
 

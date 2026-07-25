@@ -22,9 +22,9 @@ MonoBehaviour:
   playerBattery: 0
   defense: 0
   weaponName: Pulse Bomb
-  damage: -5
-  bulletPrefab: {fileID: 5810995078600289247, guid: e25ae79e4564b8a45980eaf0fb1dcd8a, type: 3}
+  damage: 3
+  bulletPrefab: {fileID: 5810995078600289247, guid: a535fa1e42808254281935657a28dcd8, type: 3}
   projectiles: 1
   bulletSpeed: -1
-  attackSpeed: 1
-  destroy: 5
+  attackSpeed: -0.5
+  destroy: 7

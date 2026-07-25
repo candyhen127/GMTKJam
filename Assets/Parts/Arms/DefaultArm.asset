@@ -22,8 +22,8 @@ MonoBehaviour:
   playerBattery: 0
   defense: 0
   weaponName: Blaster
-  damage: 5
-  bulletPrefab: {fileID: 5810995078600289247, guid: a535fa1e42808254281935657a28dcd8, type: 3}
+  damage: 10
+  bulletPrefab: {fileID: 5810995078600289247, guid: ef153aee3ad6eb148b400bfed44f71a2, type: 3}
   projectiles: 1
   bulletSpeed: 0
   attackSpeed: 0
