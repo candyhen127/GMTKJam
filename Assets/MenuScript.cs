@@ -8,7 +8,7 @@ public class MenuScript : MonoBehaviour
 {
     public static MenuScript Instance;
     public Player player;
-    public bool paused;
+    public bool isPaused;
     public bool truepaused;
 
 
@@ -41,16 +41,57 @@ public class MenuScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //don't allow input when paused
-        if (paused == true) { return; }
-        //timeleft = player.battery;
-        //spawntimer += Time.deltaTime;
-        /*
-        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown("p"))
+        if (truepaused == true) {return;}
+        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.P))
         {
-            pauseGame();
+            if (isPaused)
+            {
+                ResumeGame();
+            }
+            else
+            {
+                PauseGame();
+            }
         }
-        */
+    }
+
+        public void PauseGame()
+    {
+        isPaused = true;
+        Time.timeScale = 0f;
+
+        if (pauseScreen != null) 
+            pauseScreen.SetActive(true);
+    }
+
+    public void ResumeGame()
+    {
+        isPaused = false;
+        Time.timeScale = 1f;
+
+        if (pauseScreen != null) 
+            pauseScreen.SetActive(false);
+
+        if (settingsPanel != null) 
+            settingsPanel.SetActive(false);
+    }
+
+    public void OpenSettings()
+    {
+        if (settingsPanel != null) 
+            settingsPanel.SetActive(true);
+
+        if (pauseScreen != null) 
+            pauseScreen.SetActive(false);
+    }
+
+    public void CloseSettings()
+    {
+        if (settingsPanel != null) 
+            settingsPanel.SetActive(false);
+
+        if (pauseScreen != null) 
+            pauseScreen.SetActive(true);
     }
 
 /*

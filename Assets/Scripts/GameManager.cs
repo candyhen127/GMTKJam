@@ -132,18 +132,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (MenuScript.Instance.truepaused == true) {return;}
-        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.P))
-        {
-            if (isPaused)
-            {
-                ResumeGame();
-            }
-            else
-            {
-                PauseGame();
-            }
-        }
+        
     }
 
     void FixedUpdate()
@@ -163,44 +152,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void PauseGame()
-    {
-        isPaused = true;
-        Time.timeScale = 0f;
 
-        if (pauseScreen != null) 
-            pauseScreen.SetActive(true);
-    }
-
-    public void ResumeGame()
-    {
-        isPaused = false;
-        Time.timeScale = 1f;
-
-        if (pauseScreen != null) 
-            pauseScreen.SetActive(false);
-
-        if (settingsPanel != null) 
-            settingsPanel.SetActive(false);
-    }
-
-    public void OpenSettings()
-    {
-        if (settingsPanel != null) 
-            settingsPanel.SetActive(true);
-
-        if (pauseScreen != null) 
-            pauseScreen.SetActive(false);
-    }
-
-    public void CloseSettings()
-    {
-        if (settingsPanel != null) 
-            settingsPanel.SetActive(false);
-
-        if (pauseScreen != null) 
-            pauseScreen.SetActive(true);
-    }
 
     public void loseGame()
     {
