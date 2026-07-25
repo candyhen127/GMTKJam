@@ -4943,6 +4943,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 817f9d1a3f824714dace8d2f6c40ee7d, type: 2}
   - {fileID: 11400000, guid: 0a341d10e66d3594389e302ab7d36ec9, type: 2}
   - {fileID: 11400000, guid: ff2ce4889a08afe48b85665b3ba8a5d0, type: 2}
+  allArms: []
+  allHeads: []
+  allLegs: []
   gameOverScreen: {fileID: 0}
   pauseScreen: {fileID: 1643261444}
   winScreen: {fileID: 0}
@@ -5818,7 +5821,7 @@ MonoBehaviour:
   shop: {fileID: 0}
   gameOverScreen: {fileID: 161053496}
   pauseScreen: {fileID: 1643261444}
-  nuke: {fileID: 0}
+  trueGameOverScreen: {fileID: 0}
 --- !u!114 &1955836723 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 221994528308848700, guid: 27e9497e768805e49b44bdf0dcf18344, type: 3}
