@@ -453,7 +453,7 @@ public class Player : MonoBehaviour
 
     public void UpdateScrapCount()
     {
-        scrapText.text = scrap.ToString();
+        scrapText.text = "Scrap: " + scrap.ToString();
     }
 
     
