@@ -32,7 +32,8 @@ public class DrapDropSpawner : MonoBehaviour, IBeginDragHandler, IDragHandler, I
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        Debug.Log("Spawn");
+        //Debug.Log("Spawn");
+        if (part.numCollected == 0 ){return;}
         GameObject clone = Instantiate(itemPrefab, canvas.transform);
         DragDropItem dragItem = clone.GetComponent<DragDropItem>();
         dragItem.part = part;
