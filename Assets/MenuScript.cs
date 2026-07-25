@@ -3,6 +3,7 @@ using TMPro;
 using UnityEngine;
 using System;
 using UnityEngine.SceneManagement;
+
 public class MenuScript : MonoBehaviour
 {
     public static MenuScript Instance;
@@ -11,8 +12,7 @@ public class MenuScript : MonoBehaviour
     public bool truepaused;
 
     public ShopManager shop;
-    
-    
+
     public GameObject gameOverScreen;
     public GameObject pauseScreen;
 
@@ -30,7 +30,7 @@ public class MenuScript : MonoBehaviour
     void Update()
     {
         //don't allow input when paused
-        if(paused == true){return;}
+        if (paused == true) { return; }
         //timeleft = player.battery;
         //spawntimer += Time.deltaTime;
         /*
@@ -40,6 +40,7 @@ public class MenuScript : MonoBehaviour
         }
         */
     }
+
 /*
     public void pauseGame()
     {
@@ -56,6 +57,7 @@ public class MenuScript : MonoBehaviour
         }
     }
 */
+
     public void MainMenu()
     {
         StartCoroutine(RestartRoutine("Title"));
@@ -68,18 +70,21 @@ public class MenuScript : MonoBehaviour
 
     public void StartRun()
     {
-        if (shop.head == null || shop.leftArm == null || shop.rightArm == null || shop.leftArm == null || shop.rightArm == null)
+        if (shop != null)
         {
-            return;
+            if (shop.head == null || shop.leftArm == null || shop.rightArm == null || shop.leftLeg == null || shop.rightLeg == null)
+            {
+                return;
+            }
+            shop.LockInBuild();
         }
-        shop.LockInBuild();
+
         StartCoroutine(RestartRoutine("MainScene"));
     }
 
     public IEnumerator RestartRoutine(String scene)
     {
-        
-       // StartCoroutine(MenuManager.Instance.AudioFade(true));
+        // StartCoroutine(MenuManager.Instance.AudioFade(true));
         yield return new WaitForSecondsRealtime(0.1f);
         //MenuManager.Instance.StartCoroutine(MenuManager.Instance.FadeImage(false));
         yield return new WaitForSecondsRealtime(1f);
@@ -89,57 +94,59 @@ public class MenuScript : MonoBehaviour
 
     public void EndRun()
     {
-        
-            truepaused = true;
-            //MenuManager.Instance.StartCoroutine(MenuManager.Instance.flash(Color.red));
+        truepaused = true;
+        //MenuManager.Instance.StartCoroutine(MenuManager.Instance.flash(Color.red));
+        if (GameManager.Instance != null && player != null)
+        {
             GameManager.Instance.globalScrap += player.scrap;
-            for (int i = 0; i < player.inventory.Count; i++)
+            if (player.inventory != null)
             {
-                player.inventory[i].numCollected ++;
+                for (int i = 0; i < player.inventory.Count; i++)
+                {
+                    if (player.inventory[i] != null)
+                    {
+                        player.inventory[i].numCollected++;
+                    }
+                }
             }
+        }
         StartCoroutine(GameOverRoutine());
-        
     }
 
     public IEnumerator GameOverRoutine()
     {
         //StartCoroutine(MenuManager.Instance.AudioFade(true));
         //canvas.GameOver();
-        gameOverScreen.SetActive(true);
-        for(float i = 1f; i>=0; i-=Time.unscaledDeltaTime)
+        if (gameOverScreen != null) gameOverScreen.SetActive(true);
+        for (float i = 1f; i >= 0; i -= Time.unscaledDeltaTime)
         {
             Time.timeScale = i;
             yield return null;
         }
         Time.timeScale = 0;
-        
-        
-    
     }
 
     public void WinGame()
     {
-        
-            truepaused = true;
-            //MenuManager.Instance.StartCoroutine(MenuManager.Instance.flash(Color.white));
-        Instantiate(nuke, player.transform.position, Quaternion.identity);
+        truepaused = true;
+        //MenuManager.Instance.StartCoroutine(MenuManager.Instance.flash(Color.white));
+        if (nuke != null && player != null)
+        {
+            Instantiate(nuke, player.transform.position, Quaternion.identity);
+        }
         StartCoroutine(WinRoutine());
-        
     }
 
     public IEnumerator WinRoutine()
     {
         //StartCoroutine(MenuManager.Instance.AudioFade(true));
         //canvas.GameOver();
-        winScreen.SetActive(true);
-        for(float i = 1f; i>=0; i-=Time.unscaledDeltaTime)
+        if (winScreen != null) winScreen.SetActive(true);
+        for (float i = 1f; i >= 0; i -= Time.unscaledDeltaTime)
         {
             Time.timeScale = i;
             yield return null;
         }
         Time.timeScale = 0;
-        
-        
-    
     }
 }
