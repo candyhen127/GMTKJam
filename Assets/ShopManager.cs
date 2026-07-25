@@ -59,6 +59,23 @@ public TextMeshProUGUI scrapText;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        int armsum = 0;
+        int legsum = 0;
+        int headsum = 0;
+        foreach(Part p in GameManager.Instance.allArms) {
+            armsum += p.numCollected;
+        }
+        foreach(Part p in GameManager.Instance.allArms) {
+            legsum += p.numCollected;
+        }
+        foreach(Part p in GameManager.Instance.allArms) {
+            headsum += p.numCollected;
+        }
+        if (armsum < 2 || legsum < 2 || headsum < 1)
+        {
+            Debug.Log("Game Over");
+            MenuScript.Instance.TrueGameOver();
+        }
         //Set batterys
         baseHeadbattery = GameManager.Instance.baseHeadbattery;
         baseLeftArmbattery = GameManager.Instance.baseLeftArmbattery;

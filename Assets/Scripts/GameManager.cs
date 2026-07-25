@@ -15,6 +15,10 @@ public class GameManager : MonoBehaviour
     public int globalScrap;
     public List<Part> allParts;
 
+    public List<Part> allArms;
+    public List<Part> allHeads;
+    public List<Part> allLegs;
+
     public GameObject gameOverScreen;
     public GameObject pauseScreen;
 
