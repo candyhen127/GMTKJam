@@ -12,11 +12,7 @@ public class Player : MonoBehaviour
     public int level;
     //public float battery;
     //public float maxbattery = 100;
-    public float baseHeadbattery;
-    public float baseLeftArmbattery;
-    public float baseRightArmbattery;
-    public float baseLeftLegbattery;
-    public float baseRightLegbattery;
+    public float baseMaxbattery = 100;
     public float moveSpeed;
     public float baseMoveSpeed = 3;
     public float jumpHeight;
@@ -56,8 +52,6 @@ public class Player : MonoBehaviour
     public bool rightArmEquipped = true;
     public bool leftLegEquipped = true;
     public bool rightLegEquipped = true;
-
-    public SpriteRenderer sprite;
 
     public GameObject headSprite;
     public GameObject leftArmSprite;
@@ -102,36 +96,16 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        level = 1;
         //maxbattery = baseMaxbattery + head.playerBattery;
-        
-
-        head = GameManager.Instance.head;
-        leftArm = GameManager.Instance.leftArm;
-        rightArm = GameManager.Instance.rightArm;
-        leftLeg = GameManager.Instance.leftLeg;
-        rightLeg = GameManager.Instance.rightLeg;
-
-        baseHeadbattery = GameManager.Instance.baseHeadbattery;
-        baseLeftArmbattery = GameManager.Instance.baseLeftArmbattery;
-        baseRightArmbattery = GameManager.Instance.baseRightArmbattery;
-        baseRightLegbattery = GameManager.Instance.baseRightLegbattery;
-        baseLeftLegbattery = GameManager.Instance.baseLeftLegbattery;
-
         headSprite.GetComponent<SpriteRenderer>().sprite = head.icon;
 
-        //baseMaxbattery = GameManager.Instance.baseMaxbattery;
-        defense = GameManager.Instance.baseDefense + head.defense;
-
-        baseJumpHeight = GameManager.Instance.baseJumpHeight;
-        baseMoveSpeed = GameManager.Instance.baseMoveSpeed;
-        baseDefense = GameManager.Instance.baseDefense;
-
         //battery = maxbattery;
-        headBattery = baseHeadbattery + head.battery + head.playerBattery;
-        leftArmBattery = baseLeftArmbattery + leftArm.battery + head.playerBattery;
-        rightArmBattery = baseRightArmbattery + rightArm.battery + head.playerBattery;
-        leftLegBattery = baseLeftLegbattery + leftLeg.battery + head.playerBattery;
-        rightLegBattery = baseRightLegbattery + rightLeg.battery + head.playerBattery;
+        headBattery = baseMaxbattery + head.battery;
+        leftArmBattery = baseMaxbattery + leftArm.battery;
+        rightArmBattery = baseMaxbattery + rightArm.battery;
+        leftLegBattery = baseMaxbattery + leftLeg.battery;
+        rightLegBattery = baseMaxbattery + rightLeg.battery;
 
         moveSpeed = baseMoveSpeed + leftLeg.moveSpeed + rightLeg.moveSpeed;
         jumpHeight = baseJumpHeight + leftLeg.jumpHeight + rightLeg.jumpHeight;
@@ -141,8 +115,6 @@ public class Player : MonoBehaviour
         movement.moveSpeed = moveSpeed;
         movement.jumpHeight = jumpHeight;
         //defense = baseDefense + body.defense;
-        leftGun.Start2();
-        rightGun.Start2();
     }
     
 
@@ -150,7 +122,7 @@ public class Player : MonoBehaviour
     void Update()
     {
         //don't allow input when paused
-        if(MenuScript.Instance.paused == true || MenuScript.Instance.truepaused){return;}
+        if(GameManager.Instance.paused == true || GameManager.Instance.truepaused){return;}
 
         //player movement input
         //movement.x = Input.GetAxisRaw("Horizontal");
@@ -167,10 +139,10 @@ public class Player : MonoBehaviour
     {
         
         //camera follows player
-        //cam.transform.position = new Vector3(transform.position.x, transform.position.y - 0.2f, cam.transform.position.z);
+        cam.transform.position = new Vector3(transform.position.x, transform.position.y - 0.2f, cam.transform.position.z);
 
         //don't allow input when paused
-        if(MenuScript.Instance.paused == true || MenuScript.Instance.truepaused)
+        if(GameManager.Instance.paused == true || GameManager.Instance.truepaused)
         {
             //rb.velocity = Vector2.zero;
             return;
@@ -180,23 +152,6 @@ public class Player : MonoBehaviour
             return;
         }
 
-        float pangle = leftGun.pangle;
-        if(pangle > 90 || pangle < -90)
-        {
-            //transform.position = leftHand.position;
-            sprite.flipX = true;
-            headSprite.GetComponent<SpriteRenderer>().flipX = true;
-            leftLegSprite.GetComponent<SpriteRenderer>().flipX = true;
-            rightLegSprite.GetComponent<SpriteRenderer>().flipX = true;
-        }
-        else if (pangle <=90 || pangle >= -90)
-        {
-            //transform.position = rightHand.position;
-            sprite.flipX = false;
-            headSprite.GetComponent<SpriteRenderer>().flipX = false;
-            leftLegSprite.GetComponent<SpriteRenderer>().flipX = false;
-            rightLegSprite.GetComponent<SpriteRenderer>().flipX = false;
-        }
         //battery -= Time.deltaTime;
         headBattery -= Time.deltaTime;
         leftArmBattery -= Time.deltaTime;
@@ -285,24 +240,19 @@ public class Player : MonoBehaviour
         rightArmTimer.text = TimeSpan.FromSeconds(rightArmBattery).ToString(@"mm\:ss\:ff");
         leftLegTimer.text = TimeSpan.FromSeconds(leftLegBattery).ToString(@"mm\:ss\:ff");
         rightLegTimer.text = TimeSpan.FromSeconds(rightLegBattery).ToString(@"mm\:ss\:ff");
-
-        if (!headEquipped && !leftArmEquipped && !rightArmEquipped && !leftLegEquipped && !rightLegEquipped)
-        {
-            MenuScript.Instance.EndRun();
-        }
     }
 
     
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if(MenuScript.Instance.truepaused == true){return;}
-        if(MenuScript.Instance.paused == true){return;}
+        if(GameManager.Instance.truepaused == true){return;}
+        if(GameManager.Instance.paused == true){return;}
         if (knockedBack){return;}
 
         if (collision.gameObject.tag == "Enemy" && !invince){
             Enemy e = collision.gameObject.GetComponent<Enemy>();
-            //TakeDamage(e.damage);
+            TakeDamage(e.damage);
 
             Vector2 direction = rb.position - e.rb.position;
 
@@ -344,13 +294,9 @@ public class Player : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        
-        //Debug.Log(damage);
+        //spawnDamageNum(damage, false);
         //damaged.Play();
         damage = damage / (1 + 0.1f * defense);
-        //damage /= 10;
-        //Debug.Log(damage);
-        spawnDamageNum(damage + 1, false);
 
         headBattery -= damage;
         //bodyBattery -= damage;
@@ -358,9 +304,6 @@ public class Player : MonoBehaviour
         rightArmBattery -= damage;
         leftLegBattery -= damage;
         rightLegBattery -= damage;
-
-        //StartCoroutine(KnockbackRoutine(direction, 0.2f));
-            StartCoroutine(InvinceRoutine(invinceTime));
         
     }
 
@@ -396,7 +339,6 @@ public class Player : MonoBehaviour
             jumpHeight -= leftLeg.jumpHeight;
             movement.moveSpeed = moveSpeed;
             movement.jumpHeight = jumpHeight;
-            
             leftLegEquipped = false;
             icon = leftLeg.icon;
             d = leftLeg.battery;
@@ -408,7 +350,6 @@ public class Player : MonoBehaviour
             jumpHeight -= rightLeg.jumpHeight;
             movement.moveSpeed = moveSpeed;
             movement.jumpHeight = jumpHeight;
-            
             rightLegEquipped = false;
             icon = rightLeg.icon;
             d = rightLeg.battery;
@@ -419,17 +360,15 @@ public class Player : MonoBehaviour
             movement.groundCheck = groundCheck2;
         }
 
-        movement.calcJumpForce();
-
         GameObject bullet = Instantiate(dumpedPart, transform.position, leftGun.shootPoint.rotation);
         bullet.GetComponent<SpriteRenderer>().sprite = icon;
         bullet.GetComponent<Bullet>().damage = d;
-        bullet.GetComponent<Rigidbody2D>().linearVelocity = leftGun.shootPoint.up * dumpForce * UnityEngine.Random.Range(0.8f, 1.2f);
+        bullet.GetComponent<Rigidbody2D>().linearVelocity = leftGun.shootPoint.up * dumpForce;
     }
 /*
     public void PlayerHeal(float damage)
     {
-        spawnDamageNum(damage, true);
+        //spawnDamageNum(damage, true);
         
         battery += damage;
         if (battery > maxbattery)
@@ -438,18 +377,15 @@ public class Player : MonoBehaviour
         }
     }
 
-    */
+    
     public void spawnDamageNum(float damage, bool heal)
     {
         TextMeshProUGUI x = Instantiate(damagenum, canvas.transform, false);
-        Vector3 pos = new Vector3(gameObject.transform.position.x + UnityEngine.Random.Range(-1f, 1f) ,gameObject.transform.position.y + 0.5f, gameObject.transform.position.z);
-        x.transform.position = Camera.main.WorldToScreenPoint(pos);
-        x.gameObject.GetComponent<damagenum>().dnum = damage;
-        x.gameObject.GetComponent<damagenum>().heal = heal;
-        x.gameObject.GetComponent<damagenum>().targetWorldPos = transform.position;
-        
+        x.transform.position = Camera.main.WorldToScreenPoint(gameObject.transform.position);
+        x.gameObject.GetComponent<damageNum>().dnum = damage;
+        x.gameObject.GetComponent<damageNum>().heal = heal;
     }
-    
+    */
 
 
     public void UpdateScrapCount()
@@ -460,7 +396,7 @@ public class Player : MonoBehaviour
     
     public void GetScrap(int points)
     {
-        if(MenuScript.Instance.paused == true ||  MenuScript.Instance.truepaused == true){return;}
+        if(GameManager.Instance.paused == true ||  GameManager.Instance.truepaused == true){return;}
         //getxp.Play();
         scrap += points;
         UpdateScrapCount();

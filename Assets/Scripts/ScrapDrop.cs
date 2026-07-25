@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ScrapDrop : MonoBehaviour
+public class XPDrop : MonoBehaviour
 {
     public bool floating;
     
@@ -23,7 +23,6 @@ public class ScrapDrop : MonoBehaviour
         if (isPart)
         {
             GetComponent<SpriteRenderer>().sprite = part.icon;
-            
         }
     }
 

@@ -1,53 +1,51 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
+using TMPro;
 
 public class DialogueManager : MonoBehaviour
 {
     public static DialogueManager Instance;
 
-    public GameObject textPanel;
-    public TextMeshProUGUI dialogueText;
-    public TextMeshProUGUI promptText;
+    [Header("UI References")]
+    [SerializeField] private GameObject textPanel; // Updated from chudPanel
+    [SerializeField] private TextMeshProUGUI dialogueText;
+    [SerializeField] private TextMeshProUGUI promptText; // e.g. "> press [E]"
 
-    public float typingSpeed = 0.03f;
+    [Header("Typewriter Settings")]
+    [SerializeField] private float textSpeed = 0.03f; // Seconds per character
 
     private Queue<string> sentences = new Queue<string>();
-    private string currentSentence;
     private bool isTyping = false;
+    private string currentSentence;
 
     private void Awake()
     {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        Instance = this;
+        if (Instance == null) Instance = this;
+        else Destroy(gameObject);
     }
 
     private void Start()
     {
-        // Don't disable textPanel here while debugging—keep it visible!
+        // Hide text panel at game start
+        if (textPanel != null) textPanel.SetActive(false);
     }
 
-    private void Update()
+    void Update()
     {
-        // Press T to trigger test dialogue
+        // Quick test key: Press 'T' anytime while playing to test the dialogue!
         if (Input.GetKeyDown(KeyCode.T))
         {
-            Debug.Log("T key pressed! Triggering dialogue...");
             string[] testLines = new string[] 
             {
-                "Arthur... is that you?",
-                "My core memory sectors are degrading.",
-                "Please keep coming down..."
+                "Arthur... can you hear me?",
+                "System battery dropping...",
+                "We need to get deeper."
             };
             StartDialogue(testLines);
         }
 
-        // Advance dialogue on E or Space
+        // Advance dialogue on Space/E click
         if (textPanel != null && textPanel.activeSelf && (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.Space)))
         {
             if (isTyping)
@@ -65,18 +63,7 @@ public class DialogueManager : MonoBehaviour
 
     public void StartDialogue(string[] lines)
     {
-        Debug.Log("StartDialogue called with " + lines.Length + " lines.");
-
-        if (textPanel != null)
-        {
-            textPanel.SetActive(true);
-        }
-
-        if (dialogueText != null)
-        {
-            dialogueText.gameObject.SetActive(true);
-        }
-
+        textPanel.SetActive(true);
         sentences.Clear();
 
         foreach (string line in lines)
@@ -86,18 +73,13 @@ public class DialogueManager : MonoBehaviour
 
         DisplayNextSentence();
     }
+
     public void DisplayNextSentence()
     {
         if (sentences.Count == 0)
         {
             EndDialogue();
             return;
-        }
-
-        // Hide prompt while typing the new sentence
-        if (promptText != null) 
-        {
-            promptText.gameObject.SetActive(false);
         }
 
         currentSentence = sentences.Dequeue();
@@ -109,29 +91,32 @@ public class DialogueManager : MonoBehaviour
     {
         isTyping = true;
         dialogueText.text = "";
+        if (promptText != null) promptText.text = "...";
 
         foreach (char letter in sentence.ToCharArray())
         {
             dialogueText.text += letter;
-            yield return new WaitForSecondsRealtime(typingSpeed); 
+            yield return new WaitForSecondsRealtime(textSpeed);
         }
 
         isTyping = false;
-
-        // Show prompt when typing finishes!
-        if (promptText != null)
-        {
-            promptText.text = "[E] Next >";
-            promptText.gameObject.SetActive(true);
-        }
+        if (promptText != null) promptText.text = "> press [E] to continue";
     }
 
     public void EndDialogue()
     {
-        Debug.Log("Dialogue finished.");
-        if (textPanel != null)
+        textPanel.SetActive(false);
+    }
+
+    public void TestDialogueFromInspector()
+    {
+        string[] sampleLines = new string[]
         {
-            textPanel.SetActive(false);
-        }
+            "SYSTEM WARNING: Battery below 20%.",
+            "Memory corruption detected in Sector 4.",
+            "Elena's signal acquired..."
+        };
+
+        StartDialogue(sampleLines);
     }
 }
