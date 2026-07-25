@@ -64,6 +64,10 @@ public class Enemy : MonoBehaviour
     public TextMeshProUGUI damagenum;
     public GameObject canvas;
 
+    public float aggroDistance;
+
+    public bool aggro;
+
     public AudioSource hit;
     // Start is called before the first frame update
     void Start()
@@ -84,6 +88,15 @@ public class Enemy : MonoBehaviour
         if(health < 1)
         {
             Die();
+        }
+        if (Vector2.Distance(transform.position, player.transform.position) < aggroDistance)
+        {
+            aggro = true;
+        }
+
+        if (!aggro)
+        {
+            return;
         }
 
         getshoot(damage);
@@ -164,6 +177,11 @@ RaycastHit2D platformAbove = Physics2D.Raycast(rayOrigin, Vector2.up, 3f, ground
     void FixedUpdate()
     {
         if (dead) {return;}
+
+        if (!aggro)
+        {
+            return;
+        }
         Vector2 direction = rb.position - player.rb.position;
         float angle = Mathf.Atan2(direction.y, direction.x)*Mathf.Rad2Deg;
         if (angle < 90 && angle > -90)
