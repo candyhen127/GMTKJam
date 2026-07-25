@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Basic Leg
   bodypart: leg
-  icon: {fileID: -2413806693520163455, guid: ebe73ca9363db456bacf42c025bb4847, type: 3}
-  numCollected: 5
+  icon: {fileID: 8457106998599812638, guid: 6accb46ffb6c7924880a63f91b39a86d, type: 3}
+  numCollected: 0
   battery: 13
   moveSpeed: 1
   jumpHeight: 3

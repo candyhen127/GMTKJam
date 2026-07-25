@@ -274,7 +274,7 @@ RaycastHit2D platformAbove = Physics2D.Raycast(rayOrigin, Vector2.up, 3f, ground
         GetComponent<Collider2D>().enabled = false;
         rb.gravityScale = 0;
         //Destroy(transform.GetChild(0).gameObject);
-        Destroy(this.gameObject, 0.4f);
+        Destroy(this.gameObject, 0f);
     }
     void explosion()
     {
