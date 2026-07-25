@@ -16,49 +16,19 @@ public class Enemy : MonoBehaviour
     public Animator animator;
     new public SpriteRenderer renderer;
 
-    public float jumpForce;
-    public Transform groundCheck;
-    public float groundCheckRadius = 0.25f;
-    public LayerMask groundLayer;
-    public bool isGrounded;
-    public bool shouldJump;
-    public float facingDirection;
-
-    public bool isFlying;
-
-    public GameObject bulletPrefab;
-    public int projectiles = 1;
-    public int destroy = 3;
-    public Transform leftshootPoint;
-    public Transform rightshootPoint;
-    public Coroutine shootroutine;
-
-    
-    public float defatkspd = 1f;
-    public int shots = 3;
-    public int shotcount = 0;
-    public int shooting = 0;
-
     public bool willexplode = false;
     public bool willexplode2;
     public bool dead;
     public GameObject explosionprefab;
 
-    public bool headEnemy;
-    public Transform upShootPoint;
-    public Transform downShootPoint;
-
-    public float rotateSpeed;
-
-    public bool rightFacing;
-
     public GameObject scrapDrop;
     public int drops;
     public GameObject partDrop;
-    public int partdrops = 2;
-    public List<Part> parts;
 
 
+    public float burndamage = 0;
+    public Coroutine burnroutine;
+    public bool frozen;
     public Coroutine deathroutine;
 
     public TextMeshProUGUI damagenum;
@@ -85,10 +55,8 @@ public class Enemy : MonoBehaviour
         {
             Die();
         }
-
-        getshoot(damage);
         //don't allow input when paused
-        if(MenuScript.Instance.paused == true){
+        if(GameManager.Instance.paused == true || frozen){
             //gameObject.GetComponent<AIPath>().maxSpeed = 0;
             //GetComponent<Animator>().speed = 0;
             rb.mass = 2;
@@ -115,48 +83,6 @@ public class Enemy : MonoBehaviour
                 
             }
         }
-
-
-        //isGrounded = Physics2D.Raycast(transform.position, Vector2.down, 1f, groundLayer);
-        isGrounded = (Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer));
-
-        float direction = Mathf.Sign(player.transform.position.x - transform.position.x);
-facingDirection = direction;
-
-            rb.linearVelocity = new Vector2(direction * moveSpeed, rb.linearVelocityY);
-        //Debug.Log(direction);
-        bool isPlayerAbove = Physics2D.Raycast(transform.position, Vector2.up, 3f, 1 << player.gameObject.layer);
-
-        if (isFlying)
-        {
-            
-            float Ydirection = Mathf.Sign(player.transform.position.y - groundCheck.position.y);
-            rb.linearVelocity = new Vector2(direction * moveSpeed, Ydirection * moveSpeed);
-            return;
-        }
-        if (isGrounded)
-        {
-            
-Vector3 rayOrigin = groundCheck.position + Vector3.up * 0.1f; // slightly above feet, avoids self-clipping
-
-Debug.DrawRay(rayOrigin, new Vector2(direction, 0), Color.red);
-Debug.DrawRay(rayOrigin + new Vector3(direction * 1.5f, 0, 0),  Vector2.down, Color.blue);
-Debug.DrawRay(rayOrigin, Vector2.up, Color.green);
-
-RaycastHit2D groundInFront = Physics2D.Raycast(rayOrigin, new Vector2(direction, 0), 4f, groundLayer);
-RaycastHit2D gapAhead = Physics2D.Raycast(rayOrigin + new Vector3(direction * 1.5f, 0, 0), Vector2.down, 2f, groundLayer);
-RaycastHit2D platformAbove = Physics2D.Raycast(rayOrigin, Vector2.up, 3f, groundLayer);
-
-            if (groundInFront.collider || !gapAhead.collider)
-            {
-                //Debug.Log("shouldjump");
-                shouldJump = true;
-            }
-            else if (isPlayerAbove && platformAbove.collider)
-            {
-                shouldJump = true;
-            }
-        }
         
         
     }
@@ -168,129 +94,11 @@ RaycastHit2D platformAbove = Physics2D.Raycast(rayOrigin, Vector2.up, 3f, ground
         float angle = Mathf.Atan2(direction.y, direction.x)*Mathf.Rad2Deg;
         if (angle < 90 && angle > -90)
         {
-            if (rightFacing)
-            {
-                
-            renderer.flipX = true;
-            } else
-            {
-                
             renderer.flipX = false;
-            }
         } else
         {
-            if (rightFacing)
-            {
-                
-            renderer.flipX = false;
-            } else
-            {
-                
             renderer.flipX = true;
-            }
         }
-
-        if (isGrounded && shouldJump)
-        {
-            shouldJump = false;
-            Vector2 jumpDirection = new Vector2(facingDirection, jumpForce);
-            rb.AddForce(jumpDirection, ForceMode2D.Impulse);
-        }
-
-        if (headEnemy){
-            transform.Rotate(new Vector3(0, 0, rotateSpeed) * Time.deltaTime);
-        }
-    }
-
-    public void shootProjectile()
-    {
-        Transform shootPoint;
-        if (transform.position.x > player.transform.position.x)
-        {
-            shootPoint = rightshootPoint;
-        } else
-        {
-            shootPoint = leftshootPoint;
-        }
-        for(float x = 0-(((float)projectiles/2)-0.5f); x <= (((float)projectiles)/2-0.5f)+0.1f; x+= 1)
-            {
-                Quaternion q = Quaternion.Euler(transform.rotation.x, transform.rotation.y, transform.rotation.z+(x*(15)));
-                GameObject bullet = Instantiate(bulletPrefab, shootPoint.position, shootPoint.rotation * q);
-                
-                //bullet.GetComponent<Bullet>().bulletSpeed = bulletSpeed;
-
-                ///float temp = d / (1 + 0.3f * (projectiles - 1));
-
-                
-                bullet.GetComponent<Bullet>().damage = damage;
-                bullet.GetComponent<Bullet>().StartCoroutine(bullet.GetComponent<Bullet>().bulletDestroy(destroy));
-                
-            }
-    }
-
-    public void fourProjectiles()
-    {
-        GameObject bullet = Instantiate(bulletPrefab, leftshootPoint.position, leftshootPoint.rotation);
-                
-                bullet.GetComponent<Bullet>().damage = damage;
-                bullet.GetComponent<Bullet>().StartCoroutine(bullet.GetComponent<Bullet>().bulletDestroy(destroy));
-
-
-                bullet = Instantiate(bulletPrefab, rightshootPoint.position, rightshootPoint.rotation);
-                
-                bullet.GetComponent<Bullet>().damage = damage;
-                bullet.GetComponent<Bullet>().StartCoroutine(bullet.GetComponent<Bullet>().bulletDestroy(destroy));
-
-                bullet = Instantiate(bulletPrefab, upShootPoint.position, upShootPoint.rotation);
-                
-                bullet.GetComponent<Bullet>().damage = damage;
-                bullet.GetComponent<Bullet>().StartCoroutine(bullet.GetComponent<Bullet>().bulletDestroy(destroy));
-
-                bullet = Instantiate(bulletPrefab, downShootPoint.position, downShootPoint.rotation);
-                
-                bullet.GetComponent<Bullet>().damage = damage;
-                bullet.GetComponent<Bullet>().StartCoroutine(bullet.GetComponent<Bullet>().bulletDestroy(destroy));
-    }
-
-    void getshoot(float d)
-    {
-        
-            if(shooting == 1) {return;}
-            
-            //gunanimator.Play("GunFire");
-            //aud.Play();
-            //Debug.Log("shot");
-            if (headEnemy)
-        {
-            fourProjectiles();
-        } else
-        {
-            
-            shootProjectile();
-        }
-                shotcount ++;
-                if (shotcount == shots)
-                {
-                    shotcount = 0;
-            
-                    shootroutine = this.StartCoroutine(FireRateRoutine(defatkspd));
-                } else
-                {
-            
-                    shootroutine = this.StartCoroutine(FireRateRoutine(0.2f));
-                }
-        
-    }
-
-
-    IEnumerator FireRateRoutine(float sec)
-    {
-        if(shooting == 0)
-        {
-            shooting = 1;
-            yield return new WaitForSeconds(sec);
-            shooting = 0;
-        } 
     }
 
     public virtual void Die()
@@ -316,15 +124,9 @@ RaycastHit2D platformAbove = Physics2D.Raycast(rayOrigin, Vector2.up, 3f, ground
             Instantiate(scrapDrop, transform.position, Quaternion.identity);
         }
 
-        for (int i = 0; i < partdrops; i++)
-        {
-            GameObject partdrop = Instantiate(partDrop, transform.position, Quaternion.identity);
-            partdrop.GetComponent<ScrapDrop>().part = parts[UnityEngine.Random.Range(0, parts.Count)];
-        }
+            Instantiate(partDrop, transform.position, Quaternion.identity);
 
-            
-
-        if (!MenuScript.Instance.truepaused)
+        if (!GameManager.Instance.truepaused)
         {
                 
         //hit.Play();
@@ -333,7 +135,7 @@ RaycastHit2D platformAbove = Physics2D.Raycast(rayOrigin, Vector2.up, 3f, ground
         GetComponent<Collider2D>().enabled = false;
         rb.gravityScale = 0;
         //Destroy(transform.GetChild(0).gameObject);
-        Destroy(this.gameObject, 0f);
+        Destroy(this.gameObject, 0.4f);
     }
     void explosion()
     {
@@ -363,9 +165,12 @@ RaycastHit2D platformAbove = Physics2D.Raycast(rayOrigin, Vector2.up, 3f, ground
         bool crit = false;
         
         //Debug.Log("hit");
-        if (!MenuScript.Instance.truepaused)
+        if (!GameManager.Instance.truepaused)
         {
-        spawnDamageNum(damage, false);
+        //TextMeshProUGUI x = Instantiate(damagenum, canvas.transform, false);
+        //x.transform.position = Camera.main.WorldToScreenPoint(gameObject.transform.position);
+        //x.gameObject.GetComponent<damageNum>().dnum = damage;
+        //x.gameObject.GetComponent<damageNum>().crit = crit;
         }
         health -= damage;  
         StartCoroutine(FlashRoutine(0.25f));
@@ -381,18 +186,10 @@ RaycastHit2D platformAbove = Physics2D.Raycast(rayOrigin, Vector2.up, 3f, ground
             health = maxHealth;
         }
 
-        spawnDamageNum(damage, true);
-    }
-
-    public void spawnDamageNum(float damage, bool heal)
-    {
-        TextMeshProUGUI x = Instantiate(damagenum, canvas.transform, false);
-        Vector3 pos = new Vector3(gameObject.transform.position.x + UnityEngine.Random.Range(-1f, 1f) ,gameObject.transform.position.y + 0.5f, gameObject.transform.position.z);
-        x.transform.position = Camera.main.WorldToScreenPoint(pos);
-        x.gameObject.GetComponent<damagenum>().dnum = damage;
-        x.gameObject.GetComponent<damagenum>().heal = heal;
-        x.gameObject.GetComponent<damagenum>().targetWorldPos = transform.position;
-        
+        //TextMeshProUGUI x = Instantiate(damagenum, canvas.transform, false);
+        //x.transform.position = Camera.main.WorldToScreenPoint(gameObject.transform.position);
+        //x.gameObject.GetComponent<damageNum>().dnum = h;
+        //x.gameObject.GetComponent<damageNum>().heal = true;
     }
 
     private IEnumerator FlashRoutine(float duration)
@@ -410,5 +207,61 @@ RaycastHit2D platformAbove = Physics2D.Raycast(rayOrigin, Vector2.up, 3f, ground
 
     }
 
+    public void Freeze()
+    {
+        if (frozen) {return;}
+        float duration = 2f;
+        StartCoroutine(FreezeRoutine(duration));
+    }
+
+    private IEnumerator FreezeRoutine(float duration)
+    {
+        
+        SpriteRenderer renderer = GetComponent<SpriteRenderer>();
+        
+        renderer.color = new Color(0.625f, 1, 1, renderer.color.a);
+        frozen = true;
+        
+        // Wait out the stun duration
+        yield return new WaitForSeconds(duration);
+
+
+        renderer.color = new Color(1, 1, 1, renderer.color.a);
+        frozen = false;
+        
+
+    }
+
+    public void burnMethod(float burndamage1) {
+        burndamage += burndamage1;
+        if(burnroutine == null)
+        {
+            burnroutine = StartCoroutine(burn(burndamage, 5));
+        }
+    }
     
+
+    public IEnumerator burn(float damage, int stacks)
+    {
+        burndamage = damage;
+        int i = 0;
+        
+        while(i <= stacks-1)
+        {
+            renderer.color = new Color32(255, 76, 76, 255);
+            yield return new WaitForSeconds(1f);
+            
+            TakeDamage(burndamage);
+
+            renderer.color = new Color32(255, 0, 0, 255);
+            yield return new WaitForSeconds(0.1f);
+            renderer.color = new Color32(255, 76, 76, 255);
+            i++;
+        }
+        renderer.color = new Color32(255, 255, 255, 255);
+        burndamage = 0;
+        StopCoroutine(burnroutine);
+        burnroutine = null;
+        yield break;
+    }
 }
