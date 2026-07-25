@@ -31,6 +31,10 @@ public class ItemSlot : MonoBehaviour, IDropHandler
             }
             eventData.pointerDrag.GetComponent<RectTransform>().anchoredPosition = GetComponent<RectTransform>().anchoredPosition;
             DragDropItem item =eventData.pointerDrag.GetComponent<DragDropItem>(); 
+            if (item.part == null)
+            {
+                return;
+            }
             Part part = item.part;
             item.inSlot = true;
             item.slotType = slot;

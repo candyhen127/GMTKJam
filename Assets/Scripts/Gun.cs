@@ -112,11 +112,11 @@ public class Gun : MonoBehaviour
 
         if(pangle > 90 || pangle < -90)
         {
-            sprite.flipY = true;
+            //sprite.flipY = true;
         }
         else if(pangle <=90 || pangle >= -90)
         {
-            sprite.flipY = false;
+            //sprite.flipY = false;
         }
         
 
@@ -156,7 +156,7 @@ public class Gun : MonoBehaviour
 
         transform.position = hand.position;
         
-        transform.rotation = Quaternion.Euler(0f, 0f, angle);
+        transform.rotation = Quaternion.Euler(0f, 0f, angle + 90);
         if(pangle > 90 || pangle < -90)
         {
             //transform.position = leftHand.position;

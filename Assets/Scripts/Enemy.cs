@@ -47,6 +47,7 @@ public class Enemy : MonoBehaviour
     public GameObject scrapDrop;
     public int drops;
     public GameObject partDrop;
+    public int partdrops = 2;
     public List<Part> parts;
 
 
@@ -159,10 +160,10 @@ RaycastHit2D platformAbove = Physics2D.Raycast(rayOrigin, Vector2.up, 3f, ground
         float angle = Mathf.Atan2(direction.y, direction.x)*Mathf.Rad2Deg;
         if (angle < 90 && angle > -90)
         {
-            renderer.flipX = false;
+            renderer.flipX = true;
         } else
         {
-            renderer.flipX = true;
+            renderer.flipX = false;
         }
 
         if (isGrounded && shouldJump)
@@ -256,8 +257,13 @@ RaycastHit2D platformAbove = Physics2D.Raycast(rayOrigin, Vector2.up, 3f, ground
             Instantiate(scrapDrop, transform.position, Quaternion.identity);
         }
 
+        for (int i = 0; i < partdrops; i++)
+        {
             GameObject partdrop = Instantiate(partDrop, transform.position, Quaternion.identity);
             partdrop.GetComponent<ScrapDrop>().part = parts[UnityEngine.Random.Range(0, parts.Count)];
+        }
+
+            
 
         if (!MenuScript.Instance.truepaused)
         {
