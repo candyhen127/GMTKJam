@@ -44,6 +44,12 @@ public class Enemy : MonoBehaviour
     public bool dead;
     public GameObject explosionprefab;
 
+    public bool headEnemy;
+    public Transform upShootPoint;
+    public Transform downShootPoint;
+
+    public float rotateSpeed;
+
     public GameObject scrapDrop;
     public int drops;
     public GameObject partDrop;
@@ -172,6 +178,10 @@ RaycastHit2D platformAbove = Physics2D.Raycast(rayOrigin, Vector2.up, 3f, ground
             Vector2 jumpDirection = new Vector2(facingDirection, jumpForce);
             rb.AddForce(jumpDirection, ForceMode2D.Impulse);
         }
+
+        if (headEnemy){
+            transform.Rotate(new Vector3(0, 0, rotateSpeed) * Time.deltaTime);
+        }
     }
 
     public void shootProjectile()
@@ -200,6 +210,30 @@ RaycastHit2D platformAbove = Physics2D.Raycast(rayOrigin, Vector2.up, 3f, ground
             }
     }
 
+    public void fourProjectiles()
+    {
+        GameObject bullet = Instantiate(bulletPrefab, leftshootPoint.position, leftshootPoint.rotation);
+                
+                bullet.GetComponent<Bullet>().damage = damage;
+                bullet.GetComponent<Bullet>().StartCoroutine(bullet.GetComponent<Bullet>().bulletDestroy(destroy));
+
+
+                bullet = Instantiate(bulletPrefab, rightshootPoint.position, rightshootPoint.rotation);
+                
+                bullet.GetComponent<Bullet>().damage = damage;
+                bullet.GetComponent<Bullet>().StartCoroutine(bullet.GetComponent<Bullet>().bulletDestroy(destroy));
+
+                bullet = Instantiate(bulletPrefab, upShootPoint.position, upShootPoint.rotation);
+                
+                bullet.GetComponent<Bullet>().damage = damage;
+                bullet.GetComponent<Bullet>().StartCoroutine(bullet.GetComponent<Bullet>().bulletDestroy(destroy));
+
+                bullet = Instantiate(bulletPrefab, downShootPoint.position, downShootPoint.rotation);
+                
+                bullet.GetComponent<Bullet>().damage = damage;
+                bullet.GetComponent<Bullet>().StartCoroutine(bullet.GetComponent<Bullet>().bulletDestroy(destroy));
+    }
+
     void getshoot(float d)
     {
         
@@ -208,7 +242,14 @@ RaycastHit2D platformAbove = Physics2D.Raycast(rayOrigin, Vector2.up, 3f, ground
             //gunanimator.Play("GunFire");
             //aud.Play();
             //Debug.Log("shot");
+            if (headEnemy)
+        {
+            fourProjectiles();
+        } else
+        {
+            
             shootProjectile();
+        }
                 shotcount ++;
                 if (shotcount == shots)
                 {

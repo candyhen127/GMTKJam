@@ -203,7 +203,7 @@ MonoBehaviour:
   health: 100
   maxHealth: 100
   damage: 5
-  moveSpeed: 1
+  moveSpeed: 2
   animator: {fileID: 0}
   renderer: {fileID: 2222864823362995837}
   jumpForce: 8
@@ -232,6 +232,7 @@ MonoBehaviour:
   scrapDrop: {fileID: 5810995078600289247, guid: 7cade332a7582ea40bad3f489506a24d, type: 3}
   drops: 5
   partDrop: {fileID: 5810995078600289247, guid: c652b153103a575489074bd4a1dacde3, type: 3}
+  partdrops: 2
   parts:
   - {fileID: 11400000, guid: e4873eec454321543a4f647833996919, type: 2}
   - {fileID: 11400000, guid: beed5473d5d300042aa48e649926d1ab, type: 2}
