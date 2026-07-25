@@ -11,18 +11,30 @@ public class MenuScript : MonoBehaviour
     public bool paused;
     public bool truepaused;
 
+
+    public GameObject winScreen;
+
+    public GameObject settingsPanel;
+
     public ShopManager shop;
 
     public GameObject gameOverScreen;
     public GameObject pauseScreen;
 
-    public GameObject winScreen;
     public GameObject nuke;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         Instance = this;
+
+        truepaused = false;
+
+        
+        GameManager.Instance.player = player;
+        GameManager.Instance.gameOverScreen = gameOverScreen;
+        GameManager.Instance.pauseScreen = pauseScreen;
+        GameManager.Instance.settingsPanel = settingsPanel;
         //player = GameObject.Find("Robot").GetComponent<Player>();
     }
 

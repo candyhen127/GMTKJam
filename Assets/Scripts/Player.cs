@@ -150,7 +150,7 @@ public class Player : MonoBehaviour
     void Update()
     {
         //don't allow input when paused
-        if(GameManager.Instance.isPaused == true){return;}
+        if(GameManager.Instance.isPaused == true || MenuScript.Instance.truepaused == true){return;}
 
         //player movement input
         //movement.x = Input.GetAxisRaw("Horizontal");
@@ -170,7 +170,7 @@ public class Player : MonoBehaviour
         //cam.transform.position = new Vector3(transform.position.x, transform.position.y - 0.2f, cam.transform.position.z);
 
         //don't allow input when paused
-        if(GameManager.Instance.isPaused == true)
+        if(GameManager.Instance.isPaused == true || MenuScript.Instance.truepaused == true)
         {
             //rb.velocity = Vector2.zero;
             return;

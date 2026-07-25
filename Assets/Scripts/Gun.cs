@@ -110,6 +110,11 @@ public class Gun : MonoBehaviour
     void Update()
     {
 
+         if  (GameManager.Instance.isPaused || MenuScript.Instance.truepaused == true)
+        {
+            return;
+        }
+
         if(pangle > 90 || pangle < -90)
         {
             //sprite.flipY = true;
@@ -145,6 +150,10 @@ public class Gun : MonoBehaviour
 
     void LateUpdate()
     {
+        if  (GameManager.Instance.isPaused || MenuScript.Instance.truepaused == true)
+        {
+            return;
+        }
         
         mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
         transform.position = hand.position;

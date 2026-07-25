@@ -96,9 +96,26 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    private void Start()
+    private void OnEnable()
     {
+        // Subscribe to the sceneLoaded event when the script becomes active
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        // Unsubscribe to avoid memory leaks or null reference errors
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        //Debug.Log($"Scene loaded: {scene.name}");
+        
+        // Put your scene setup logic here (e.g., finding the local player)
+        //InitializeNewScene();
         Time.timeScale = 1f;
+        isPaused = false;
 
         if (player != null)
         {
@@ -107,9 +124,15 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        
+    }
+
     // Update is called once per frame
     void Update()
     {
+        if (MenuScript.Instance.truepaused == true) {return;}
         if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.P))
         {
             if (isPaused)
