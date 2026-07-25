@@ -72,7 +72,7 @@ public class MenuScript : MonoBehaviour
     {
         if (shop != null)
         {
-            if (shop.head == null || shop.leftArm == null || shop.rightArm == null || shop.leftLeg == null || shop.rightLeg == null)
+            if (shop.head.bodypart == "blank" || shop.leftArm.bodypart == "blank" || shop.rightArm.bodypart == "blank" || shop.leftLeg.bodypart == "blank" || shop.rightLeg.bodypart == "blank")
             {
                 return;
             }

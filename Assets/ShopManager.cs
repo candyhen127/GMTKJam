@@ -172,6 +172,7 @@ public TextMeshProUGUI scrapText;
             }
             rightLeg.numCollected--;
         }
+        setStatsReadout();
     }
 
     public void spendScrap(int scrap)
@@ -257,6 +258,7 @@ public TextMeshProUGUI scrapText;
             rightArmLevelText.text = "Level " + rightArmLevel + " (Cost: " + rightArmCost + ")";
             leftLegLevelText.text = "Level " + leftLegLevel + " (Cost: " + leftLegCost + ")";
             rightLegLevelText.text = "Level " + rightLegLevel + " (Cost: " + rightLegCost + ")";
+            setStatsReadout();
     }
 
 
@@ -301,5 +303,29 @@ public TextMeshProUGUI scrapText;
 
         //Set base heads
         GameManager.Instance.baseDefense = baseDefense;
+    }
+
+    public void setStatsReadout()
+    {
+        String s = "Head \nCore Battery: " + head.playerBattery + 
+                    "\nDefense: " + (baseDefense + head.defense) + 
+                    "\nBattery: " + (baseHeadbattery + head.battery) + 
+
+                    "\n\n LeftArm\nWeapon: " + leftArm.weaponName +
+                    "\nAttack Speed: " + (leftbaseAttackSpeed + leftArm.attackSpeed) +
+                    "\nDamage: " + (leftbaseDamage + leftArm.damage) + 
+                    "\nBattery: " + (baseLeftArmbattery + leftArm.battery) + 
+                    
+                    "\n\n RightArm\nWeapon: " + rightArm.weaponName +
+                    "\nAttack Speed: " + (rightbaseAttackSpeed + rightArm.attackSpeed) +
+                    "\nDamage: " + (rightbaseDamage + rightArm.damage) + 
+                    "\nBattery: " + (baseRightArmbattery + rightArm.battery) +
+                    
+                    "\n\n Legs\nMoveSpeed: " + (baseMoveSpeed + leftLeg.moveSpeed + rightLeg.moveSpeed) + 
+                    "\nJumpHeight: " + (baseJumpHeight + leftLeg.jumpHeight + rightLeg.jumpHeight) + 
+                    "\nBattery (Left): " + (baseLeftLegbattery + leftLeg.battery) +
+                    "\nBattery (Right): " + (baseRightLegbattery + rightLeg.battery);
+
+                    Debug.Log(s);
     }
 }

@@ -24,6 +24,7 @@ public class Part : ScriptableObject
     public float defense;     
     
     [Header("Arm")]
+    public String weaponName;
     public float damage;
     public GameObject bulletPrefab;
     public int projectiles;
