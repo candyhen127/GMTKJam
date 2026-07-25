@@ -38,6 +38,11 @@ public class Bullet : MonoBehaviour
             Quaternion q = Quaternion.Euler(transform.rotation.x, transform.rotation.y, transform.rotation.z + UnityEngine.Random.Range(-3, 3) * spread);
             transform.rotation = transform.rotation * q;
         }
+
+        if (!straight)
+        {
+            rb.AddTorque(10, ForceMode2D.Impulse);
+        }
     }
 
     void Update()

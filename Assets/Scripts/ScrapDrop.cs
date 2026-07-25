@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ScrapDrop : MonoBehaviour
@@ -20,6 +21,7 @@ public class ScrapDrop : MonoBehaviour
         if (floating) {return;}
         Vector2 knockbackForce = Random.insideUnitCircle.normalized * force;
         rb.AddForce(knockbackForce, ForceMode2D.Impulse);
+        rb.AddTorque(force/5, ForceMode2D.Impulse);
         if (isPart)
         {
             GetComponent<SpriteRenderer>().sprite = part.icon;
