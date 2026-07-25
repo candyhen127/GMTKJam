@@ -57,6 +57,8 @@ public class Player : MonoBehaviour
     public bool leftLegEquipped = true;
     public bool rightLegEquipped = true;
 
+    public SpriteRenderer sprite;
+
     public GameObject headSprite;
     public GameObject leftArmSprite;
     public GameObject rightArmSprite;
@@ -178,6 +180,23 @@ public class Player : MonoBehaviour
             return;
         }
 
+        float pangle = leftGun.pangle;
+        if(pangle > 90 || pangle < -90)
+        {
+            //transform.position = leftHand.position;
+            sprite.flipX = true;
+            headSprite.GetComponent<SpriteRenderer>().flipX = true;
+            leftLegSprite.GetComponent<SpriteRenderer>().flipX = true;
+            rightLegSprite.GetComponent<SpriteRenderer>().flipX = true;
+        }
+        else if (pangle <=90 || pangle >= -90)
+        {
+            //transform.position = rightHand.position;
+            sprite.flipX = false;
+            headSprite.GetComponent<SpriteRenderer>().flipX = false;
+            leftLegSprite.GetComponent<SpriteRenderer>().flipX = false;
+            rightLegSprite.GetComponent<SpriteRenderer>().flipX = false;
+        }
         //battery -= Time.deltaTime;
         headBattery -= Time.deltaTime;
         leftArmBattery -= Time.deltaTime;
@@ -427,6 +446,7 @@ public class Player : MonoBehaviour
         x.transform.position = Camera.main.WorldToScreenPoint(pos);
         x.gameObject.GetComponent<damagenum>().dnum = damage;
         x.gameObject.GetComponent<damagenum>().heal = heal;
+        x.gameObject.GetComponent<damagenum>().targetWorldPos = transform.position;
         
     }
     

@@ -33,7 +33,7 @@ public class Gun : MonoBehaviour
     public SpriteRenderer sprite;
     
     [SerializeField]
-    private float pangle;
+    public float pangle;
     [SerializeField] 
     private float angle;
 
@@ -156,7 +156,7 @@ public class Gun : MonoBehaviour
 
         transform.position = hand.position;
         
-        transform.rotation = Quaternion.Euler(0f, 0f, angle);;
+        transform.rotation = Quaternion.Euler(0f, 0f, angle);
         if(pangle > 90 || pangle < -90)
         {
             //transform.position = leftHand.position;

@@ -14,15 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Basic Leg
   bodypart: arm
-  icon: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
+  icon: {fileID: -6614648209551281556, guid: 2c1f4761db0d8bf4aaef2ffffba174e6, type: 3}
+  numCollected: -2
   battery: 16
   moveSpeed: 3
   jumpHeight: 1
   playerBattery: 0
+  defense: 0
   damage: 0
   bulletPrefab: {fileID: 0}
   projectiles: 0
   bulletSpeed: 0
   attackSpeed: 0
   destroy: 0
-  defense: 0

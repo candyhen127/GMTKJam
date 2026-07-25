@@ -326,6 +326,7 @@ RaycastHit2D platformAbove = Physics2D.Raycast(rayOrigin, Vector2.up, 3f, ground
         x.transform.position = Camera.main.WorldToScreenPoint(pos);
         x.gameObject.GetComponent<damagenum>().dnum = damage;
         x.gameObject.GetComponent<damagenum>().heal = heal;
+        x.gameObject.GetComponent<damagenum>().targetWorldPos = transform.position;
         
     }
 
