@@ -221,7 +221,7 @@ MonoBehaviour:
   destroy: 3
   leftshootPoint: {fileID: 1267380348154629948}
   rightshootPoint: {fileID: 4810606226477368055}
-  defatkspd: 1
+  defatkspd: 1.5
   shots: 3
   shotcount: 0
   shooting: 0
@@ -229,9 +229,14 @@ MonoBehaviour:
   willexplode2: 0
   dead: 0
   explosionprefab: {fileID: 0}
+  headEnemy: 0
+  upShootPoint: {fileID: 0}
+  downShootPoint: {fileID: 0}
+  rotateSpeed: 0
   scrapDrop: {fileID: 5810995078600289247, guid: 7cade332a7582ea40bad3f489506a24d, type: 3}
   drops: 3
   partDrop: {fileID: 5810995078600289247, guid: c652b153103a575489074bd4a1dacde3, type: 3}
+  partdrops: 2
   parts:
   - {fileID: 11400000, guid: d4e5aa2043734274f96db9ce9fa69315, type: 2}
   - {fileID: 11400000, guid: 0a341d10e66d3594389e302ab7d36ec9, type: 2}
