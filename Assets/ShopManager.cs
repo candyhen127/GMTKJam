@@ -196,7 +196,7 @@ public TextMeshProUGUI scrapText;
     public void spendScrap(int scrap)
     {
         GameManager.Instance.globalScrap -= scrap;
-        scrapText.text = GameManager.Instance.globalScrap.ToString() + " scraps";
+        scrapText.text = "Scrap: " + GameManager.Instance.globalScrap.ToString();
     }
 
     public void Upgrade(String part)
