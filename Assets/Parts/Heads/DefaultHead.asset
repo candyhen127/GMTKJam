@@ -19,7 +19,7 @@ MonoBehaviour:
   battery: 15
   moveSpeed: 0
   jumpHeight: 0
-  playerBattery: 30
+  playerBattery: 0
   defense: 0
   damage: 0
   bulletPrefab: {fileID: 0}
