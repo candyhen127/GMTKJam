@@ -99,6 +99,81 @@ public TextMeshProUGUI scrapText;
         
     }
 
+    public void setPart (String slot, Part part)
+    {
+        if (slot == "head")
+        {
+            if (head != null)
+            {
+                head.numCollected++;
+            }
+            
+            
+            head = part;
+            if (head.numCollected == 0)
+            {
+                return;
+            }
+            head.numCollected--;
+        }
+        if (slot == "leftarm")
+        {
+            if (leftArm != null)
+            {
+                leftArm.numCollected++;
+            }
+            
+            leftArm = part;
+            if (leftArm.numCollected == 0)
+            {
+                return;
+            }
+            leftArm.numCollected--;
+        }
+        if (slot == "rightarm")
+        {
+            if (rightArm != null)
+            {
+                rightArm.numCollected++;
+            }
+            
+            rightArm = part;
+            if (rightArm.numCollected == 0)
+            {
+                return;
+            }
+            rightArm.numCollected--;
+        }
+        if (slot == "leftleg")
+        {
+            if (leftLeg != null)
+            {
+                leftLeg.numCollected++;
+            }
+            
+            leftLeg = part;
+            if (leftLeg.numCollected == 0)
+            {
+                return;
+            }
+            leftLeg.numCollected--;
+        }
+        if (slot == "rightleg")
+        {
+            if (rightLeg != null)
+            {
+                rightLeg.numCollected++;
+            }
+            
+            rightLeg = part;
+            if (rightLeg.numCollected == 0)
+            {
+                return;
+            }
+            rightLeg.numCollected--;
+        }
+    }
+
     public void spendScrap(int scrap)
     {
         GameManager.Instance.globalScrap -= scrap;
@@ -188,11 +263,11 @@ public TextMeshProUGUI scrapText;
 
     public void LockInBuild()
     {
-        head.numCollected--;
-        leftArm.numCollected--;
-        rightArm.numCollected--;
-        leftLeg.numCollected--;
-        rightLeg.numCollected--;
+        //head.numCollected--;
+        //leftArm.numCollected--;
+        //rightArm.numCollected--;
+        //leftLeg.numCollected--;
+        //rightLeg.numCollected--;
 
         //Set parts
         GameManager.Instance.head = head;

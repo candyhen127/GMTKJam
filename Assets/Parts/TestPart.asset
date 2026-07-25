@@ -15,7 +15,7 @@ MonoBehaviour:
   name: HeadTest
   bodypart: head
   icon: {fileID: -2413806693520163455, guid: ebe73ca9363db456bacf42c025bb4847, type: 3}
-  numCollected: 0
+  numCollected: 5
   battery: 100
   moveSpeed: 2
   jumpHeight: 1

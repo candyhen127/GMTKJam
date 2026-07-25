@@ -90,6 +90,12 @@ public class GameManager : MonoBehaviour
         {
             p.numCollected = 0;
         }
+
+        for (int i = 0; i < 3; i++)
+        {
+            
+        allParts[i].numCollected = 5;
+        }
         Instance = this;
         DontDestroyOnLoad(gameObject);
     }

@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: DefaultLeg
   m_EditorClassIdentifier: 
   name: Basic Leg
-  bodypart: arm
+  bodypart: leg
   icon: {fileID: -6614648209551281556, guid: 2c1f4761db0d8bf4aaef2ffffba174e6, type: 3}
-  numCollected: -2
+  numCollected: 5
   battery: 16
   moveSpeed: 3
   jumpHeight: 1

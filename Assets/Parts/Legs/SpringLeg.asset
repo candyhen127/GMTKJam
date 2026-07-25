@@ -13,16 +13,17 @@ MonoBehaviour:
   m_Name: SpringLeg
   m_EditorClassIdentifier: 
   name: Basic Leg
-  bodypart: arm
+  bodypart: leg
   icon: {fileID: -2413806693520163455, guid: ebe73ca9363db456bacf42c025bb4847, type: 3}
+  numCollected: 5
   battery: 13
   moveSpeed: 1
   jumpHeight: 3
   playerBattery: 0
+  defense: 0
   damage: 0
   bulletPrefab: {fileID: 0}
   projectiles: 0
   bulletSpeed: 0
   attackSpeed: 0
   destroy: 0
-  defense: 0

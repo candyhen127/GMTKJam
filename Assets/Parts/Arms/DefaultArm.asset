@@ -15,7 +15,7 @@ MonoBehaviour:
   name: Basic Arm
   bodypart: arm
   icon: {fileID: 3240970818276289729, guid: e7f188d9fdc1e8d429c2792b4c7f8d45, type: 3}
-  numCollected: -4
+  numCollected: 5
   battery: 15
   moveSpeed: 0
   jumpHeight: 0
