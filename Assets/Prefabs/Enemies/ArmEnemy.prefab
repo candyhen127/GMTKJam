@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 521238889483117363}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: -0.92387956, w: 0.38268343}
-  m_LocalPosition: {x: 0.5, y: -0.4, z: 0}
+  m_LocalPosition: {x: 0.18, y: -0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -87,7 +87,7 @@ Transform:
   m_GameObject: {fileID: 7846972494515484482}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.92387956, w: 0.38268343}
-  m_LocalPosition: {x: -0.5, y: -0.4, z: 0}
+  m_LocalPosition: {x: -0.18, y: -0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -175,7 +175,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: ebe73ca9363db456bacf42c025bb4847, type: 3}
+  m_Sprite: {fileID: 6653802701403116547, guid: 49e277db7976d4e45a5fbdd2290b9ba7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -229,6 +229,10 @@ MonoBehaviour:
   willexplode2: 0
   dead: 0
   explosionprefab: {fileID: 0}
+  headEnemy: 0
+  upShootPoint: {fileID: 0}
+  downShootPoint: {fileID: 0}
+  rotateSpeed: 0
   scrapDrop: {fileID: 5810995078600289247, guid: 7cade332a7582ea40bad3f489506a24d, type: 3}
   drops: 5
   partDrop: {fileID: 5810995078600289247, guid: c652b153103a575489074bd4a1dacde3, type: 3}

@@ -50,6 +50,8 @@ public class Enemy : MonoBehaviour
 
     public float rotateSpeed;
 
+    public bool rightFacing;
+
     public GameObject scrapDrop;
     public int drops;
     public GameObject partDrop;
@@ -166,10 +168,26 @@ RaycastHit2D platformAbove = Physics2D.Raycast(rayOrigin, Vector2.up, 3f, ground
         float angle = Mathf.Atan2(direction.y, direction.x)*Mathf.Rad2Deg;
         if (angle < 90 && angle > -90)
         {
+            if (rightFacing)
+            {
+                
             renderer.flipX = true;
+            } else
+            {
+                
+            renderer.flipX = false;
+            }
         } else
         {
+            if (rightFacing)
+            {
+                
             renderer.flipX = false;
+            } else
+            {
+                
+            renderer.flipX = true;
+            }
         }
 
         if (isGrounded && shouldJump)
