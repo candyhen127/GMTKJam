@@ -6,14 +6,30 @@ using System;
 using System.Linq;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
+using System.Runtime.InteropServices.WindowsRuntime;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
     public Player player;
+    public bool paused;
+    public bool truepaused;
+    //public TextMeshProUGUI timer;
 
-    public int globalScrap;
-    public List<Part> allParts;
+    public float timeleft = 600;
+    public float startTimeLeft = 600;
+    public float halftime = 300;
+    float spawntimer;
+    public float spawnInterval;
+    public float baseSpawnInterval = 2.2f;
+    public float spawnDistance;
+    public int maxEnemiesAtSpawn = 1;
+    public int baseMaxEnemies = 1;
+
+    public int difficultyUpMinute = 9;
+    public int difficulty = 1;
+
+    public List<GameObject> enemyPrefabs; 
 
     public GameObject gameOverScreen;
     public GameObject pauseScreen;
@@ -25,33 +41,8 @@ public class GameManager : MonoBehaviour
 
     public bool won = false;
 
-    public Part head;
-    public Part leftArm;
-    public Part rightArm;
-    public Part leftLeg;
-    public Part rightLeg;
-
-    public int headLevel = 0;
-    public int leftArmLevel = 0;
-    public int rightArmLevel = 0;
-    public int leftLegLevel = 0;
-    public int rightLegLevel = 0;
-
-    public float baseHeadbattery;
-    public float baseLeftArmbattery;
-    public float baseRightArmbattery;
-    public float baseLeftLegbattery;
-    public float baseRightLegbattery;
-    
-    public float baseMoveSpeed = 3;
-    public float baseJumpHeight = 3;
-    public float baseDefense = 1;
-
-    public float leftbaseAttackSpeed = 0.5f;
-    public float leftbaseDamage = 10;
-    public float rightbaseAttackSpeed = 0.5f;
-    public float rightbaseDamage = 10;
-    //public int baseProjectiles = 1;
+    public float spawnIntervalScale = 1.075f;
+    public float maxEnemiesScale = 0.25f;
 
     public TextMeshProUGUI batteryText;
     public TextMeshProUGUI weaponText;
@@ -61,19 +52,13 @@ public class GameManager : MonoBehaviour
     public float startYPosition = 0f;
     public int startDepthMeters = 0;
 
-    public bool isPaused = false;
 
     //public int[] quadrants = {0, 1, 2, 3};
 
-    // Start is called before the first frame update
-    void Awake()
-    {   
-        if (Instance != null)
-        {
-            Destroy(gameObject);
-            return;
-        }
 
+    // Start is called before the first frame update
+    void Start()
+    {   
         //update start depth meters
         if (player != null)
         {
@@ -81,50 +66,60 @@ public class GameManager : MonoBehaviour
             startDepthMeters = (int)startYPosition;
         }
         //startTimeLeft = MenuManager.Instance.startTimeLeft;
-        
-        foreach (Part p in allParts)
-        {
-            if (p != null) p.numCollected = 0;
-        }
-
-        
-        allParts[0].numCollected = 5;
-        allParts[1].numCollected = 10;
-        allParts[2].numCollected = 10;
-
+        Time.timeScale = 1;
+        timeleft = startTimeLeft;
         Instance = this;
-        DontDestroyOnLoad(gameObject);
-    }
-
-    private void Start()
-    {
-        Time.timeScale = 1f;
-
-        if (player != null)
-        {
-            startYPosition = player.transform.position.y;
-            startDepthMeters = (int)startYPosition;
-        }
+        spawntimer = 0f;
+        spawnInterval = baseSpawnInterval;
+        maxEnemiesAtSpawn = baseMaxEnemies;
     }
 
     // Update is called once per frame
     void Update()
     {
+        // Allow ESC or P to toggle pause state
         if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.P))
         {
-            if (isPaused)
+            if (truepaused)
             {
                 ResumeGame();
             }
             else
             {
-                PauseGame();
+                pauseGame();
             }
         }
     }
 
     void FixedUpdate()
     {
+        if (timeleft <= 0 && !won)
+        {
+            //WinGame();
+            //won = true;
+            
+            
+            //return;
+        }
+        if (won)
+        {
+            //MenuManager.Instance.aud.pitch = 1f;
+            return;
+        }
+        int minutes = (int)(timeleft/60);
+        int seconds = (int)(timeleft%60);
+        String secondstring = seconds.ToString();
+        if(seconds < 10)
+        {
+            secondstring = "0" + secondstring;
+        }
+
+        //battery % based on timeleft / startTimeLeft
+        float batteryPercent = Mathf.Clamp((timeleft / startTimeLeft) * 100f, 0, 100);
+        
+        if (batteryText != null) 
+            batteryText.text = "battery: " + (int)batteryPercent + "%";
+
         if (player != null && depthTextUI != null)
         {
             // Calculate distance descended (how far below startYPosition the player is)
@@ -138,62 +133,106 @@ public class GameManager : MonoBehaviour
 
             depthTextUI.text = -currentDepth + " m";
         }
+            
+        //timer.text = minutes +":" + secondstring;
+        
+        if (timeleft < 60)
+        {
+            //timer.color = Color.red;
+            
+            //MenuManager.Instance.aud.pitch = Mathf.Lerp(1.01f, 1.3f, 60 - timeleft);;
+        } else
+        {
+            //timer.color = Color.white;
+            //MenuManager.Instance.aud.pitch = 1f;
+        }
+        
     }
 
-    public void PauseGame()
-    {
-        isPaused = true;
-        Time.timeScale = 0f;
 
-        if (pauseScreen != null) 
-            pauseScreen.SetActive(true);
+    public void SpawnEnemy(int number)
+    {
+        for(int i = 0; i < 4; i++) {
+            float angle = UnityEngine.Random.Range(0f, Mathf.PI / 2) + i * (Mathf.PI / 2);
+            
+            // Calculate the spawn position
+            Vector3 spawnOffset = new Vector3(Mathf.Cos(angle), Mathf.Sin(angle), 0) * spawnDistance;
+            Vector3 spawnPos = player.transform.position + spawnOffset;
+
+            // Instantiate (or pull from object pool)
+            for(int j = 0; j < number; j++) {
+                GameObject enemy;
+                if (timeleft < halftime)
+                {
+                    enemy = enemyPrefabs[(int)UnityEngine.Random.Range(0, 1.5f)];
+                } else
+                {
+                    enemy = enemyPrefabs[0];
+                }
+                Instantiate(enemy, spawnPos + new Vector3(i * 0.25f, 0, 0), Quaternion.identity);
+            }
+        }
+        //quadrants = quadrants.OrderBy(x => UnityEngine.Random.value).ToArray();
+    }
+
+    public void pauseGame()
+    {
+        pauseScreen.SetActive(true);
+        Time.timeScale = 0f;
+        truepaused = true;
+        paused = true;
     }
 
     public void ResumeGame()
     {
-        isPaused = false;
+        // 1. Hide UI screens
+        if (pauseScreen != null) pauseScreen.SetActive(false);
+        if (settingsPanel != null) settingsPanel.SetActive(false);
+
+        // 2. Reset time and state flags
         Time.timeScale = 1f;
-
-        if (pauseScreen != null) 
-            pauseScreen.SetActive(false);
-
-        if (settingsPanel != null) 
-            settingsPanel.SetActive(false);
+        truepaused = false;
+        paused = false;
     }
-
     public void OpenSettings()
     {
-        if (settingsPanel != null) 
+        if (settingsPanel != null)
+        {
             settingsPanel.SetActive(true);
-
-        if (pauseScreen != null) 
-            pauseScreen.SetActive(false);
+        }
     }
 
     public void CloseSettings()
     {
-        if (settingsPanel != null) 
+        if (settingsPanel != null)
+        {
             settingsPanel.SetActive(false);
-
-        if (pauseScreen != null) 
-            pauseScreen.SetActive(true);
+        }
     }
 
     public void loseGame()
     {
+        
+            truepaused = true;
+            //MenuManager.Instance.StartCoroutine(MenuManager.Instance.flash(Color.red));
         StartCoroutine(GameOverRoutine());
+        
     }
 
     public IEnumerator GameOverRoutine()
     {
-        if (gameOverScreen != null) gameOverScreen.SetActive(true);
-
-        for (float i = 1f; i >= 0; i -= Time.unscaledDeltaTime)
+        //StartCoroutine(MenuManager.Instance.AudioFade(true));
+        //canvas.GameOver();
+        gameOverScreen.SetActive(true);
+        for(float i = 1f; i>=0; i-=Time.unscaledDeltaTime)
         {
             Time.timeScale = i;
             yield return null;
         }
         Time.timeScale = 0;
+        
+        
+    
     }
 
     public void RestartGame()
@@ -201,10 +240,13 @@ public class GameManager : MonoBehaviour
         StartCoroutine(RestartRoutine("SampleScene"));
     }
 
-    public IEnumerator RestartRoutine(string scene)
+    public IEnumerator RestartRoutine(String scene)
     {
-        Time.timeScale = 1f;
+        
+       // StartCoroutine(MenuManager.Instance.AudioFade(true));
         yield return new WaitForSecondsRealtime(0.1f);
+        //MenuManager.Instance.StartCoroutine(MenuManager.Instance.FadeImage(false));
+        yield return new WaitForSecondsRealtime(1f);
         SceneManager.LoadScene(scene);
     }
 
@@ -215,23 +257,27 @@ public class GameManager : MonoBehaviour
 
     public void WinGame()
     {
-        won = true;
-        if (nuke != null && player != null)
-        {
-            Instantiate(nuke, player.transform.position, Quaternion.identity);
-        }
+        
+            truepaused = true;
+            //MenuManager.Instance.StartCoroutine(MenuManager.Instance.flash(Color.white));
+        Instantiate(nuke, player.transform.position, Quaternion.identity);
         StartCoroutine(WinRoutine());
+        
     }
 
     public IEnumerator WinRoutine()
     {
-        if (winScreen != null) winScreen.SetActive(true);
-
-        for (float i = 1f; i >= 0; i -= Time.unscaledDeltaTime)
+        //StartCoroutine(MenuManager.Instance.AudioFade(true));
+        //canvas.GameOver();
+        winScreen.SetActive(true);
+        for(float i = 1f; i>=0; i-=Time.unscaledDeltaTime)
         {
             Time.timeScale = i;
             yield return null;
         }
         Time.timeScale = 0;
+        
+        
+    
     }
 }
