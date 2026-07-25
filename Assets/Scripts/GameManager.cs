@@ -87,10 +87,10 @@ public class GameManager : MonoBehaviour
             if (p != null) p.numCollected = 0;
         }
 
-        for (int i = 0; i < Mathf.Min(3, allParts.Count); i++)
-        {
-            if (allParts[i] != null) allParts[i].numCollected = 5;
-        }
+        
+        allParts[0].numCollected = 5;
+        allParts[1].numCollected = 10;
+        allParts[2].numCollected = 10;
 
         Instance = this;
         DontDestroyOnLoad(gameObject);

@@ -167,7 +167,7 @@ public class Player : MonoBehaviour
     {
         
         //camera follows player
-        cam.transform.position = new Vector3(transform.position.x, transform.position.y - 0.2f, cam.transform.position.z);
+        //cam.transform.position = new Vector3(transform.position.x, transform.position.y - 0.2f, cam.transform.position.z);
 
         //don't allow input when paused
         if(MenuScript.Instance.paused == true || MenuScript.Instance.truepaused)
