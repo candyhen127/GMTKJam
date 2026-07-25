@@ -16,6 +16,12 @@ public class ShopManager : MonoBehaviour
     public int leftLegLevel = 1;
     public int rightLegLevel = 1;
 
+    public int headCost = 3;
+    public int leftArmCost = 3;
+    public int rightArmCost = 3;
+    public int leftLegCost = 3;
+    public int rightLegCost = 3;
+
 public TextMeshProUGUI scrapText;
     public TextMeshProUGUI headLevelText;
     public TextMeshProUGUI leftArmLevelText;
@@ -59,6 +65,18 @@ public TextMeshProUGUI scrapText;
         baseRightLegbattery = GameManager.Instance.baseRightLegbattery;
         baseLeftLegbattery = GameManager.Instance.baseLeftLegbattery;
 
+        headLevel = GameManager.Instance.headLevel;
+        leftArmLevel = GameManager.Instance.leftArmLevel;
+        rightArmLevel = GameManager.Instance.rightArmLevel;
+        leftLegLevel = GameManager.Instance.leftLegLevel;
+        rightLegLevel = GameManager.Instance.rightLegLevel;
+
+        headCost = baseScrap + headLevel * scrapScaling;
+        leftArmCost = baseScrap + leftArmLevel * scrapScaling;
+        rightArmCost = baseScrap + rightArmLevel * scrapScaling;
+        leftLegCost = baseScrap + leftLegLevel * scrapScaling;
+        rightLegCost = baseScrap + rightLegLevel * scrapScaling;
+
         //Set base arms
         leftbaseAttackSpeed = GameManager.Instance.leftbaseAttackSpeed;
         rightbaseAttackSpeed = GameManager.Instance.rightbaseAttackSpeed;
@@ -72,6 +90,7 @@ public TextMeshProUGUI scrapText;
         //Set base heads
         baseDefense = GameManager.Instance.baseDefense;
         spendScrap(0);
+        Upgrade("");
     }
 
     // Update is called once per frame
@@ -83,60 +102,86 @@ public TextMeshProUGUI scrapText;
     public void spendScrap(int scrap)
     {
         GameManager.Instance.globalScrap -= scrap;
-        scrapText.text = scrap.ToString();
+        scrapText.text = GameManager.Instance.globalScrap.ToString();
     }
 
     public void Upgrade(String part)
     {
         if (part == "head")
         {
+            if (GameManager.Instance.globalScrap - headCost < 0)
+            {
+                return;
+            }
+            spendScrap(headCost);
+            headCost += scrapScaling;
             headLevel++;
-            headLevelText.text = "Level " + headLevel;
             baseDefense += defenseScaling;
             baseHeadbattery += batteryScaling;
 
-            spendScrap(baseScrap + headLevel * scrapScaling);
         }
         if (part == "leftarm")
         {
+            if (GameManager.Instance.globalScrap - leftArmCost < 0)
+            {
+                return;
+            }
+            spendScrap(leftArmCost);
+            leftArmCost += scrapScaling;
             leftArmLevel++;
-            leftArmLevelText.text = "Level " + leftArmLevel;
             leftbaseAttackSpeed += attackSpeedScaling;
             leftbaseDamage += damageScaling;
             baseLeftArmbattery += batteryScaling;
             
-            spendScrap(baseScrap + leftArmLevel * scrapScaling);
         }
         if (part == "rightarm")
         {
+            if (GameManager.Instance.globalScrap - rightArmCost < 0)
+            {
+                return;
+            }
+            spendScrap(rightArmCost);
+            rightArmCost += scrapScaling;
             rightArmLevel++;
-            rightArmLevelText.text = "Level " + rightArmLevel;
             rightbaseAttackSpeed += attackSpeedScaling;
             rightbaseDamage += damageScaling;
             baseRightArmbattery += batteryScaling;
             
-            spendScrap(baseScrap + rightArmLevel * scrapScaling);
         }
         if (part == "leftleg")
         {
+            if (GameManager.Instance.globalScrap - leftLegCost < 0)
+            {
+                return;
+            }
+            spendScrap(leftLegCost);
+            leftLegCost += scrapScaling;
             leftLegLevel++;
-            leftLegLevelText.text = "Level " + leftLegLevel;
             baseMoveSpeed += moveSpeedScaling;
             baseJumpHeight += jumpHeightScaling;
             baseLeftLegbattery += batteryScaling;
             
-            spendScrap(baseScrap + leftLegLevel * scrapScaling);
         }
         if (part == "rightleg")
         {
+            if (GameManager.Instance.globalScrap - rightLegCost < 0)
+            {
+                return;
+            }
+            spendScrap(rightLegCost);
+            rightLegCost += scrapScaling;
             rightLegLevel++;
-            rightLegLevelText.text = "Level " + rightLegLevel;
             baseMoveSpeed += moveSpeedScaling;
             baseJumpHeight += jumpHeightScaling;
             baseRightLegbattery += batteryScaling;
             
-            spendScrap(baseScrap + rightLegLevel * scrapScaling);
         }
+        
+            headLevelText.text = "Level " + headLevel + " (Cost: " + headCost + ")";
+            leftArmLevelText.text = "Level " + leftArmLevel + " (Cost: " + leftArmCost + ")";
+            rightArmLevelText.text = "Level " + rightArmLevel + " (Cost: " + rightArmCost + ")";
+            leftLegLevelText.text = "Level " + leftLegLevel + " (Cost: " + leftLegCost + ")";
+            rightLegLevelText.text = "Level " + rightLegLevel + " (Cost: " + rightLegCost + ")";
     }
 
 
@@ -155,6 +200,12 @@ public TextMeshProUGUI scrapText;
         GameManager.Instance.rightArm=rightArm;
         GameManager.Instance.leftLeg=leftLeg;
         GameManager.Instance.rightLeg=rightLeg;
+
+        GameManager.Instance.headLevel = headLevel;
+        GameManager.Instance.leftArmLevel = leftArmLevel;
+        GameManager.Instance.rightArmLevel = rightArmLevel;
+        GameManager.Instance.leftLegLevel = leftLegLevel;
+         GameManager.Instance.rightLegLevel = rightLegLevel;
 
         //Set batterys
         GameManager.Instance.baseHeadbattery = baseHeadbattery;

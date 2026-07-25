@@ -34,6 +34,12 @@ public class GameManager : MonoBehaviour
     public Part leftLeg;
     public Part rightLeg;
 
+    public int headLevel = 1;
+    public int leftArmLevel = 1;
+    public int rightArmLevel = 1;
+    public int leftLegLevel = 1;
+    public int rightLegLevel = 1;
+
     public float baseHeadbattery;
     public float baseLeftArmbattery;
     public float baseRightArmbattery;

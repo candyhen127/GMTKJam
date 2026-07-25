@@ -1238,6 +1238,7 @@ MonoBehaviour:
   player: {fileID: 0}
   paused: 0
   truepaused: 0
+  shop: {fileID: 993665586}
   gameOverScreen: {fileID: 0}
   pauseScreen: {fileID: 0}
   winScreen: {fileID: 0}
@@ -1502,17 +1503,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c640707643f53cc41bace2658580019b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  head: {fileID: 0}
-  leftArm: {fileID: 0}
-  rightArm: {fileID: 0}
-  leftLeg: {fileID: 0}
-  rightLeg: {fileID: 0}
+  head: {fileID: 11400000, guid: 16569a1c4f95cc24db68f9971e94433c, type: 2}
+  leftArm: {fileID: 11400000, guid: e4873eec454321543a4f647833996919, type: 2}
+  rightArm: {fileID: 11400000, guid: e4873eec454321543a4f647833996919, type: 2}
+  leftLeg: {fileID: 11400000, guid: d4e5aa2043734274f96db9ce9fa69315, type: 2}
+  rightLeg: {fileID: 11400000, guid: d4e5aa2043734274f96db9ce9fa69315, type: 2}
   headLevel: 1
   leftArmLevel: 1
   rightArmLevel: 1
   leftLegLevel: 1
   rightLegLevel: 1
-  scrapText: {fileID: 0}
+  scrapText: {fileID: 123719744}
   headLevelText: {fileID: 1393498166}
   leftArmLevelText: {fileID: 1134354552}
   rightArmLevelText: {fileID: 702379224}
@@ -1536,8 +1537,8 @@ MonoBehaviour:
   batteryScaling: 5
   moveSpeedScaling: 1
   jumpHeightScaling: 1
-  scrapScaling: 0
-  baseScrap: 0
+  scrapScaling: 2
+  baseScrap: 3
 --- !u!4 &993665587
 Transform:
   m_ObjectHideFlags: 0
@@ -3038,6 +3039,11 @@ MonoBehaviour:
   rightArm: {fileID: 11400000, guid: ff2ce4889a08afe48b85665b3ba8a5d0, type: 2}
   leftLeg: {fileID: 11400000, guid: d4e5aa2043734274f96db9ce9fa69315, type: 2}
   rightLeg: {fileID: 11400000, guid: 0a341d10e66d3594389e302ab7d36ec9, type: 2}
+  headLevel: 0
+  leftArmLevel: 0
+  rightArmLevel: 0
+  leftLegLevel: 0
+  rightLegLevel: 0
   baseHeadbattery: 0
   baseLeftArmbattery: 0
   baseRightArmbattery: 0

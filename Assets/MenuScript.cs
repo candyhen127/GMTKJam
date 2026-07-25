@@ -9,6 +9,8 @@ public class MenuScript : MonoBehaviour
     public Player player;
     public bool paused;
     public bool truepaused;
+
+    public ShopManager shop;
     
     
     public GameObject gameOverScreen;
@@ -66,6 +68,11 @@ public class MenuScript : MonoBehaviour
 
     public void StartRun()
     {
+        if (shop.head == null || shop.leftArm == null || shop.rightArm == null || shop.leftArm == null || shop.rightArm == null)
+        {
+            return;
+        }
+        shop.LockInBuild();
         StartCoroutine(RestartRoutine("MainScene"));
     }
 

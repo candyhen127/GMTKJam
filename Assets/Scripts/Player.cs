@@ -109,6 +109,12 @@ public class Player : MonoBehaviour
         leftLeg = GameManager.Instance.leftLeg;
         rightLeg = GameManager.Instance.rightLeg;
 
+        baseHeadbattery = GameManager.Instance.baseHeadbattery;
+        baseLeftArmbattery = GameManager.Instance.baseLeftArmbattery;
+        baseRightArmbattery = GameManager.Instance.baseRightArmbattery;
+        baseRightLegbattery = GameManager.Instance.baseRightLegbattery;
+        baseLeftLegbattery = GameManager.Instance.baseLeftLegbattery;
+
         headSprite.GetComponent<SpriteRenderer>().sprite = head.icon;
 
         //baseMaxbattery = GameManager.Instance.baseMaxbattery;
