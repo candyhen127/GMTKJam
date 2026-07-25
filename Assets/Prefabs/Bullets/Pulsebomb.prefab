@@ -219,7 +219,7 @@ MonoBehaviour:
   pierce: 0
   bounce: 0
   explosionprefab: {fileID: 414880199326062256, guid: 8abdd389343eede479e4dfd9ca2d0f6c, type: 3}
-  pulse: 0.1
+  pulse: 0.2
   pierced: []
   dontDestroy: 0
   bonusOnBounce: 0
