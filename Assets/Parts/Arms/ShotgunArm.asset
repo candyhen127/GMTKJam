@@ -15,7 +15,7 @@ MonoBehaviour:
   name: Shotgun Arm
   bodypart: arm
   icon: {fileID: 7482667652216324306, guid: 75f5f34dc1b5347e0b8351032682f224, type: 3}
-  numCollected: 0
+  numCollected: 1
   battery: 10
   moveSpeed: 0
   jumpHeight: 0
@@ -26,5 +26,5 @@ MonoBehaviour:
   bulletPrefab: {fileID: 5810995078600289247, guid: ef153aee3ad6eb148b400bfed44f71a2, type: 3}
   projectiles: 3
   bulletSpeed: 0
-  attackSpeed: 0
+  attackSpeed: -0.2
   destroy: 0.4

@@ -16,7 +16,7 @@ MonoBehaviour:
   bodypart: arm
   icon: {fileID: -2413806693520163455, guid: ebe73ca9363db456bacf42c025bb4847, type: 3}
   numCollected: 0
-  battery: 20
+  battery: 8
   moveSpeed: 0
   jumpHeight: 0
   playerBattery: 0
