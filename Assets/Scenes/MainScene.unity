@@ -9373,7 +9373,7 @@ MonoBehaviour:
   totalScrap: 0
   totalParts: 0
   totalRuns: 1
-  runsToCorrupt: 10
+  runsToCorrupt: 5
   allParts:
   - {fileID: 11400000, guid: 16569a1c4f95cc24db68f9971e94433c, type: 2}
   - {fileID: 11400000, guid: e4873eec454321543a4f647833996919, type: 2}
