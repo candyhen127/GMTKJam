@@ -15,12 +15,13 @@ MonoBehaviour:
   name: Basic Head
   bodypart: head
   icon: {fileID: 1196056793615978812, guid: d46c2fe8b8792ec4e9e1e09de48979ea, type: 3}
-  numCollected: 4
-  battery: 15
+  numCollected: 1
+  battery: 18
   moveSpeed: 0
   jumpHeight: 0
-  playerBattery: 0
+  playerBattery: 15
   defense: 0
+  weaponName: 
   damage: 0
   bulletPrefab: {fileID: 0}
   projectiles: 0

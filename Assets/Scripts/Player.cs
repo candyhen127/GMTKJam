@@ -150,7 +150,7 @@ public class Player : MonoBehaviour
     void Update()
     {
         //don't allow input when paused
-        if(MenuScript.Instance.paused == true || MenuScript.Instance.truepaused){return;}
+        if(GameManager.Instance.isPaused == true || MenuScript.Instance.truepaused == true){return;}
 
         //player movement input
         //movement.x = Input.GetAxisRaw("Horizontal");
@@ -167,10 +167,10 @@ public class Player : MonoBehaviour
     {
         
         //camera follows player
-        cam.transform.position = new Vector3(transform.position.x, transform.position.y - 0.2f, cam.transform.position.z);
+        //cam.transform.position = new Vector3(transform.position.x, transform.position.y - 0.2f, cam.transform.position.z);
 
         //don't allow input when paused
-        if(MenuScript.Instance.paused == true || MenuScript.Instance.truepaused)
+        if(GameManager.Instance.isPaused == true || MenuScript.Instance.truepaused == true)
         {
             //rb.velocity = Vector2.zero;
             return;
@@ -296,8 +296,7 @@ public class Player : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if(MenuScript.Instance.truepaused == true){return;}
-        if(MenuScript.Instance.paused == true){return;}
+        if(GameManager.Instance.isPaused == true){return;}
         if (knockedBack){return;}
 
         if (collision.gameObject.tag == "Enemy" && !invince){
@@ -454,13 +453,13 @@ public class Player : MonoBehaviour
 
     public void UpdateScrapCount()
     {
-        scrapText.text = scrap.ToString();
+        scrapText.text = "Scrap: " + scrap.ToString();
     }
 
     
     public void GetScrap(int points)
     {
-        if(MenuScript.Instance.paused == true ||  MenuScript.Instance.truepaused == true){return;}
+        if(GameManager.Instance.isPaused == true){return;}
         //getxp.Play();
         scrap += points;
         UpdateScrapCount();

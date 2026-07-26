@@ -14,16 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Pulse Arm
   bodypart: arm
-  icon: {fileID: -2413806693520163455, guid: ebe73ca9363db456bacf42c025bb4847, type: 3}
-  numCollected: 5
+  icon: {fileID: 7620337844738167494, guid: 3c5d25be8fab0814699d0261705fb7a3, type: 3}
+  numCollected: 0
   battery: 8
   moveSpeed: 0
   jumpHeight: 0
   playerBattery: 0
   defense: 0
-  damage: -5
-  bulletPrefab: {fileID: 5810995078600289247, guid: e25ae79e4564b8a45980eaf0fb1dcd8a, type: 3}
+  weaponName: Pulse Bomb
+  damage: 10
+  bulletPrefab: {fileID: 5810995078600289247, guid: a535fa1e42808254281935657a28dcd8, type: 3}
   projectiles: 1
   bulletSpeed: -1
-  attackSpeed: 1
-  destroy: 5
+  attackSpeed: -0.75
+  destroy: 7

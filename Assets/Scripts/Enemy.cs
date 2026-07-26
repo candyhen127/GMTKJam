@@ -44,6 +44,14 @@ public class Enemy : MonoBehaviour
     public bool dead;
     public GameObject explosionprefab;
 
+    public bool headEnemy;
+    public Transform upShootPoint;
+    public Transform downShootPoint;
+
+    public float rotateSpeed;
+
+    public bool rightFacing;
+
     public GameObject scrapDrop;
     public int drops;
     public GameObject partDrop;
@@ -55,6 +63,10 @@ public class Enemy : MonoBehaviour
 
     public TextMeshProUGUI damagenum;
     public GameObject canvas;
+
+    public float aggroDistance;
+
+    public bool aggro;
 
     public AudioSource hit;
     // Start is called before the first frame update
@@ -77,10 +89,19 @@ public class Enemy : MonoBehaviour
         {
             Die();
         }
+        if (Vector2.Distance(transform.position, player.transform.position) < aggroDistance)
+        {
+            aggro = true;
+        }
+
+        if (!aggro)
+        {
+            return;
+        }
 
         getshoot(damage);
         //don't allow input when paused
-        if(MenuScript.Instance.paused == true){
+        if(GameManager.Instance.isPaused == true){
             //gameObject.GetComponent<AIPath>().maxSpeed = 0;
             //GetComponent<Animator>().speed = 0;
             rb.mass = 2;
@@ -156,14 +177,35 @@ RaycastHit2D platformAbove = Physics2D.Raycast(rayOrigin, Vector2.up, 3f, ground
     void FixedUpdate()
     {
         if (dead) {return;}
+
+        if (!aggro)
+        {
+            return;
+        }
         Vector2 direction = rb.position - player.rb.position;
         float angle = Mathf.Atan2(direction.y, direction.x)*Mathf.Rad2Deg;
         if (angle < 90 && angle > -90)
         {
+            if (rightFacing)
+            {
+                
             renderer.flipX = true;
+            } else
+            {
+                
+            renderer.flipX = false;
+            }
         } else
         {
+            if (rightFacing)
+            {
+                
             renderer.flipX = false;
+            } else
+            {
+                
+            renderer.flipX = true;
+            }
         }
 
         if (isGrounded && shouldJump)
@@ -171,6 +213,10 @@ RaycastHit2D platformAbove = Physics2D.Raycast(rayOrigin, Vector2.up, 3f, ground
             shouldJump = false;
             Vector2 jumpDirection = new Vector2(facingDirection, jumpForce);
             rb.AddForce(jumpDirection, ForceMode2D.Impulse);
+        }
+
+        if (headEnemy){
+            transform.Rotate(new Vector3(0, 0, rotateSpeed) * Time.deltaTime);
         }
     }
 
@@ -200,6 +246,30 @@ RaycastHit2D platformAbove = Physics2D.Raycast(rayOrigin, Vector2.up, 3f, ground
             }
     }
 
+    public void fourProjectiles()
+    {
+        GameObject bullet = Instantiate(bulletPrefab, leftshootPoint.position, leftshootPoint.rotation);
+                
+                bullet.GetComponent<Bullet>().damage = damage;
+                bullet.GetComponent<Bullet>().StartCoroutine(bullet.GetComponent<Bullet>().bulletDestroy(destroy));
+
+
+                bullet = Instantiate(bulletPrefab, rightshootPoint.position, rightshootPoint.rotation);
+                
+                bullet.GetComponent<Bullet>().damage = damage;
+                bullet.GetComponent<Bullet>().StartCoroutine(bullet.GetComponent<Bullet>().bulletDestroy(destroy));
+
+                bullet = Instantiate(bulletPrefab, upShootPoint.position, upShootPoint.rotation);
+                
+                bullet.GetComponent<Bullet>().damage = damage;
+                bullet.GetComponent<Bullet>().StartCoroutine(bullet.GetComponent<Bullet>().bulletDestroy(destroy));
+
+                bullet = Instantiate(bulletPrefab, downShootPoint.position, downShootPoint.rotation);
+                
+                bullet.GetComponent<Bullet>().damage = damage;
+                bullet.GetComponent<Bullet>().StartCoroutine(bullet.GetComponent<Bullet>().bulletDestroy(destroy));
+    }
+
     void getshoot(float d)
     {
         
@@ -208,7 +278,14 @@ RaycastHit2D platformAbove = Physics2D.Raycast(rayOrigin, Vector2.up, 3f, ground
             //gunanimator.Play("GunFire");
             //aud.Play();
             //Debug.Log("shot");
+            if (headEnemy)
+        {
+            fourProjectiles();
+        } else
+        {
+            
             shootProjectile();
+        }
                 shotcount ++;
                 if (shotcount == shots)
                 {
@@ -265,7 +342,7 @@ RaycastHit2D platformAbove = Physics2D.Raycast(rayOrigin, Vector2.up, 3f, ground
 
             
 
-        if (!MenuScript.Instance.truepaused)
+        if (!GameManager.Instance.isPaused)
         {
                 
         //hit.Play();
@@ -304,7 +381,7 @@ RaycastHit2D platformAbove = Physics2D.Raycast(rayOrigin, Vector2.up, 3f, ground
         bool crit = false;
         
         //Debug.Log("hit");
-        if (!MenuScript.Instance.truepaused)
+        if (!GameManager.Instance.isPaused)
         {
         spawnDamageNum(damage, false);
         }

@@ -11,6 +11,10 @@ public class Part : ScriptableObject
 
     public Sprite icon;
 
+    public Sprite icon2;
+
+    public Animator anim;
+
     public int numCollected;
 
     public float battery;
@@ -24,6 +28,7 @@ public class Part : ScriptableObject
     public float defense;     
     
     [Header("Arm")]
+    public String weaponName;
     public float damage;
     public GameObject bulletPrefab;
     public int projectiles;

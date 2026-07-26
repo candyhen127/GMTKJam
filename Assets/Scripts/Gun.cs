@@ -102,13 +102,18 @@ public class Gun : MonoBehaviour
             sprite.sprite = player.rightArm.icon;
         }
         
-        attackSpeed = 1;
+        //attackSpeed = 1;
     }
+
 
     // Update is called once per frame
     void Update()
     {
-        mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
+
+         if  (GameManager.Instance.isPaused || MenuScript.Instance.truepaused == true)
+        {
+            return;
+        }
 
         if(pangle > 90 || pangle < -90)
         {
@@ -143,30 +148,28 @@ public class Gun : MonoBehaviour
         //playerAnimator.SetFloat("AmmoCount", ammo/(float)maxAmmo);
     }
 
-    void FixedUpdate()
+    void LateUpdate()
     {
+        if  (GameManager.Instance.isPaused || MenuScript.Instance.truepaused == true)
+        {
+            return;
+        }
         
-        Vector2 direction = mousePos - (Vector2) transform.position;
-        angle = Mathf.Atan2(direction.y, direction.x)*Mathf.Rad2Deg;
-        //Vector2 centerPos = (center.x, center.y);
-        Vector2 pdirection;
-        pdirection.x = mousePos.x - center.position.x;
-        pdirection.y = mousePos.x - center.position.y;
-        pangle = Mathf.Atan2(pdirection.y, pdirection.x)*Mathf.Rad2Deg;
-
+        mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
         transform.position = hand.position;
-        
-        transform.rotation = Quaternion.Euler(0f, 0f, angle + 90);
-        if(pangle > 90 || pangle < -90)
-        {
-            //transform.position = leftHand.position;
-            playerSprite.flipX = true;
-        }
-        else if (pangle <=90 || pangle >= -90)
-        {
-            //transform.position = rightHand.position;
-            playerSprite.flipX = false;
-        }
+
+    Vector2 direction = mousePos - (Vector2) transform.position;
+    angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+
+    Vector2 pdirection = mousePos - (Vector2)player.transform.position; 
+pangle = Mathf.Atan2(pdirection.y, pdirection.x) * Mathf.Rad2Deg;
+
+    transform.rotation = Quaternion.Euler(0f, 0f, angle + 90);
+
+    if (pangle > 90 || pangle < -90)
+        playerSprite.flipX = true;
+    else
+        playerSprite.flipX = false;
     }
 
     public void shootProjectile(GameObject bulletPrefab, float d)

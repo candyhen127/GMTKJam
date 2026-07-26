@@ -6,17 +6,22 @@ using System;
 using System.Linq;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
-using System.Runtime.InteropServices.WindowsRuntime;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
     public Player player;
-    //public TextMeshProUGUI timer;
 
     public int globalScrap;
+
+    public int totalScrap;
+    public int totalParts;
+    public int totalRuns;
     public List<Part> allParts;
 
+    public List<Part> allArms;
+    public List<Part> allHeads;
+    public List<Part> allLegs;
 
     public GameObject gameOverScreen;
     public GameObject pauseScreen;
@@ -56,7 +61,6 @@ public class GameManager : MonoBehaviour
     public float rightbaseDamage = 10;
     //public int baseProjectiles = 1;
 
-
     public TextMeshProUGUI batteryText;
     public TextMeshProUGUI weaponText;
     public TextMeshProUGUI speedText;
@@ -65,18 +69,19 @@ public class GameManager : MonoBehaviour
     public float startYPosition = 0f;
     public int startDepthMeters = 0;
 
+    public bool isPaused = false;
 
     //public int[] quadrants = {0, 1, 2, 3};
-
 
     // Start is called before the first frame update
     void Awake()
     {   
-        if(Instance != null )
+        if (Instance != null)
         {
             Destroy(gameObject);
             return;
         }
+
         //update start depth meters
         if (player != null)
         {
@@ -85,42 +90,131 @@ public class GameManager : MonoBehaviour
         }
         //startTimeLeft = MenuManager.Instance.startTimeLeft;
         
-        
-        foreach(Part p in allParts)
+        foreach (Part p in allParts)
         {
-            p.numCollected = 0;
+            if (p != null) p.numCollected = 0;
         }
 
-        for (int i = 0; i < 3; i++)
-        {
-            
-        allParts[i].numCollected = 5;
-        }
+        
+        allParts[0].numCollected = 5;
+        allParts[1].numCollected = 10;
+        allParts[2].numCollected = 10;
+
         Instance = this;
         DontDestroyOnLoad(gameObject);
     }
 
+    private void OnEnable()
+    {
+        // Subscribe to the sceneLoaded event when the script becomes active
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        // Unsubscribe to avoid memory leaks or null reference errors
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        //Debug.Log($"Scene loaded: {scene.name}");
+        
+        // Put your scene setup logic here (e.g., finding the local player)
+        //InitializeNewScene();
+        Time.timeScale = 1f;
+        isPaused = false;
+
+        if (player != null)
+        {
+            startYPosition = player.transform.position.y;
+            startDepthMeters = (int)startYPosition;
+        }
+    }
+
+    private void Start()
+    {
+        
+    }
 
     // Update is called once per frame
     void Update()
     {
-
+        
     }
 
     void FixedUpdate()
     {
-        
-        
+        if (player != null && depthTextUI != null)
+        {
+            // Calculate distance descended (how far below startYPosition the player is)
+            float distanceDescended = startYPosition - player.transform.position.y;
+            
+            // count positive downward movement (so jumping up doesn't decrease depth)
+            distanceDescended = Mathf.Max(0, distanceDescended);
+
+            // Curr Depth = Starting Depth + Distance Travelled Down
+            int currentDepth = startDepthMeters + Mathf.FloorToInt(distanceDescended);
+
+            depthTextUI.text = -currentDepth + " m";
+        }
     }
 
 
-  
 
+    public void loseGame()
+    {
+        StartCoroutine(GameOverRoutine());
+    }
 
+    public IEnumerator GameOverRoutine()
+    {
+        if (gameOverScreen != null) gameOverScreen.SetActive(true);
 
+        for (float i = 1f; i >= 0; i -= Time.unscaledDeltaTime)
+        {
+            Time.timeScale = i;
+            yield return null;
+        }
+        Time.timeScale = 0;
+    }
 
+    public void RestartGame()
+    {
+        StartCoroutine(RestartRoutine("SampleScene"));
+    }
 
+    public IEnumerator RestartRoutine(string scene)
+    {
+        Time.timeScale = 1f;
+        yield return new WaitForSecondsRealtime(0.1f);
+        SceneManager.LoadScene(scene);
+    }
 
+    public void MainMenu()
+    {
+        StartCoroutine(RestartRoutine("Title"));
+    }
 
-    
+    public void WinGame()
+    {
+        won = true;
+        if (nuke != null && player != null)
+        {
+            Instantiate(nuke, player.transform.position, Quaternion.identity);
+        }
+        StartCoroutine(WinRoutine());
+    }
+
+    public IEnumerator WinRoutine()
+    {
+        if (winScreen != null) winScreen.SetActive(true);
+
+        for (float i = 1f; i >= 0; i -= Time.unscaledDeltaTime)
+        {
+            Time.timeScale = i;
+            yield return null;
+        }
+        Time.timeScale = 0;
+    }
 }

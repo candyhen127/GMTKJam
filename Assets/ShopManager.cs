@@ -28,6 +28,7 @@ public TextMeshProUGUI scrapText;
     public TextMeshProUGUI rightArmLevelText;
     public TextMeshProUGUI leftLegLevelText;
     public TextMeshProUGUI rightLegLevelText;
+    public TextMeshProUGUI statsText;
 
     public float baseHeadbattery;
     public float baseLeftArmbattery;
@@ -58,6 +59,23 @@ public TextMeshProUGUI scrapText;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        int armsum = 0;
+        int legsum = 0;
+        int headsum = 0;
+        foreach(Part p in GameManager.Instance.allArms) {
+            armsum += p.numCollected;
+        }
+        foreach(Part p in GameManager.Instance.allArms) {
+            legsum += p.numCollected;
+        }
+        foreach(Part p in GameManager.Instance.allArms) {
+            headsum += p.numCollected;
+        }
+        if (armsum < 2 || legsum < 2 || headsum < 1)
+        {
+            Debug.Log("Game Over");
+            MenuScript.Instance.TrueGameOver();
+        }
         //Set batterys
         baseHeadbattery = GameManager.Instance.baseHeadbattery;
         baseLeftArmbattery = GameManager.Instance.baseLeftArmbattery;
@@ -172,12 +190,13 @@ public TextMeshProUGUI scrapText;
             }
             rightLeg.numCollected--;
         }
+        setStatsReadout();
     }
 
     public void spendScrap(int scrap)
     {
         GameManager.Instance.globalScrap -= scrap;
-        scrapText.text = GameManager.Instance.globalScrap.ToString();
+        scrapText.text = "Scrap: " + GameManager.Instance.globalScrap.ToString();
     }
 
     public void Upgrade(String part)
@@ -252,11 +271,12 @@ public TextMeshProUGUI scrapText;
             
         }
         
-            headLevelText.text = "Level " + headLevel + " (Cost: " + headCost + ")";
-            leftArmLevelText.text = "Level " + leftArmLevel + " (Cost: " + leftArmCost + ")";
-            rightArmLevelText.text = "Level " + rightArmLevel + " (Cost: " + rightArmCost + ")";
-            leftLegLevelText.text = "Level " + leftLegLevel + " (Cost: " + leftLegCost + ")";
-            rightLegLevelText.text = "Level " + rightLegLevel + " (Cost: " + rightLegCost + ")";
+            headLevelText.text = "Head: Level " + headLevel + "\t\t (" + headCost + " Scrap)";
+            leftArmLevelText.text = "Left Arm: Level " + leftArmLevel + "\t (" + leftArmCost + " Scrap)";
+            rightArmLevelText.text = "Right Arm: Level " + rightArmLevel + "\t (" + rightArmCost + " Scrap)";
+            leftLegLevelText.text = "Left Leg: Level " + leftLegLevel + "\t\t (" + leftLegCost + " Scrap)";
+            rightLegLevelText.text = "Right Leg: Level " + rightLegLevel + "\t(" + rightLegCost + " Scrap)";
+            setStatsReadout();
     }
 
 
@@ -301,5 +321,31 @@ public TextMeshProUGUI scrapText;
 
         //Set base heads
         GameManager.Instance.baseDefense = baseDefense;
+    }
+
+    public void setStatsReadout()
+    {
+        String s = "Core Battery: " + head.playerBattery + 
+                    "\nDefense: " + (baseDefense + head.defense) + 
+                    "\nBattery: " + (baseHeadbattery + head.battery) + 
+
+                    "\n\nWeapon: " + leftArm.weaponName +
+                    "\nAttack Speed: " + (leftbaseAttackSpeed + leftArm.attackSpeed) +
+                    "\nDamage: " + (leftbaseDamage + leftArm.damage) + 
+                    "\nBattery: " + (baseLeftArmbattery + leftArm.battery) + 
+                    
+                    "\n\nWeapon: " + rightArm.weaponName +
+                    "\nAttack Speed: " + (rightbaseAttackSpeed + rightArm.attackSpeed) +
+                    "\nDamage: " + (rightbaseDamage + rightArm.damage) + 
+                    "\nBattery: " + (baseRightArmbattery + rightArm.battery) +
+                    
+                    "\n\nMoveSpeed: " + (baseMoveSpeed + leftLeg.moveSpeed + rightLeg.moveSpeed) + 
+                    "\nJumpHeight: " + (baseJumpHeight + leftLeg.jumpHeight + rightLeg.jumpHeight) + 
+                    "\nBattery (Left): " + (baseLeftLegbattery + leftLeg.battery) +
+                    "\nBattery (Right): " + (baseRightLegbattery + rightLeg.battery);
+
+                    //Debug.Log(s);
+
+                    statsText.text = s;
     }
 }
