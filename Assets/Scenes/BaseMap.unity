@@ -1663,6 +1663,108 @@ RectTransform:
   m_AnchoredPosition: {x: -129, y: 39.089996}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &690571580
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 690571582}
+  - component: {fileID: 690571581}
+  m_Layer: 0
+  m_Name: Gamemanager (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &690571581
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 690571580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2eed4d975c882247b09ab82ce00ab9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  globalScrap: 0
+  totalScrap: 0
+  totalParts: 0
+  totalRuns: 1
+  allParts:
+  - {fileID: 11400000, guid: 16569a1c4f95cc24db68f9971e94433c, type: 2}
+  - {fileID: 11400000, guid: e4873eec454321543a4f647833996919, type: 2}
+  - {fileID: 11400000, guid: d4e5aa2043734274f96db9ce9fa69315, type: 2}
+  - {fileID: 11400000, guid: beed5473d5d300042aa48e649926d1ab, type: 2}
+  - {fileID: 11400000, guid: 817f9d1a3f824714dace8d2f6c40ee7d, type: 2}
+  - {fileID: 11400000, guid: 0a341d10e66d3594389e302ab7d36ec9, type: 2}
+  - {fileID: 11400000, guid: ff2ce4889a08afe48b85665b3ba8a5d0, type: 2}
+  allArms:
+  - {fileID: 11400000, guid: e4873eec454321543a4f647833996919, type: 2}
+  - {fileID: 11400000, guid: beed5473d5d300042aa48e649926d1ab, type: 2}
+  - {fileID: 11400000, guid: ff2ce4889a08afe48b85665b3ba8a5d0, type: 2}
+  allHeads:
+  - {fileID: 11400000, guid: 16569a1c4f95cc24db68f9971e94433c, type: 2}
+  - {fileID: 11400000, guid: 817f9d1a3f824714dace8d2f6c40ee7d, type: 2}
+  allLegs:
+  - {fileID: 11400000, guid: d4e5aa2043734274f96db9ce9fa69315, type: 2}
+  - {fileID: 11400000, guid: 0a341d10e66d3594389e302ab7d36ec9, type: 2}
+  gameOverScreen: {fileID: 0}
+  pauseScreen: {fileID: 0}
+  winScreen: {fileID: 0}
+  settingsPanel: {fileID: 0}
+  nuke: {fileID: 0}
+  won: 0
+  head: {fileID: 11400000, guid: 16569a1c4f95cc24db68f9971e94433c, type: 2}
+  leftArm: {fileID: 11400000, guid: e4873eec454321543a4f647833996919, type: 2}
+  rightArm: {fileID: 11400000, guid: beed5473d5d300042aa48e649926d1ab, type: 2}
+  leftLeg: {fileID: 11400000, guid: 0a341d10e66d3594389e302ab7d36ec9, type: 2}
+  rightLeg: {fileID: 11400000, guid: 0a341d10e66d3594389e302ab7d36ec9, type: 2}
+  headLevel: 0
+  leftArmLevel: 0
+  rightArmLevel: 0
+  leftLegLevel: 0
+  rightLegLevel: 0
+  baseHeadbattery: 0
+  baseLeftArmbattery: 0
+  baseRightArmbattery: 0
+  baseLeftLegbattery: 0
+  baseRightLegbattery: 0
+  baseMoveSpeed: 3
+  baseJumpHeight: 5
+  baseDefense: 1
+  leftbaseAttackSpeed: 1
+  leftbaseDamage: 0
+  rightbaseAttackSpeed: 1
+  rightbaseDamage: 0
+  batteryText: {fileID: 0}
+  weaponText: {fileID: 0}
+  speedText: {fileID: 0}
+  depthTextUI: {fileID: 0}
+  startYPosition: 0
+  startDepthMeters: 0
+  isPaused: 0
+--- !u!4 &690571582
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 690571580}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 3.4826918, y: -2.5987337, z: 0.06708812}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &732050699
 GameObject:
   m_ObjectHideFlags: 0
@@ -5008,6 +5110,8 @@ MonoBehaviour:
   leftLegTimer: {fileID: 343786946}
   rightLegTimer: {fileID: 1411474608}
   LevelUpPopup: {fileID: 0}
+  leftLegAnim: {fileID: 0}
+  rightLegAnim: {fileID: 0}
   basic: {fileID: 0}
 --- !u!70 &2096335381
 CapsuleCollider2D:
@@ -5172,6 +5276,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   moveSpeed: 6
+  move: 0
   jumpHeight: 3
   jumpForce: 0
   jumpPressed: 0
@@ -5442,3 +5547,4 @@ SceneRoots:
   - {fileID: 250303068}
   - {fileID: 1608085043}
   - {fileID: 9063671919712213743}
+  - {fileID: 690571582}
