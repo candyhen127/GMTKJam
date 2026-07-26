@@ -8000,9 +8000,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1928274075}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: 
+      - m_Target: {fileID: 1928274080}
+        m_TargetAssemblyTypeName: MenuScript, Assembly-CSharp
+        m_MethodName: MainMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -8677,6 +8677,7 @@ MonoBehaviour:
   gameOverScreen: {fileID: 161053496}
   pauseScreen: {fileID: 1643261444}
   trueGameOverScreen: {fileID: 0}
+  truegameoverblurb: {fileID: 0}
 --- !u!114 &1955836723 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 221994528308848700, guid: 27e9497e768805e49b44bdf0dcf18344, type: 3}

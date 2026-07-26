@@ -15,7 +15,9 @@ MonoBehaviour:
   name: Basic Head
   bodypart: head
   icon: {fileID: 1196056793615978812, guid: d46c2fe8b8792ec4e9e1e09de48979ea, type: 3}
-  numCollected: 1
+  icon2: {fileID: 0}
+  anim: {fileID: 0}
+  numCollected: 3
   battery: 18
   moveSpeed: 0
   jumpHeight: 0

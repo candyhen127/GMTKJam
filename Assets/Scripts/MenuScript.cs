@@ -22,6 +22,7 @@ public class MenuScript : MonoBehaviour
     public GameObject pauseScreen;
 
     public GameObject trueGameOverScreen;
+    public TextMeshProUGUI truegameoverblurb;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -113,7 +114,7 @@ public class MenuScript : MonoBehaviour
 
     public void MainMenu()
     {
-        StartCoroutine(RestartRoutine("Title"));
+        StartCoroutine(RestartRoutine("Title Screen"));
     }
 
     public void GoToShop()
@@ -194,7 +195,11 @@ public class MenuScript : MonoBehaviour
 
     public void TrueGameOver()
     {
-        //do this   
+        trueGameOverScreen.SetActive(true);
+        String s = "Total Runs: " + GameManager.Instance.totalRuns + 
+                    "\nTotal Scrap Collected: " + GameManager.Instance.totalScrap + 
+                    "\nTotal Parts Collected: " + GameManager.Instance.totalParts;
+        truegameoverblurb.text = s;
     }
 
     public void WinGame()
