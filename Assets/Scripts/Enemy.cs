@@ -133,7 +133,7 @@ public class Enemy : MonoBehaviour
         //isGrounded = Physics2D.Raycast(transform.position, Vector2.down, 1f, groundLayer);
         isGrounded = (Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer));
 
-        float direction = Mathf.Sign(player.transform.position.x - transform.position.x);
+        float direction = Mathf.Sign(player.transform.position.x - groundCheck.position.x);
 facingDirection = direction;
 
             rb.linearVelocity = new Vector2(direction * moveSpeed, rb.linearVelocityY);

@@ -17,12 +17,12 @@ MonoBehaviour:
   icon: {fileID: -3932229605246058643, guid: f244928fe95f56144859725f8e9b533a, type: 3}
   icon2: {fileID: 0}
   anim: {fileID: 0}
-  numCollected: 1
+  numCollected: 3
   battery: 20
   moveSpeed: 0
   jumpHeight: 0
   playerBattery: 5
-  defense: 20
+  defense: 2
   weaponName: 
   damage: 0
   bulletPrefab: {fileID: 0}

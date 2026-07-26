@@ -7,6 +7,8 @@ public class Lever : MonoBehaviour
 
     public GameObject door;
     public GameObject lever;
+
+    public bool left;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -38,12 +40,26 @@ public class Lever : MonoBehaviour
     IEnumerator pullLever()
     {
         float angle;
-        for(float i = 0; i < 1; i += Time.deltaTime)
+        if (left)
+        {
+for(float i = 0; i < 1; i += Time.deltaTime)
+        {
+             angle = Mathf.Lerp(0, 90, i);
+             lever.transform.rotation = Quaternion.Euler(0, 0, angle);
+
+            yield return null;
+        } 
+        }
+        else
+        {
+            for(float i = 0; i < 1; i += Time.deltaTime)
         {
              angle = Mathf.Lerp(0, -90, i);
              lever.transform.rotation = Quaternion.Euler(0, 0, angle);
 
             yield return null;
         } 
+        }
+        
     }
 }
