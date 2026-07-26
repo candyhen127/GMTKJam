@@ -3,6 +3,7 @@ using TMPro;
 using UnityEngine;
 using System;
 using UnityEngine.SceneManagement;
+using Microsoft.Unity.VisualStudio.Editor;
 
 public class MenuScript : MonoBehaviour
 {
@@ -24,12 +25,15 @@ public class MenuScript : MonoBehaviour
     public GameObject trueGameOverScreen;
     public TextMeshProUGUI truegameoverblurb;
 
+    public UnityEngine.UI.Image fadeout;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         Instance = this;
 
         truepaused = false;
+        StartCoroutine(FadeImage(true));
         if (GameManager.Instance == null) {return;}
         
         GameManager.Instance.player = player;
@@ -37,6 +41,7 @@ public class MenuScript : MonoBehaviour
         GameManager.Instance.pauseScreen = pauseScreen;
         GameManager.Instance.settingsPanel = settingsPanel;
         //player = GameObject.Find("Robot").GetComponent<Player>();
+        
     }
 
     // Update is called once per frame
@@ -145,7 +150,7 @@ public class MenuScript : MonoBehaviour
     {
         // StartCoroutine(MenuManager.Instance.AudioFade(true));
         yield return new WaitForSecondsRealtime(0.1f);
-        //MenuManager.Instance.StartCoroutine(MenuManager.Instance.FadeImage(false));
+        StartCoroutine(FadeImage(false));
         yield return new WaitForSecondsRealtime(1f);
         SceneManager.LoadScene(scene);
         Time.timeScale = 1;
@@ -228,5 +233,37 @@ public class MenuScript : MonoBehaviour
             yield return null;
         }
         Time.timeScale = 0;
+    }
+
+    public IEnumerator FadeImage(bool b)    //true = enter, false = leave;
+    {
+        Debug.Log("fadeout " + b);
+        fadeout.enabled = true;
+        if(b)
+        {
+            fadeout.color = new Color(0, 0, 0, 1);
+            for(float i = 1; i>=0; i-=Time.fixedDeltaTime*2)
+            {
+                fadeout.color = new Color(0, 0, 0, i);
+                yield return null;
+            }
+            fadeout.color = new Color(0, 0, 0, 0);
+            fadeout.enabled = false;
+
+            
+            
+        }
+        else
+        {
+            
+            fadeout.color = new Color(0, 0, 0, 0);
+            for(float i = 0; i<=1; i+=Time.fixedDeltaTime*2)
+            {
+                fadeout.color = new Color(0, 0, 0, i);
+                yield return null;
+            }
+            fadeout.color = new Color(0, 0, 0, 1);
+        }
+        
     }
 }
