@@ -460,7 +460,7 @@ rightLegAnim.runtimeAnimatorController = rightLeg.anim;
 
         GameObject bullet = Instantiate(dumpedPart, transform.position, leftGun.shootPoint.rotation);
         bullet.GetComponent<SpriteRenderer>().sprite = icon;
-        bullet.GetComponent<Bullet>().damage = d;
+        bullet.GetComponent<Bullet>().damage = 50;
         bullet.GetComponent<Rigidbody2D>().linearVelocity = leftGun.shootPoint.up * dumpForce * UnityEngine.Random.Range(0.8f, 1.2f);
     }
 /*
