@@ -13,7 +13,10 @@ public class Enemy : MonoBehaviour
     public float maxHealth = 80;
     public float damage = 10;
     public float moveSpeed = 10;
-    public Animator animator;
+    public SpriteRenderer leftLegSprite;
+    public SpriteRenderer rightLegSprite;
+    public Animator leftLegAnim;
+    public Animator rightLegAnim;
     new public SpriteRenderer renderer;
 
     public float jumpForce;
@@ -190,6 +193,14 @@ RaycastHit2D platformAbove = Physics2D.Raycast(rayOrigin, Vector2.up, 3f, ground
             {
                 
             renderer.flipX = true;
+            
+            leftLegSprite.GetComponent<SpriteRenderer>().flipX = true;
+            rightLegSprite.GetComponent<SpriteRenderer>().flipX = true;
+            leftLegAnim.SetFloat("isRight", 1);
+            rightLegAnim.SetFloat("isRight", 0);
+            
+            leftLegSprite.GetComponent<SpriteRenderer>().sortingOrder = -1;
+            rightLegSprite.GetComponent<SpriteRenderer>().sortingOrder = 1;
             } else
             {
                 
@@ -201,11 +212,27 @@ RaycastHit2D platformAbove = Physics2D.Raycast(rayOrigin, Vector2.up, 3f, ground
             {
                 
             renderer.flipX = false;
+            leftLegSprite.GetComponent<SpriteRenderer>().flipX = false;
+            rightLegSprite.GetComponent<SpriteRenderer>().flipX = false;
+            leftLegAnim.SetFloat("isRight", 0);
+            rightLegAnim.SetFloat("isRight", 1);
+            leftLegSprite.GetComponent<SpriteRenderer>().sortingOrder = 1;
+            rightLegSprite.GetComponent<SpriteRenderer>().sortingOrder = -1;
             } else
             {
                 
             renderer.flipX = true;
             }
+        }
+
+        if (rightFacing && isGrounded)
+        {
+            leftLegAnim.SetFloat("isWalking", 1);
+            rightLegAnim.SetFloat("isWalking", 1);
+        } else if (rightFacing)
+        {
+            leftLegAnim.SetFloat("isWalking", 0);
+            rightLegAnim.SetFloat("isWalking", 0);
         }
 
         if (isGrounded && shouldJump)
