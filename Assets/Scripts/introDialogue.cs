@@ -33,6 +33,19 @@ public class IntroDialogue : MonoBehaviour
         }
 
         IntroFlag.ShouldPlayIntro = false;
+
+        // GameManager persists across scene loads, so this stays true even after
+        // going to the shop and back -- guarantees the intro only ever plays once.
+        if (GameManager.Instance != null && GameManager.Instance.hasPlayedIntro)
+        {
+            return;
+        }
+
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.hasPlayedIntro = true;
+        }
+
         StartCoroutine(PlayIntroNextFrame());
     }
 
@@ -47,10 +60,9 @@ public class IntroDialogue : MonoBehaviour
             yield break;
         }
 
-        Time.timeScale = 0f;
-        if (GameManager.Instance != null)
+        if (MenuScript.Instance != null)
         {
-            GameManager.Instance.isPaused = true;
+            MenuScript.Instance.truepaused = true;
         }
 
         if (blackBackdrop != null)
@@ -66,10 +78,9 @@ public class IntroDialogue : MonoBehaviour
     {
         DialogueManager.Instance.OnDialogueEnd -= HandleIntroEnd;
 
-        Time.timeScale = 1f;
-        if (GameManager.Instance != null)
+        if (MenuScript.Instance != null)
         {
-            GameManager.Instance.isPaused = false;
+            MenuScript.Instance.truepaused = false;
         }
 
         if (blackBackdrop != null)

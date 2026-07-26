@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     public int totalRuns;
     public int runsToCorrupt = 5;
     public List<Part> allParts;
+    public bool hasPlayedIntro = false;
 
     public List<Part> allArms;
     public List<Part> allHeads;
