@@ -28,7 +28,7 @@ public class damagenum : MonoBehaviour
         if (isPlayer)
         {
             
-        gameObject.GetComponent<TextMeshProUGUI>().text = TimeSpan.FromSeconds(dnum).ToString(@"mm\:ss");
+        gameObject.GetComponent<TextMeshProUGUI>().text =  "-" + TimeSpan.FromSeconds(dnum).ToString(@"mm\:ss");
         } else
         {
             gameObject.GetComponent<TextMeshProUGUI>().text = ((int) dnum).ToString();
