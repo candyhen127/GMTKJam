@@ -19,6 +19,12 @@ public class DialogueManager : MonoBehaviour
     private bool isTyping = false;
     private string currentSentence;
 
+    // True while a dialogue box is on screen (typing or waiting for the player to advance)
+    public bool IsDialogueActive => textPanel != null && textPanel.activeSelf;
+
+    // Fires right after the dialogue box closes (e.g. so an intro script can un-pause the game)
+    public event System.Action OnDialogueEnd;
+
     private void Awake()
     {
         if (Instance == null) Instance = this;
@@ -36,7 +42,7 @@ public class DialogueManager : MonoBehaviour
         // Quick test key: Press 'T' anytime while playing to test the dialogue!
         if (Input.GetKeyDown(KeyCode.T))
         {
-            string[] testLines = new string[] 
+            string[] testLines = new string[]
             {
                 "Arthur... can you hear me?",
                 "System battery dropping...",
@@ -106,6 +112,7 @@ public class DialogueManager : MonoBehaviour
     public void EndDialogue()
     {
         textPanel.SetActive(false);
+        OnDialogueEnd?.Invoke();
     }
 
     public void TestDialogueFromInspector()
