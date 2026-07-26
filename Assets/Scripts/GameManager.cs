@@ -71,6 +71,8 @@ public class GameManager : MonoBehaviour
 
     public bool isPaused = false;
 
+    public bool leverPulled;
+
     //public int[] quadrants = {0, 1, 2, 3};
 
     // Start is called before the first frame update
