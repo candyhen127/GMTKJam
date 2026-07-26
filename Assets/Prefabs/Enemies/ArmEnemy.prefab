@@ -244,7 +244,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ff2ce4889a08afe48b85665b3ba8a5d0, type: 2}
   damagenum: {fileID: 7026966530255334711, guid: ac3053d02749f724780c8c44e67e0520, type: 3}
   canvas: {fileID: 0}
-  aggroDistance: 10
+  aggroDistance: 8
   aggro: 0
   hit: {fileID: 0}
 --- !u!50 &6137292617216610152

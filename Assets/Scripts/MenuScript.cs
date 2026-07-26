@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using System;
 using UnityEngine.SceneManagement;
-using Microsoft.Unity.VisualStudio.Editor;
+//using Microsoft.Unity.VisualStudio.Editor;
 
 public class MenuScript : MonoBehaviour
 {

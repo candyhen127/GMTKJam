@@ -31,6 +31,7 @@ public TextMeshProUGUI scrapText;
     public TextMeshProUGUI statsText;
 
     public float coreBattery;
+    public float battery;
 
     public float baseHeadbattery;
     public float baseLeftArmbattery;
@@ -332,24 +333,25 @@ public TextMeshProUGUI scrapText;
 
     public void setStatsReadout()
     {
+        battery = coreBattery + head.playerBattery;
         String s = "Core Battery: " + (coreBattery + head.playerBattery) + 
                     "\nDefense: " + (baseDefense + head.defense) + 
                     "\nBattery: " + (coreBattery + baseHeadbattery + head.battery) + 
 
                     "\n\nWeapon: " + leftArm.weaponName +
-                    "\nAttack Speed: " + (leftbaseAttackSpeed + leftArm.attackSpeed) +
+                    "\nAttack Speed: " + (leftbaseAttackSpeed + leftArm.attackSpeed).ToString("F2") +
                     "\nDamage: " + (leftbaseDamage + leftArm.damage) + 
-                    "\nBattery: " + (coreBattery +baseLeftArmbattery + leftArm.battery) + 
+                    "\nBattery: " + (battery + baseLeftArmbattery + leftArm.battery) + 
                     
                     "\n\nWeapon: " + rightArm.weaponName +
-                    "\nAttack Speed: " + (rightbaseAttackSpeed + rightArm.attackSpeed) +
+                    "\nAttack Speed: " + (rightbaseAttackSpeed + rightArm.attackSpeed).ToString("F2") +
                     "\nDamage: " + (rightbaseDamage + rightArm.damage) + 
-                    "\nBattery: " + (coreBattery +baseRightArmbattery + rightArm.battery) +
+                    "\nBattery: " + (battery + baseRightArmbattery + rightArm.battery) +
                     
                     "\n\nMoveSpeed: " + (baseMoveSpeed + leftLeg.moveSpeed + rightLeg.moveSpeed) + 
                     "\nJumpHeight: " + (baseJumpHeight + leftLeg.jumpHeight + rightLeg.jumpHeight) + 
-                    "\nBattery (Left): " + (coreBattery + baseLeftLegbattery + leftLeg.battery) +
-                    "\nBattery (Right): " + (coreBattery +baseRightLegbattery + rightLeg.battery);
+                    "\nBattery (Left): " + (battery + baseLeftLegbattery + leftLeg.battery) +
+                    "\nBattery (Right): " + (battery +baseRightLegbattery + rightLeg.battery);
 
                     //Debug.Log(s);
 
