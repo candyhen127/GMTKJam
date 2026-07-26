@@ -147,6 +147,7 @@ public class MenuScript : MonoBehaviour
         GameManager.Instance.totalRuns++;
         }
         Debug.Log("start");
+        IntroFlag.ShouldPlayIntro = true;
         StartCoroutine(RestartRoutine("MainScene"));
     }
 
