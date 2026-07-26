@@ -95,6 +95,9 @@ public class Player : MonoBehaviour
     
     public GameObject LevelUpPopup;
 
+    public Animator leftLegAnim;
+    public Animator rightLegAnim;
+
     [Header("SFX")]
     public AudioSource basic;
 
@@ -138,6 +141,8 @@ public class Player : MonoBehaviour
         leftLegSprite.GetComponent<SpriteRenderer>().sprite = leftLeg.icon;
         rightLegSprite.GetComponent<SpriteRenderer>().sprite = rightLeg.icon;
 
+        leftLegAnim.runtimeAnimatorController = leftLeg.anim;
+rightLegAnim.runtimeAnimatorController = rightLeg.anim;
         movement.moveSpeed = moveSpeed;
         movement.jumpHeight = jumpHeight;
         //defense = baseDefense + body.defense;
@@ -188,6 +193,8 @@ public class Player : MonoBehaviour
             headSprite.GetComponent<SpriteRenderer>().flipX = true;
             leftLegSprite.GetComponent<SpriteRenderer>().flipX = true;
             rightLegSprite.GetComponent<SpriteRenderer>().flipX = true;
+            leftLegAnim.SetFloat("isRight", 1);
+            rightLegAnim.SetFloat("isRight", 0);
         }
         else if (pangle <=90 || pangle >= -90)
         {
@@ -196,6 +203,8 @@ public class Player : MonoBehaviour
             headSprite.GetComponent<SpriteRenderer>().flipX = false;
             leftLegSprite.GetComponent<SpriteRenderer>().flipX = false;
             rightLegSprite.GetComponent<SpriteRenderer>().flipX = false;
+            leftLegAnim.SetFloat("isRight", 0);
+            rightLegAnim.SetFloat("isRight", 1);
         }
         //battery -= Time.deltaTime;
         headBattery -= Time.deltaTime;
@@ -203,6 +212,18 @@ public class Player : MonoBehaviour
         rightArmBattery -= Time.deltaTime;
         leftLegBattery -= Time.deltaTime;
         rightLegBattery -= Time.deltaTime;
+
+        if (movement.move != 0 && movement.isGrounded)
+        {
+            leftLegAnim.SetFloat("isWalking", 1);
+            rightLegAnim.SetFloat("isWalking", 1);
+        } else
+        {
+            leftLegAnim.SetFloat("isWalking", 0);
+            rightLegAnim.SetFloat("isWalking", 0);
+        }
+
+        
 
 
         if (headBattery <= redtime)
@@ -290,6 +311,18 @@ public class Player : MonoBehaviour
         {
             MenuScript.Instance.EndRun();
         }
+    }
+
+    private void LateUpdate()
+    {
+        if (leftLegAnim == null || rightLegAnim == null) return;
+        if (!leftLegAnim.isActiveAndEnabled || !rightLegAnim.isActiveAndEnabled) return;
+
+        // 3. Get the playback time from Animator A
+        var stateInfoA = leftLegAnim.GetCurrentAnimatorStateInfo(0);
+        
+        // 4. Force Animator B to stay on the exact same frame/normalized time
+        rightLegAnim.Play(stateInfoA.fullPathHash, 0, stateInfoA.normalizedTime);
     }
 
     

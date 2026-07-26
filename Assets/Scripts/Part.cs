@@ -12,8 +12,7 @@ public class Part : ScriptableObject
     public Sprite icon;
 
     public Sprite icon2;
-
-    public Animator anim;
+public RuntimeAnimatorController  anim;
 
     public int numCollected;
 

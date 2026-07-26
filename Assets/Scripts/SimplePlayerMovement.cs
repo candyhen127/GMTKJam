@@ -12,7 +12,7 @@ public class SimplePlayerMovement : MonoBehaviour {
     // horizontal movement
     private Vector2 linearVelocity;
     public float moveSpeed = 6f;
-    private float move;
+    public float move;
 
     // vertical movement (jump)
     public float jumpHeight = 3f;
