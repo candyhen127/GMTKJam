@@ -5216,8 +5216,8 @@ MonoBehaviour:
   settingsPanel: {fileID: 1108207665}
   nuke: {fileID: 0}
   won: 0
-  head: {fileID: 11400000, guid: ae45fb3cd6cd08841a7e498dbd816e33, type: 2}
-  leftArm: {fileID: 11400000, guid: ff2ce4889a08afe48b85665b3ba8a5d0, type: 2}
+  head: {fileID: 11400000, guid: 16569a1c4f95cc24db68f9971e94433c, type: 2}
+  leftArm: {fileID: 11400000, guid: e4873eec454321543a4f647833996919, type: 2}
   rightArm: {fileID: 11400000, guid: beed5473d5d300042aa48e649926d1ab, type: 2}
   leftLeg: {fileID: 11400000, guid: d4e5aa2043734274f96db9ce9fa69315, type: 2}
   rightLeg: {fileID: 11400000, guid: d4e5aa2043734274f96db9ce9fa69315, type: 2}
