@@ -46,6 +46,8 @@ public class GameManager : MonoBehaviour
     public int leftLegLevel = 0;
     public int rightLegLevel = 0;
 
+    public float coreBattery = 0;
+
     public float baseHeadbattery;
     public float baseLeftArmbattery;
     public float baseRightArmbattery;
@@ -73,6 +75,8 @@ public class GameManager : MonoBehaviour
     public bool isPaused = false;
 
     public bool leverPulled;
+
+    public bool lever2Pulled;
 
     //public int[] quadrants = {0, 1, 2, 3};
 

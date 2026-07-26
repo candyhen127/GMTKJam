@@ -131,12 +131,14 @@ public class Player : MonoBehaviour
         baseMoveSpeed = GameManager.Instance.baseMoveSpeed;
         baseDefense = GameManager.Instance.baseDefense;
 
+        float baseBattery = GameManager.Instance.coreBattery + head.playerBattery;
+
         //battery = maxbattery;
-        headBattery = baseHeadbattery + head.battery + head.playerBattery;
-        leftArmBattery = baseLeftArmbattery + leftArm.battery + head.playerBattery;
-        rightArmBattery = baseRightArmbattery + rightArm.battery + head.playerBattery;
-        leftLegBattery = baseLeftLegbattery + leftLeg.battery + head.playerBattery;
-        rightLegBattery = baseRightLegbattery + rightLeg.battery + head.playerBattery;
+        headBattery = baseHeadbattery + head.battery + baseBattery;
+        leftArmBattery = baseLeftArmbattery + leftArm.battery + baseBattery;
+        rightArmBattery = baseRightArmbattery + rightArm.battery + baseBattery;
+        leftLegBattery = baseLeftLegbattery + leftLeg.battery + baseBattery;
+        rightLegBattery = baseRightLegbattery + rightLeg.battery + baseBattery;
 
         moveSpeed = baseMoveSpeed + leftLeg.moveSpeed + rightLeg.moveSpeed;
         jumpHeight = baseJumpHeight + leftLeg.jumpHeight + rightLeg.jumpHeight;

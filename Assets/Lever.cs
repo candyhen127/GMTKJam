@@ -12,12 +12,22 @@ public class Lever : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        if (GameManager.Instance.leverPulled)
-        {
-            
+        
+            if (left && GameManager.Instance.lever2Pulled)
+            {
+                
             door.SetActive(false);
+            
+            lever.transform.rotation = Quaternion.Euler(0, 0, 90f);
+            }
+            if (!left && GameManager.Instance.leverPulled)
+            {
+                
+            door.SetActive(false);
+            
             lever.transform.rotation = Quaternion.Euler(0, 0, -90f);
-        }
+            }
+        
     }
 
     // Update is called once per frame
@@ -28,10 +38,18 @@ public class Lever : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (GameManager.Instance.leverPulled) {return;}
+        if ((GameManager.Instance.leverPulled && !left) || (GameManager.Instance.lever2Pulled && left)) {return;}
         if (collision.gameObject.tag == "Player")
         {
+            if (left)
+            {
+                
+            GameManager.Instance.lever2Pulled = true;
+            } else
+            {
+                
             GameManager.Instance.leverPulled = true;
+            }
             door.SetActive(false);
             StartCoroutine(pullLever());
         }

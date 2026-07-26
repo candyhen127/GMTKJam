@@ -30,6 +30,8 @@ public TextMeshProUGUI scrapText;
     public TextMeshProUGUI rightLegLevelText;
     public TextMeshProUGUI statsText;
 
+    public float coreBattery;
+
     public float baseHeadbattery;
     public float baseLeftArmbattery;
     public float baseRightArmbattery;
@@ -48,6 +50,7 @@ public TextMeshProUGUI scrapText;
 
     public float damageScaling;
     public float attackSpeedScaling;
+    public float coreBatteryScaling;
     public float defenseScaling;
     public float batteryScaling;
     public float moveSpeedScaling;
@@ -78,6 +81,7 @@ public TextMeshProUGUI scrapText;
             MenuScript.Instance.TrueGameOver();
         }
         //Set batterys
+        coreBattery = GameManager.Instance.coreBattery;
         baseHeadbattery = GameManager.Instance.baseHeadbattery;
         baseLeftArmbattery = GameManager.Instance.baseLeftArmbattery;
         baseRightArmbattery = GameManager.Instance.baseRightArmbattery;
@@ -209,6 +213,7 @@ public TextMeshProUGUI scrapText;
                 return;
             }
             spendScrap(headCost);
+            coreBattery+= coreBatteryScaling;
             headCost += scrapScaling;
             headLevel++;
             baseDefense += defenseScaling;
@@ -304,6 +309,7 @@ public TextMeshProUGUI scrapText;
          GameManager.Instance.rightLegLevel = rightLegLevel;
 
         //Set batterys
+        GameManager.Instance.coreBattery = coreBattery;
         GameManager.Instance.baseHeadbattery = baseHeadbattery;
         GameManager.Instance.baseLeftArmbattery = baseLeftArmbattery;
         GameManager.Instance.baseRightArmbattery = baseRightArmbattery;
@@ -326,24 +332,24 @@ public TextMeshProUGUI scrapText;
 
     public void setStatsReadout()
     {
-        String s = "Core Battery: " + head.playerBattery + 
+        String s = "Core Battery: " + (coreBattery + head.playerBattery) + 
                     "\nDefense: " + (baseDefense + head.defense) + 
-                    "\nBattery: " + (baseHeadbattery + head.battery) + 
+                    "\nBattery: " + (coreBattery + baseHeadbattery + head.battery) + 
 
                     "\n\nWeapon: " + leftArm.weaponName +
                     "\nAttack Speed: " + (leftbaseAttackSpeed + leftArm.attackSpeed) +
                     "\nDamage: " + (leftbaseDamage + leftArm.damage) + 
-                    "\nBattery: " + (baseLeftArmbattery + leftArm.battery) + 
+                    "\nBattery: " + (coreBattery +baseLeftArmbattery + leftArm.battery) + 
                     
                     "\n\nWeapon: " + rightArm.weaponName +
                     "\nAttack Speed: " + (rightbaseAttackSpeed + rightArm.attackSpeed) +
                     "\nDamage: " + (rightbaseDamage + rightArm.damage) + 
-                    "\nBattery: " + (baseRightArmbattery + rightArm.battery) +
+                    "\nBattery: " + (coreBattery +baseRightArmbattery + rightArm.battery) +
                     
                     "\n\nMoveSpeed: " + (baseMoveSpeed + leftLeg.moveSpeed + rightLeg.moveSpeed) + 
                     "\nJumpHeight: " + (baseJumpHeight + leftLeg.jumpHeight + rightLeg.jumpHeight) + 
-                    "\nBattery (Left): " + (baseLeftLegbattery + leftLeg.battery) +
-                    "\nBattery (Right): " + (baseRightLegbattery + rightLeg.battery);
+                    "\nBattery (Left): " + (coreBattery + baseLeftLegbattery + leftLeg.battery) +
+                    "\nBattery (Right): " + (coreBattery +baseRightLegbattery + rightLeg.battery);
 
                     //Debug.Log(s);
 

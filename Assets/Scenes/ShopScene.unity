@@ -3700,7 +3700,11 @@ MonoBehaviour:
   pauseScreen: {fileID: 0}
   trueGameOverScreen: {fileID: 871718917}
   truegameoverblurb: {fileID: 1894571430}
+  winblurb: {fileID: 0}
   fadeout: {fileID: 1301676677}
+  winicon: {fileID: 0}
+  drivecorrupted: {fileID: 0}
+  drivesaved: {fileID: 0}
 --- !u!114 &767845886
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4997,6 +5001,7 @@ MonoBehaviour:
   leftLegLevelText: {fileID: 992139455}
   rightLegLevelText: {fileID: 1643572653}
   statsText: {fileID: 1530443232}
+  coreBattery: 0
   baseHeadbattery: 0
   baseLeftArmbattery: 0
   baseRightArmbattery: 0
@@ -5011,8 +5016,9 @@ MonoBehaviour:
   rightbaseDamage: 10
   damageScaling: 2
   attackSpeedScaling: 0.1
+  coreBatteryScaling: 2
   defenseScaling: 1
-  batteryScaling: 3
+  batteryScaling: 4
   moveSpeedScaling: 0.25
   jumpHeightScaling: 0.5
   scrapScaling: 3
@@ -8652,6 +8658,7 @@ MonoBehaviour:
   totalScrap: 0
   totalParts: 0
   totalRuns: 0
+  runsToCorrupt: 5
   allParts:
   - {fileID: 11400000, guid: 16569a1c4f95cc24db68f9971e94433c, type: 2}
   - {fileID: 11400000, guid: e4873eec454321543a4f647833996919, type: 2}
@@ -8686,6 +8693,7 @@ MonoBehaviour:
   rightArmLevel: 0
   leftLegLevel: 0
   rightLegLevel: 0
+  coreBattery: 0
   baseHeadbattery: 0
   baseLeftArmbattery: 0
   baseRightArmbattery: 0
