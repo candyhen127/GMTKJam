@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     public int totalScrap;
     public int totalParts;
     public int totalRuns;
+    public int runsToCorrupt = 5;
     public List<Part> allParts;
 
     public List<Part> allArms;

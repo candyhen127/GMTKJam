@@ -24,8 +24,12 @@ public class MenuScript : MonoBehaviour
 
     public GameObject trueGameOverScreen;
     public TextMeshProUGUI truegameoverblurb;
+    public TextMeshProUGUI winblurb;
 
     public UnityEngine.UI.Image fadeout;
+    public UnityEngine.UI.Image winicon;
+    public Sprite drivecorrupted;
+    public Sprite drivesaved;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -211,14 +215,28 @@ public class MenuScript : MonoBehaviour
     public void WinGame()
     {
         truepaused = true;
+        String s = "";
         //MenuManager.Instance.StartCoroutine(MenuManager.Instance.flash(Color.white));
-
-        String s = "Total Runs: " + GameManager.Instance.totalRuns + 
+        if (GameManager.Instance.totalRuns < GameManager.Instance.runsToCorrupt)
+        {
+            s = "File Secured. \n\nTotal Runs: " + GameManager.Instance.totalRuns + 
                     "\nTotal Scrap Collected: " + GameManager.Instance.totalScrap + 
-                    "\nTotal Parts Collected: " + GameManager.Instance.totalParts;
+                    "\nTotal Parts Collected: " + GameManager.Instance.totalParts + 
+                    "\n\nYou've found what was lost.";
 
-                    Debug.Log(s);
-        
+                    
+            winicon.sprite = drivesaved;
+        } else {
+        s = "File Corrupted. \n\nTotal Runs: " + GameManager.Instance.totalRuns + 
+                    "\nTotal Scrap Collected: " + GameManager.Instance.totalScrap + 
+                    "\nTotal Parts Collected: " + GameManager.Instance.totalParts + 
+                    "\n\nIf only you got here sooner...";
+
+                    
+            winicon.sprite = drivecorrupted;
+        }
+        Debug.Log(s);
+        winblurb.text = s;
         StartCoroutine(WinRoutine());
     }
 
@@ -226,6 +244,7 @@ public class MenuScript : MonoBehaviour
     {
         //StartCoroutine(MenuManager.Instance.AudioFade(true));
         //canvas.GameOver();
+        yield return new WaitForSeconds(1);
         if (winScreen != null) winScreen.SetActive(true);
         for (float i = 1f; i >= 0; i -= Time.unscaledDeltaTime)
         {

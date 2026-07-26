@@ -370,6 +370,7 @@ rightLegAnim.runtimeAnimatorController = rightLeg.anim;
             
             rightGun.putDown();
             Debug.Log("Win Game");
+            MenuScript.Instance.WinGame();
         }
     }
 
