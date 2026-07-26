@@ -32,8 +32,7 @@ public class EndingDialogue : MonoBehaviour
         if (DialogueManager.Instance == null) return;
 
         hasTriggered = true;
-        Time.timeScale = 0f;
-        if (GameManager.Instance != null) GameManager.Instance.isPaused = true;
+        if (MenuScript.Instance != null) MenuScript.Instance.truepaused = true;
 
         DialogueManager.Instance.OnDialogueEnd += HandleEnd;
         DialogueManager.Instance.StartDialogue(endingLines);
@@ -42,8 +41,7 @@ public class EndingDialogue : MonoBehaviour
     private void HandleEnd()
     {
         DialogueManager.Instance.OnDialogueEnd -= HandleEnd;
-        Time.timeScale = 1f;
-        if (GameManager.Instance != null) GameManager.Instance.isPaused = false;
+        if (MenuScript.Instance != null) MenuScript.Instance.truepaused = false;
         onDialogueComplete?.Invoke();
     }
 }

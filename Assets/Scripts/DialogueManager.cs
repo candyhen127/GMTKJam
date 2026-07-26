@@ -51,8 +51,9 @@ public class DialogueManager : MonoBehaviour
             StartDialogue(testLines);
         }
 
-        // Advance dialogue on Space/E click
-        if (textPanel != null && textPanel.activeSelf && (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.Space)))
+        // Advance dialogue on E only -- Space is left out since it's likely also
+        // your jump/move key, which would silently skip dialogue during gameplay.
+        if (textPanel != null && textPanel.activeSelf && Input.GetKeyDown(KeyCode.E))
         {
             if (isTyping)
             {
