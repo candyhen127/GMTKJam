@@ -217,7 +217,7 @@ public class MenuScript : MonoBehaviour
         truepaused = true;
         String s = "";
         //MenuManager.Instance.StartCoroutine(MenuManager.Instance.flash(Color.white));
-        if (GameManager.Instance.totalRuns < GameManager.Instance.runsToCorrupt)
+        if (GameManager.Instance.totalRuns <= GameManager.Instance.runsToCorrupt)
         {
             s = "File Secured. \n\nTotal Runs: " + GameManager.Instance.totalRuns + 
                     "\nTotal Scrap Collected: " + GameManager.Instance.totalScrap + 

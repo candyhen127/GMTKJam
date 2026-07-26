@@ -339,12 +339,12 @@ public TextMeshProUGUI scrapText;
                     "\nBattery: " + (coreBattery + baseHeadbattery + head.battery) + 
 
                     "\n\nWeapon: " + leftArm.weaponName +
-                    "\nAttack Speed: " + (leftbaseAttackSpeed + leftArm.attackSpeed).ToString("F2") +
+                    "\nAttack Speed: " + (leftbaseAttackSpeed + leftArm.attackSpeed).ToString("F1") +
                     "\nDamage: " + (leftbaseDamage + leftArm.damage) + 
                     "\nBattery: " + (battery + baseLeftArmbattery + leftArm.battery) + 
                     
                     "\n\nWeapon: " + rightArm.weaponName +
-                    "\nAttack Speed: " + (rightbaseAttackSpeed + rightArm.attackSpeed).ToString("F2") +
+                    "\nAttack Speed: " + (rightbaseAttackSpeed + rightArm.attackSpeed).ToString("F1") +
                     "\nDamage: " + (rightbaseDamage + rightArm.damage) + 
                     "\nBattery: " + (battery + baseRightArmbattery + rightArm.battery) +
                     
