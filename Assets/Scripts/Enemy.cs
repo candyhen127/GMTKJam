@@ -71,7 +71,7 @@ public class Enemy : MonoBehaviour
 
     public bool aggro;
 
-    public AudioSource hit;
+    public AudioSource aud;
     // Start is called before the first frame update
     void Start()
     {
@@ -303,7 +303,11 @@ RaycastHit2D platformAbove = Physics2D.Raycast(rayOrigin, Vector2.up, 3f, ground
             if(shooting == 1) {return;}
             
             //gunanimator.Play("GunFire");
-            //aud.Play();
+            if (aud != null)
+        {
+            
+            aud.Play();
+        }
             //Debug.Log("shot");
             if (headEnemy)
         {

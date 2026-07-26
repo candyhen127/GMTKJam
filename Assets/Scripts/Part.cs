@@ -35,4 +35,6 @@ public RuntimeAnimatorController  anim;
     public float attackSpeed;
     public float destroy;
 
+    public AudioClip aud;
+
 }

@@ -101,7 +101,8 @@ public class Player : MonoBehaviour
     public Animator rightLegAnim;
 
     [Header("SFX")]
-    public AudioSource basic;
+    public AudioSource hit;
+    public AudioSource pickup;
 
 
     // Start is called before the first frame update
@@ -413,7 +414,7 @@ rightLegAnim.runtimeAnimatorController = rightLeg.anim;
     {
         
         //Debug.Log(damage);
-        //damaged.Play();
+        hit.Play();
         damage = damage / (1 + 0.1f * defense);
         //damage /= 10;
         //Debug.Log(damage);
@@ -528,7 +529,7 @@ rightLegAnim.runtimeAnimatorController = rightLeg.anim;
     public void GetScrap(int points)
     {
         if(MenuScript.Instance.isPaused == true){return;}
-        //getxp.Play();
+        pickup.Play();
         scrap += points;
         UpdateScrapCount();
     }

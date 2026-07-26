@@ -17,7 +17,7 @@ MonoBehaviour:
   icon: {fileID: -6708649069882705267, guid: 47b0c3b624da1d3418ba7ce2f5194bb3, type: 3}
   icon2: {fileID: 0}
   anim: {fileID: 0}
-  numCollected: 1
+  numCollected: 4
   battery: 15
   moveSpeed: 0
   jumpHeight: 0
@@ -30,3 +30,4 @@ MonoBehaviour:
   bulletSpeed: 0
   attackSpeed: 0
   destroy: 3
+  aud: {fileID: 8300000, guid: 8c35b789d6a2a4596ad1e9d64ca4284d, type: 3}

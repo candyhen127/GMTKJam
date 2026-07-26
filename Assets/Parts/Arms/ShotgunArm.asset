@@ -30,3 +30,4 @@ MonoBehaviour:
   bulletSpeed: 0
   attackSpeed: -0.2
   destroy: 0.4
+  aud: {fileID: 8300000, guid: 8c35b789d6a2a4596ad1e9d64ca4284d, type: 3}

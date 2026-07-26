@@ -54,6 +54,8 @@ public class Gun : MonoBehaviour
     public int shooting = 0;
     Coroutine shootroutine;
 
+    public AudioSource aud;
+
 
     
 
@@ -85,6 +87,7 @@ public class Gun : MonoBehaviour
             destroy = player.leftArm.destroy;
 
             sprite.sprite = player.leftArm.icon;
+            aud.clip = player.leftArm.aud;
 
         } else
         {
@@ -100,6 +103,7 @@ public class Gun : MonoBehaviour
             destroy = player.rightArm.destroy;
 
             sprite.sprite = player.rightArm.icon;
+            aud.clip = player.rightArm.aud;
         }
         
         //attackSpeed = 1;
@@ -215,6 +219,12 @@ pangle = Mathf.Atan2(pdirection.y, pdirection.x) * Mathf.Rad2Deg;
             if (leftHand && !player.leftArmEquipped) {return;}
             
             if (!leftHand && !player.rightArmEquipped) {return;}
+
+            if (aud != null)
+        {
+            
+            aud.Play();
+        }
             
             //gunanimator.Play("GunFire");
             //aud.Play();

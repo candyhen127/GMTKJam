@@ -65,6 +65,7 @@ public class ScrapDrop : MonoBehaviour
         if (isPart)
         {
             player.inventory.Add(part);
+            player.GetScrap(0);
         } else {
             player.GetScrap(points);
         }
