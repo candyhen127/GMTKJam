@@ -181,6 +181,8 @@ rightLegAnim.runtimeAnimatorController = rightLeg.anim;
         //don't allow input when paused
         if(MenuScript.Instance.isPaused == true || MenuScript.Instance.truepaused == true)
         {
+            leftLegAnim.SetFloat("isWalking", 0);
+            rightLegAnim.SetFloat("isWalking", 0);
             //rb.velocity = Vector2.zero;
             return;
         }
@@ -372,7 +374,7 @@ rightLegAnim.runtimeAnimatorController = rightLeg.anim;
             
             rightGun.putDown();
             Debug.Log("Win Game");
-            MenuScript.Instance.WinGame();
+            //MenuScript.Instance.WinGame();
         }
     }
 
