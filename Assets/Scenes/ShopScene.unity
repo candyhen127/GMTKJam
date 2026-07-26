@@ -7948,6 +7948,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   globalScrap: 0
+  totalScrap: 0
+  totalParts: 0
+  totalRuns: 0
   allParts:
   - {fileID: 11400000, guid: 16569a1c4f95cc24db68f9971e94433c, type: 2}
   - {fileID: 11400000, guid: e4873eec454321543a4f647833996919, type: 2}
@@ -8142,10 +8145,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 767845889}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 6.865, y: 2.005}
-  m_SizeDelta: {x: 1640.905, y: 1009.598}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 6.86499, y: 2.005005}
+  m_SizeDelta: {x: -279.09497, y: -70.40198}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2119258773
 MonoBehaviour:
