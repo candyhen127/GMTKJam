@@ -176,6 +176,7 @@ public class MenuScript : MonoBehaviour
             }
             String s = "Scrap Collected: " + player.scrap + "\nParts Collected: " + sum;
             Debug.Log(s);
+        truegameoverblurb.text = s;
         }
         StartCoroutine(GameOverRoutine());
     }
