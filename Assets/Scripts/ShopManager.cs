@@ -65,12 +65,13 @@ public TextMeshProUGUI scrapText;
         foreach(Part p in GameManager.Instance.allArms) {
             armsum += p.numCollected;
         }
-        foreach(Part p in GameManager.Instance.allArms) {
+        foreach(Part p in GameManager.Instance.allLegs) {
             legsum += p.numCollected;
         }
-        foreach(Part p in GameManager.Instance.allArms) {
+        foreach(Part p in GameManager.Instance.allHeads) {
             headsum += p.numCollected;
         }
+        Debug.Log(armsum + " " + legsum + " " + headsum);
         if (armsum < 2 || legsum < 2 || headsum < 1)
         {
             Debug.Log("Game Over");
