@@ -13,6 +13,10 @@ public class GameManager : MonoBehaviour
     public Player player;
 
     public int globalScrap;
+
+    public int totalScrap;
+    public int totalParts;
+    public int totalRuns;
     public List<Part> allParts;
 
     public List<Part> allArms;

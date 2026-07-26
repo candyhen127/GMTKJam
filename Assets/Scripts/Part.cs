@@ -11,6 +11,10 @@ public class Part : ScriptableObject
 
     public Sprite icon;
 
+    public Sprite icon2;
+
+    public Animator anim;
+
     public int numCollected;
 
     public float battery;

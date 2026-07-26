@@ -131,6 +131,7 @@ public class MenuScript : MonoBehaviour
             }
             shop.LockInBuild();
         }
+        GameManager.Instance.totalRuns++;
 
         StartCoroutine(RestartRoutine("MainScene"));
     }
@@ -152,6 +153,9 @@ public class MenuScript : MonoBehaviour
         if (GameManager.Instance != null && player != null)
         {
             GameManager.Instance.globalScrap += player.scrap;
+            GameManager.Instance.totalScrap += player.scrap;
+            
+                int sum = 0;
             if (player.inventory != null)
             {
                 for (int i = 0; i < player.inventory.Count; i++)
@@ -159,9 +163,14 @@ public class MenuScript : MonoBehaviour
                     if (player.inventory[i] != null)
                     {
                         player.inventory[i].numCollected++;
+                        sum++;
                     }
                 }
+                
+                        GameManager.Instance.totalParts+= sum;
             }
+            String s = "Scrap Collected: " + player.scrap + "\nParts Collected: " + sum;
+            Debug.Log(s);
         }
         StartCoroutine(GameOverRoutine());
     }
@@ -188,6 +197,12 @@ public class MenuScript : MonoBehaviour
     {
         truepaused = true;
         //MenuManager.Instance.StartCoroutine(MenuManager.Instance.flash(Color.white));
+
+        String s = "Total Runs: " + GameManager.Instance.totalRuns + 
+                    "\nTotal Scrap Collected: " + GameManager.Instance.totalScrap + 
+                    "\nTotal Parts Collected: " + GameManager.Instance.totalParts;
+
+                    Debug.Log(s);
         
         StartCoroutine(WinRoutine());
     }
