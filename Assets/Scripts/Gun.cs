@@ -110,7 +110,7 @@ public class Gun : MonoBehaviour
     void Update()
     {
 
-         if  (GameManager.Instance.isPaused || MenuScript.Instance.truepaused == true)
+         if  (MenuScript.Instance.isPaused || MenuScript.Instance.truepaused == true)
         {
             return;
         }
@@ -150,7 +150,7 @@ public class Gun : MonoBehaviour
 
     void LateUpdate()
     {
-        if  (GameManager.Instance.isPaused || MenuScript.Instance.truepaused == true)
+        if  (MenuScript.Instance.isPaused || MenuScript.Instance.truepaused == true)
         {
             return;
         }
@@ -189,6 +189,23 @@ pangle = Mathf.Atan2(pdirection.y, pdirection.x) * Mathf.Rad2Deg;
                 bullet.GetComponent<Bullet>().StartCoroutine(bullet.GetComponent<Bullet>().bulletDestroy(destroy));
                 
             }
+    }
+
+    public IEnumerator putDown2()
+    {
+        float startangle = transform.eulerAngles.z;
+        for(float i = 0; i < 1; i += Time.deltaTime)
+        {
+             angle = Mathf.Lerp(startangle, 0, i);
+             transform.rotation = Quaternion.Euler(0, 0, angle);
+
+            yield return null;
+        } 
+    }
+
+    public void putDown()
+    {
+        StartCoroutine(putDown2());
     }
 
     void getshoot(float d)

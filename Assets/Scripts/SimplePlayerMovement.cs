@@ -49,6 +49,11 @@ public class SimplePlayerMovement : MonoBehaviour {
     }
 
     void Update() {
+        if (MenuScript.Instance.truepaused)
+        {
+            move = 0;
+            return;
+        } 
         move = Input.GetAxisRaw("Horizontal");
         calcJumpForce();
         // (point, radius, layer)

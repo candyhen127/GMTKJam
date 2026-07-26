@@ -72,6 +72,8 @@ public class Player : MonoBehaviour
     public Color redtint = new Color32(255, 163, 163, 255);
     public float redtime = 3;
 
+    public bool won;
+
 
     public Rigidbody2D rb;
     public Collider2D collider2d;
@@ -155,7 +157,7 @@ rightLegAnim.runtimeAnimatorController = rightLeg.anim;
     void Update()
     {
         //don't allow input when paused
-        if(GameManager.Instance.isPaused == true || MenuScript.Instance.truepaused == true){return;}
+        if(MenuScript.Instance.isPaused == true || MenuScript.Instance.truepaused == true){return;}
 
         //player movement input
         //movement.x = Input.GetAxisRaw("Horizontal");
@@ -175,7 +177,7 @@ rightLegAnim.runtimeAnimatorController = rightLeg.anim;
         //cam.transform.position = new Vector3(transform.position.x, transform.position.y - 0.2f, cam.transform.position.z);
 
         //don't allow input when paused
-        if(GameManager.Instance.isPaused == true || MenuScript.Instance.truepaused == true)
+        if(MenuScript.Instance.isPaused == true || MenuScript.Instance.truepaused == true)
         {
             //rb.velocity = Vector2.zero;
             return;
@@ -334,7 +336,7 @@ rightLegAnim.runtimeAnimatorController = rightLeg.anim;
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if(GameManager.Instance.isPaused == true){return;}
+        if(MenuScript.Instance.isPaused == true){return;}
         if (knockedBack){return;}
 
         if (collision.gameObject.tag == "Enemy" && !invince){
@@ -345,6 +347,29 @@ rightLegAnim.runtimeAnimatorController = rightLeg.anim;
 
             StartCoroutine(KnockbackRoutine(direction, 0.2f));
             StartCoroutine(InvinceRoutine(invinceTime));
+        }
+    }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Wife" && !won)
+        {
+            won = true;
+            MenuScript.Instance.truepaused = true;
+            sprite.flipX = false;
+            headSprite.GetComponent<SpriteRenderer>().flipX = false;
+            leftLegSprite.GetComponent<SpriteRenderer>().flipX = false;
+            rightLegSprite.GetComponent<SpriteRenderer>().flipX = false;
+            leftLegAnim.SetFloat("isRight", 0);
+            rightLegAnim.SetFloat("isRight", 1);
+            leftLegSprite.GetComponent<SpriteRenderer>().sortingOrder = 1;
+            rightLegSprite.GetComponent<SpriteRenderer>().sortingOrder = -1;
+            leftLegAnim.SetFloat("isWalking", 0);
+            rightLegAnim.SetFloat("isWalking", 0);
+            leftGun.putDown();
+            
+            rightGun.putDown();
+            Debug.Log("Win Game");
         }
     }
 
@@ -497,7 +522,7 @@ rightLegAnim.runtimeAnimatorController = rightLeg.anim;
     
     public void GetScrap(int points)
     {
-        if(GameManager.Instance.isPaused == true){return;}
+        if(MenuScript.Instance.isPaused == true){return;}
         //getxp.Play();
         scrap += points;
         UpdateScrapCount();
