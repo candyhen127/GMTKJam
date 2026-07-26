@@ -235,9 +235,9 @@ MonoBehaviour:
   rotateSpeed: 0
   rightFacing: 1
   scrapDrop: {fileID: 5810995078600289247, guid: 7cade332a7582ea40bad3f489506a24d, type: 3}
-  drops: 3
+  drops: 2
   partDrop: {fileID: 5810995078600289247, guid: c652b153103a575489074bd4a1dacde3, type: 3}
-  partdrops: 2
+  partdrops: 1
   parts:
   - {fileID: 11400000, guid: d4e5aa2043734274f96db9ce9fa69315, type: 2}
   - {fileID: 11400000, guid: 0a341d10e66d3594389e302ab7d36ec9, type: 2}

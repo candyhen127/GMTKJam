@@ -98,9 +98,9 @@ public class GameManager : MonoBehaviour
         }
 
         
-        allParts[0].numCollected = 5;
-        allParts[1].numCollected = 10;
-        allParts[2].numCollected = 10;
+        allParts[0].numCollected = 3;
+        allParts[1].numCollected = 6;
+        allParts[2].numCollected = 6;
 
         Instance = this;
         DontDestroyOnLoad(gameObject);

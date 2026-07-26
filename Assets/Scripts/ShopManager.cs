@@ -271,11 +271,11 @@ public TextMeshProUGUI scrapText;
             
         }
         
-            headLevelText.text = "Head: Level " + headLevel + "\t\t (" + headCost + " Scrap)";
-            leftArmLevelText.text = "Left Arm: Level " + leftArmLevel + "\t (" + leftArmCost + " Scrap)";
-            rightArmLevelText.text = "Right Arm: Level " + rightArmLevel + "\t (" + rightArmCost + " Scrap)";
+            headLevelText.text =    "Head: Level " + headLevel + "      \t\t (" + headCost + " Scrap)";
+            leftArmLevelText.text = "Left Arm: Level " + leftArmLevel + " \t (" + leftArmCost + " Scrap)";
+            rightArmLevelText.text ="Right Arm: Level " + rightArmLevel + "\t (" + rightArmCost + " Scrap)";
             leftLegLevelText.text = "Left Leg: Level " + leftLegLevel + "\t\t (" + leftLegCost + " Scrap)";
-            rightLegLevelText.text = "Right Leg: Level " + rightLegLevel + "\t(" + rightLegCost + " Scrap)";
+            rightLegLevelText.text ="Right Leg: Level " + rightLegLevel + "\t(" + rightLegCost + " Scrap)";
             setStatsReadout();
     }
 

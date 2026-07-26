@@ -102,7 +102,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 0
   destroy: 0.6
-  radius: 0
+  radius: 1
   hitplayer: 0
   hitenemy: 1
   heal: 0
