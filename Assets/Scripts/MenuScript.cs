@@ -29,7 +29,7 @@ public class MenuScript : MonoBehaviour
         Instance = this;
 
         truepaused = false;
-
+        if (GameManager.Instance == null) {return;}
         
         GameManager.Instance.player = player;
         GameManager.Instance.gameOverScreen = gameOverScreen;
@@ -131,8 +131,12 @@ public class MenuScript : MonoBehaviour
             }
             shop.LockInBuild();
         }
+        if (GameManager.Instance != null)
+        {
+            
         GameManager.Instance.totalRuns++;
-
+        }
+        Debug.Log("start");
         StartCoroutine(RestartRoutine("MainScene"));
     }
 

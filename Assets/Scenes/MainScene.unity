@@ -3761,9 +3761,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1928274079}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -835.9, y: 447}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 124.099976, y: -105.17999}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1018652418
@@ -3786,7 +3786,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 
+  m_text: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e0ae92816bd8440d7b896d0d3f8b2310, type: 2}
   m_sharedMaterial: {fileID: 1401486957887802257, guid: e0ae92816bd8440d7b896d0d3f8b2310, type: 2}
@@ -4078,7 +4078,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 0
+  m_text: 'Scrap : 10'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c15028336e102ed46bcffe26948b87ee, type: 2}
   m_sharedMaterial: {fileID: -9192288610804367500, guid: c15028336e102ed46bcffe26948b87ee, type: 2}
@@ -4174,8 +4174,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 124.100006, y: -43}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: 275, y: -43}
+  m_SizeDelta: {x: 500, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &1200127390
 PrefabInstance:
@@ -5191,7 +5191,7 @@ MonoBehaviour:
   globalScrap: 0
   totalScrap: 0
   totalParts: 0
-  totalRuns: 0
+  totalRuns: 1
   allParts:
   - {fileID: 11400000, guid: 16569a1c4f95cc24db68f9971e94433c, type: 2}
   - {fileID: 11400000, guid: e4873eec454321543a4f647833996919, type: 2}
@@ -5219,8 +5219,8 @@ MonoBehaviour:
   head: {fileID: 11400000, guid: 16569a1c4f95cc24db68f9971e94433c, type: 2}
   leftArm: {fileID: 11400000, guid: e4873eec454321543a4f647833996919, type: 2}
   rightArm: {fileID: 11400000, guid: beed5473d5d300042aa48e649926d1ab, type: 2}
-  leftLeg: {fileID: 11400000, guid: d4e5aa2043734274f96db9ce9fa69315, type: 2}
-  rightLeg: {fileID: 11400000, guid: d4e5aa2043734274f96db9ce9fa69315, type: 2}
+  leftLeg: {fileID: 11400000, guid: 0a341d10e66d3594389e302ab7d36ec9, type: 2}
+  rightLeg: {fileID: 11400000, guid: 0a341d10e66d3594389e302ab7d36ec9, type: 2}
   headLevel: 0
   leftArmLevel: 0
   rightArmLevel: 0

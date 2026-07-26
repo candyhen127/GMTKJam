@@ -195,6 +195,9 @@ rightLegAnim.runtimeAnimatorController = rightLeg.anim;
             rightLegSprite.GetComponent<SpriteRenderer>().flipX = true;
             leftLegAnim.SetFloat("isRight", 1);
             rightLegAnim.SetFloat("isRight", 0);
+            
+            leftLegSprite.GetComponent<SpriteRenderer>().sortingOrder = -1;
+            rightLegSprite.GetComponent<SpriteRenderer>().sortingOrder = 1;
         }
         else if (pangle <=90 || pangle >= -90)
         {
@@ -205,6 +208,8 @@ rightLegAnim.runtimeAnimatorController = rightLeg.anim;
             rightLegSprite.GetComponent<SpriteRenderer>().flipX = false;
             leftLegAnim.SetFloat("isRight", 0);
             rightLegAnim.SetFloat("isRight", 1);
+            leftLegSprite.GetComponent<SpriteRenderer>().sortingOrder = 1;
+            rightLegSprite.GetComponent<SpriteRenderer>().sortingOrder = -1;
         }
         //battery -= Time.deltaTime;
         headBattery -= Time.deltaTime;
