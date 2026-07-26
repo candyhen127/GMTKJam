@@ -124,6 +124,11 @@ public class GameManager : MonoBehaviour
         
         // Put your scene setup logic here (e.g., finding the local player)
         //InitializeNewScene();
+        if (SceneManager.GetActiveScene().name == "Title Screen")
+        {
+            Destroy(gameObject);
+            return;
+        }
         Time.timeScale = 1f;
         isPaused = false;
 
