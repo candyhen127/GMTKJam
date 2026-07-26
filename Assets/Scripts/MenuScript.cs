@@ -239,6 +239,7 @@ public class MenuScript : MonoBehaviour
     {
         Debug.Log("fadeout " + b);
         fadeout.enabled = true;
+        fadeout.transform.SetAsLastSibling();
         if(b)
         {
             fadeout.color = new Color(0, 0, 0, 1);
