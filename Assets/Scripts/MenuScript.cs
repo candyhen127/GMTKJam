@@ -216,13 +216,13 @@ public class MenuScript : MonoBehaviour
     {
         truepaused = true;
         String s = "";
-        //MenuManager.Instance.StartCoroutine(MenuManager.Instance.flash(Color.white));
+        
         if (GameManager.Instance.totalRuns <= GameManager.Instance.runsToCorrupt)
         {
             s = "File Secured. \n\nTotal Runs: " + GameManager.Instance.totalRuns + 
                     "\nTotal Scrap Collected: " + GameManager.Instance.totalScrap + 
                     "\nTotal Parts Collected: " + GameManager.Instance.totalParts + 
-                    "\n\nYou've found what was lost.";
+                    "\n\nYou've found what you lost.";
 
                     
             winicon.sprite = drivesaved;
@@ -245,6 +245,7 @@ public class MenuScript : MonoBehaviour
         //StartCoroutine(MenuManager.Instance.AudioFade(true));
         //canvas.GameOver();
         yield return new WaitForSeconds(1);
+        StartCoroutine(flash(Color.white));
         if (winScreen != null) winScreen.SetActive(true);
         for (float i = 1f; i >= 0; i -= Time.unscaledDeltaTime)
         {
@@ -285,5 +286,22 @@ public class MenuScript : MonoBehaviour
             fadeout.color = new Color(0, 0, 0, 1);
         }
         
+    }
+
+    public IEnumerator flash(Color col)
+    {
+        fadeout.enabled = true;
+
+        fadeout.color = new Color(col.r, col.g, col.b, 255);
+        
+
+        for(float i = 0.5f; i>=0; i-=Time.unscaledDeltaTime*2)
+            {
+                fadeout.color = new Color(col.r, col.g, col.b, i);
+                yield return null;
+            }
+            fadeout.color = new Color(0, 0, 0, 0);
+
+            fadeout.enabled = false;
     }
 }
