@@ -221,7 +221,7 @@ MonoBehaviour:
   destroy: 3
   leftshootPoint: {fileID: 1267380348154629948}
   rightshootPoint: {fileID: 4810606226477368055}
-  defatkspd: 1.5
+  defatkspd: 1.8
   shots: 3
   shotcount: 0
   shooting: 0
